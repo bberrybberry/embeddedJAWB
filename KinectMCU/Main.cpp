@@ -23,7 +23,16 @@ using namespace std;
  */
 
 int main() {
-
+	UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
+	if (!uart.UARTInit("\\\\.\\COM6"))
+		return -2;
+	if (!uart.configTimeouts())
+		return -3;
+	if (!uart.configUART())
+		return -4;
+	if (!uart.sendData("a", 1))
+		return -5;
+	
 	if (FAILED(GetDefaultKinectSensor(&sensor)))
 		return -1;
 
@@ -35,30 +44,9 @@ int main() {
 			colorBuffer = new UINT8[width * height * 4];
 			cv::Mat skeleton = cv::Mat::zeros(height, width, CV_8UC3);
 			cv::Mat color = cv::Mat::zeros(height, width, CV_8UC4);
-
-			HANDLE serial = initSerial();
-			COMMTIMEOUTS timeouts;
-
-			if (serial == INVALID_HANDLE_VALUE)
-				return -2;
 			
-			serialParams.DCBlength = sizeof(serialParams);
-
-			if (!GetCommState(serial, &serialParams)) {
-				CloseHandle(serial);
-				return -3;
-			}
-
-			if (!configSerial(&serial)) {
-				CloseHandle(serial);
-				return -4;
-			}
-
-			if (!configTimeouts(&serial, &timeouts)) {
-				CloseHandle(serial);
-				return -5;
-			}
-
+			
+			threshold = 0.2;
 			while (1) {
 				if (SUCCEEDED(reader->AcquireLatestFrame(&frame))) {
 					frame->get_ColorFrameReference(&colorRef);
@@ -127,14 +115,36 @@ int main() {
 
 					frame->Release();
 					bodyFrame->Release();
-
+					string command = "";
 					for (int i = 0; i < BODY_COUNT; i++) {
 						if (!trackedJoints[i]) {
 							buttonPress[i] = NULL;
 							continue;
 						}
 						buttonPress[i] = pollButtons(people[i]);
+
+						if (!(buttonPress[i] - prevButtonPress[i])) {
+							if (buttonPress[i] & (0x01))
+								command.append(" up");
+							if (buttonPress[i] & (0x01 << 1))
+								command.append(" down");
+							if (buttonPress[i] & (0x01 << 2))
+								command.append(" left");
+							if (buttonPress[i] & (0x01 << 3))
+								command.append(" right");
+							if (buttonPress[i] & (0x01 << 4))
+								command.append(" A");
+							if (buttonPress[i] & (0x01 << 5))
+								command.append(" B");
+							if (buttonPress[i] & (0x01 << 6))
+								command.append(" start");
+							if (buttonPress[i] & (0x01 << 7))
+								command.append(" select");
+							cout << command << "\r\n";
+						}
 					}
+					memcpy(prevButtonPress, buttonPress, sizeof(buttonPress));
+					trackedJoints.clear();
 				}
 			}
 		}
@@ -182,7 +192,7 @@ bool configTimeouts(HANDLE* handle, COMMTIMEOUTS* timeouts) {
 
 bool pressA(Person player)
 {
-	if ((player.CL.y - player.LH.y) < -0.2 && player.LHS)
+	if ((player.CL.y - player.LH.y) < -threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -190,7 +200,7 @@ bool pressA(Person player)
 
 bool pressB(Person player)
 {
-	if ((player.CL.y - player.LH.y) > 0.2 && player.LHS)
+	if ((player.CL.y - player.LH.y) > threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -198,7 +208,7 @@ bool pressB(Person player)
 
 bool pressUp(Person player)
 {
-	if ((player.CR.y - player.RH.y) < -0.2 && player.RHS)
+	if ((player.CR.y - player.RH.y) < -threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -206,7 +216,7 @@ bool pressUp(Person player)
 
 bool pressDown(Person player)
 {
-	if ((player.CR.y - player.RH.y) > 0.2 && player.RHS)
+	if ((player.CR.y - player.RH.y) > threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -214,7 +224,7 @@ bool pressDown(Person player)
 
 bool pressLeft(Person player)
 {
-	if ((player.CR.x - player.RH.x) > 0.2 && player.RHS)
+	if ((player.CR.x - player.RH.x) > threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -222,7 +232,7 @@ bool pressLeft(Person player)
 
 bool pressRight(Person player)
 {
-	if ((player.CR.x - player.RH.x) < -0.2 && player.RHS)
+	if ((player.CR.x - player.RH.x) < -threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -230,7 +240,7 @@ bool pressRight(Person player)
 
 bool pressStart(Person player)
 {
-	if ((player.CL.x - player.LH.x) > 0.2 && player.LHS)
+	if ((player.CL.x - player.LH.x) > threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -238,7 +248,7 @@ bool pressStart(Person player)
 
 bool pressSelect(Person player)
 {
-	if ((player.CL.x - player.LH.x) < -0.2 && player.LHS)
+	if ((player.CL.x - player.LH.x) < -threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -297,4 +307,12 @@ unsigned char pollButtons(Person player)
 	return output;
 }
 
+bool sendInit(HANDLE serial)
+{
+	return false;
+}
 
+bool sendButtonPress(HANDLE serial, int address, unsigned char * presses)
+{
+	return false;
+}
