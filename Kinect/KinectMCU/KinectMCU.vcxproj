@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="UART.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="UART.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{fb8a99bb-0d2d-4326-ba6a-e76387e0d14d}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>KinectMCU</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv-2.4.10\x64\vc12\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x64\Kinect20.lib;C:\opencv\build\x64\vc14\lib\opencv_world320d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Libraries\Source\OpenCV\modules\stitching\include;C:\Libraries\Source\OpenCV\modules\videostab\include;C:\Libraries\Source\OpenCV\modules\calib3d\include;C:\Libraries\Source\OpenCV\modules\features2d\include;C:\Libraries\Source\OpenCV\modules\ts\include;C:\Libraries\Source\OpenCV\modules\superres\include;C:\Libraries\Source\OpenCV\modules\objdetect\include;C:\Libraries\Source\OpenCV\modules\highgui\include;C:\Libraries\Source\OpenCV\modules\videoio\include;C:\Libraries\Source\OpenCV\modules\imgcodecs\include;C:\Libraries\Source\OpenCV\modules\shape\include;C:\Libraries\Source\OpenCV\modules\video\include;C:\Libraries\Source\OpenCV\modules\photo\include;C:\Libraries\Source\OpenCV\modules\ml\include;C:\Libraries\Source\OpenCV\modules\imgproc\include;C:\Libraries\Source\OpenCV\modules\flann\include;C:\Libraries\Source\OpenCV\modules\core\include;C:\Libraries\Source\OpenCV\include\opencv;C:\Libraries\Source\OpenCV\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x64\Kinect20.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_xphoto310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_xobjdetect310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_tracking310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_surface_matching310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_structured_light310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_stereo310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_saliency310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_rgbd310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_reg310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_plot310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_optflow310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_line_descriptor310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_fuzzy310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_dpm310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_dnn310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_datasets310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_ccalib310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_bioinspired310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_bgsegm310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_aruco310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_videostab310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_superres310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_stitching310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_photo310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_text310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_face310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_ximgproc310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_xfeatures2d310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_shape310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_video310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_objdetect310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_calib3d310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_features2d310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_ml310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_highgui310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_videoio310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_imgcodecs310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_imgproc310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_flann310.lib;C:\Libraries\Build\OpenCV\lib\Release\opencv_core310.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
