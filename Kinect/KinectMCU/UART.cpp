@@ -2,10 +2,29 @@
 
 
 
-UART::UART(int baudIn, int byteSizeIn, int stopBitsIn, int parityIn) {
+UART::UART() {
+}
+
+UART::UART(DWORD baudIn, BYTE byteSizeIn, BYTE stopBitsIn, BYTE parityIn) {
 	baud = baudIn;
 	byteSize = byteSizeIn;
 	stopBits = stopBitsIn;
+	parity = parityIn;
+}
+
+void UART::setBaudRate(DWORD baudIn) {
+	baud = baudIn;
+}
+
+void UART::setByteSize(BYTE byteSizeIn) {
+	byteSize = byteSizeIn;
+}
+
+void UART::setStopBits(BYTE stopBitsIn) {
+	stopBits = stopBitsIn;
+}
+
+void UART::setParity(BYTE parityIn) {
 	parity = parityIn;
 }
 
@@ -61,7 +80,15 @@ bool UART::sendData(char* data, DWORD bytesToWrite) {
 	if (!WriteFile(serial, data, bytesToWrite, &bytesWritten, &olWrite)) {
 		return false;
 	}
+	
+	return true;
+}
 
+bool UART::receiveData(char* data, DWORD bytesToRead)
+{
+	if (!ReadFile(serial, data, bytesToRead, &bytesRead, NULL)) {
+		return false;
+	}
 	return true;
 }
 

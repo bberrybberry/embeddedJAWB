@@ -167,7 +167,12 @@ Person people[BODY_COUNT];
 * @brief Settings for the serial connection
 */
 DCB serialParams;
-
+/**
+ * @var uart
+ * @brief Creates the uart object that sends and receives data.
+ * Uses a baud rate of 115200, byte size of 8, one stop bit, and no parity
+ */
+UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
 
 
 
@@ -272,7 +277,7 @@ unsigned char pollButtons(Person player);
  * @param serial Configured HANDLE that carries the serial port for communication
  * @brief Sends an initial message to the Controller Client Module
  */
-bool sendInit(HANDLE serial);
+bool sendInit();
 /**
  * @fn sendButtonPress(HANDLE serial, int address, unsigned char* presses)
  * @param serial Configured HANDLE that carries the serial port for communication
@@ -281,4 +286,4 @@ bool sendInit(HANDLE serial);
  * @brief Sends the button update and events to the Controller Client Module for 
  * the player at that address
  */
-bool sendButtonPress(HANDLE serial, int address, unsigned char* presses);
+bool sendButtonPress(char address, char* presses);

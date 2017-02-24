@@ -23,16 +23,29 @@ using namespace std;
  */
 
 int main() {
-	UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
-	if (!uart.UARTInit("\\\\.\\COM6"))
-		return -2;
-	if (!uart.configTimeouts())
-		return -3;
-	if (!uart.configUART())
-		return -4;
-	if (!uart.sendData("a", 1))
-		return -5;
 	
+		
+		
+		char data[1];
+		if (!uart.UARTInit("\\\\.\\COM6"))
+			return -2;
+		if (!uart.configTimeouts())
+			return -3;
+		if (!uart.configUART())
+			return -4;
+
+	while (1) {
+		if (!uart.sendData("a", 1))
+			return -5;
+	
+		if (!uart.receiveData(data, 1))
+			return -6;
+
+		if (data) {
+			cout << data[0];
+		}
+	}
+
 	if (FAILED(GetDefaultKinectSensor(&sensor)))
 		return -1;
 
@@ -307,12 +320,13 @@ unsigned char pollButtons(Person player)
 	return output;
 }
 
-bool sendInit(HANDLE serial)
-{
-	return false;
+bool sendInit() {
+	char* data = "init";
+
+	return uart.sendData(data, sizeof(data));
 }
 
-bool sendButtonPress(HANDLE serial, int address, unsigned char * presses)
-{
+bool sendButtonPress(char address, char* presses) {
+	
 	return false;
 }
