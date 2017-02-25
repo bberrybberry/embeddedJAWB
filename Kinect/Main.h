@@ -44,6 +44,7 @@ typedef struct Person {
 	cv::Point3f LH; /**< Coordinate for the left hand*/
 	BOOLEAN RHS;/**< State of the right hand*/
 	BOOLEAN LHS;/**< State of the left hand*/
+	float threshold; /**< Threshold for what determines a button press*/
 };
 
 
@@ -69,12 +70,12 @@ std::vector<BOOLEAN> trackedJoints;
 * @brief Array of what buttons are pressed for each player
 * compared to prevButtonPress to get events
 */
-unsigned char buttonPress[BODY_COUNT];
+char buttonPress[BODY_COUNT];
 /**
  * @var unsigned char prevButtonPress[BODY_COUNT]
  * @brief Array of the previous button presses
  */
-unsigned char prevButtonPress[BODY_COUNT] = { 0 };
+char prevButtonPress[BODY_COUNT] = { 0 };
 
 
 
@@ -100,7 +101,7 @@ ICoordinateMapper* mapper;
 * @var float threshold
 * @brief Threshold to determine if a button is being "pressed"
 */
-float threshold;
+float threshold[BODY_COUNT];
 /**
  * @var BOOLEAN tracked
  * @brief Boolean to tell if a person is being tracked or not
@@ -168,7 +169,7 @@ Person people[BODY_COUNT];
 */
 DCB serialParams;
 /**
- * @var uart
+ * @var UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY)
  * @brief Creates the uart object that sends and receives data.
  * Uses a baud rate of 115200, byte size of 8, one stop bit, and no parity
  */
@@ -182,26 +183,6 @@ UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
 * @brief Converts a joint position into a cv::Point3f
 */
 cv::Point3f jointToPt3f(Joint joint);
-/**
-* @fn initSerial
-* @brief returns HANDLE for serial communication
-*/
-HANDLE initSerial();
-/**
- * @fn configSerial(HANDLE* handle)
- * @param handle Pointer to the file handle for the serial port
- * @brief Congigures the serial parameters for the connection
- */
-bool configSerial(HANDLE* handle);
- /**
- * @fn configTimeouts(HANDLE* handle, COMMTIMEOUTS* timeouts)
- * @param handle Pointer to the file handle for the serial port
- * @param timeouts Pointer to the timeout handle corresponding with the serial port
- * @brief Congigures the timeout parameters for the connection
- */
-bool configTimeouts(HANDLE* handle, COMMTIMEOUTS* timeouts);
-
-
 
 
 
@@ -273,17 +254,21 @@ void updatePerson(Person* player, Joint joints[25]);
 */
 unsigned char pollButtons(Person player);
 /**
- * @fn sendInit(HANDLE serial)
- * @param serial Configured HANDLE that carries the serial port for communication
- * @brief Sends an initial message to the Controller Client Module
+ * @fn sendInit()
+ * @brief Sends an initial message to the Controller Client Module for a handshake
  */
 bool sendInit();
 /**
- * @fn sendButtonPress(HANDLE serial, int address, unsigned char* presses)
- * @param serial Configured HANDLE that carries the serial port for communication
+ * @fn sendButtonPress(char address, char* presses)
  * @param address Address of the player with these button presses
  * @param presses Unsigned char that contains the button presses in the packet order
  * @brief Sends the button update and events to the Controller Client Module for 
  * the player at that address
  */
 bool sendButtonPress(char address, char* presses);
+/**
+ ** 
+ * @fn receiveHS()
+ * @brief Returns true if the microcontroller responds to initialization
+ */
+bool receiveHS();

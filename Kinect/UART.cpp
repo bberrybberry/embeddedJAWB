@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Source code for the UART class
+ */
+
 #include "UART.h"
 
 

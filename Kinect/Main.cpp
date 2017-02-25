@@ -23,28 +23,16 @@ using namespace std;
  */
 
 int main() {
-	
-		
-		
-		char data[1];
-		if (!uart.UARTInit("\\\\.\\COM6"))
-			return -2;
-		if (!uart.configTimeouts())
-			return -3;
-		if (!uart.configUART())
-			return -4;
 
-	while (1) {
-		if (!uart.sendData("a", 1))
-			return -5;
-	
-		if (!uart.receiveData(data, 1))
-			return -6;
+	char data[1];
+	if (!uart.UARTInit("\\\\.\\COM6"))
+		return -2;
+	if (!uart.configTimeouts())
+		return -3;
+	if (!uart.configUART())
+		return -4;
 
-		if (data) {
-			cout << data[0];
-		}
-	}
+	while (!receiveHS());
 
 	if (FAILED(GetDefaultKinectSensor(&sensor)))
 		return -1;
@@ -59,7 +47,7 @@ int main() {
 			cv::Mat color = cv::Mat::zeros(height, width, CV_8UC4);
 			
 			
-			threshold = 0.2;
+			//threshold = 0.2;
 			while (1) {
 				if (SUCCEEDED(reader->AcquireLatestFrame(&frame))) {
 					frame->get_ColorFrameReference(&colorRef);
@@ -137,23 +125,25 @@ int main() {
 						buttonPress[i] = pollButtons(people[i]);
 
 						if (!(buttonPress[i] - prevButtonPress[i])) {
-							if (buttonPress[i] & (0x01))
-								command.append(" up");
-							if (buttonPress[i] & (0x01 << 1))
-								command.append(" down");
-							if (buttonPress[i] & (0x01 << 2))
-								command.append(" left");
-							if (buttonPress[i] & (0x01 << 3))
-								command.append(" right");
-							if (buttonPress[i] & (0x01 << 4))
-								command.append(" A");
-							if (buttonPress[i] & (0x01 << 5))
-								command.append(" B");
-							if (buttonPress[i] & (0x01 << 6))
-								command.append(" start");
-							if (buttonPress[i] & (0x01 << 7))
-								command.append(" select");
-							cout << command << "\r\n";
+							//if (buttonPress[i] & (0x01))
+							//	command.append(" up");
+							//if (buttonPress[i] & (0x01 << 1))
+							//	command.append(" down");
+							//if (buttonPress[i] & (0x01 << 2))
+							//	command.append(" left");
+							//if (buttonPress[i] & (0x01 << 3))
+							//	command.append(" right");
+							//if (buttonPress[i] & (0x01 << 4))
+							//	command.append(" A");
+							//if (buttonPress[i] & (0x01 << 5))
+							//	command.append(" B");
+							//if (buttonPress[i] & (0x01 << 6))
+							//	command.append(" start");
+							//if (buttonPress[i] & (0x01 << 7))
+							//	command.append(" select");
+							//cout << command << "\r\n";
+
+							sendButtonPress((char)i, &buttonPress[i]);
 						}
 					}
 					memcpy(prevButtonPress, buttonPress, sizeof(buttonPress));
@@ -170,42 +160,10 @@ cv::Point3f jointToPt3f(Joint joint) {
 	return cv::Point3f(joint.Position.X, joint.Position.Y, joint.Position.Z);
 }
 
-HANDLE initSerial() {
-	return CreateFileA(COMport, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
-}
-
-bool configSerial(HANDLE* handle) {
-	serialParams.BaudRate = CBR_115200;
-	serialParams.ByteSize = 8;
-	serialParams.StopBits = ONESTOPBIT;
-	serialParams.Parity = NOPARITY;
-
-	if (!SetCommState(handle, &serialParams)) {
-		CloseHandle(handle);
-		return false;
-	}
-
-	return true;
-}
-
-bool configTimeouts(HANDLE* handle, COMMTIMEOUTS* timeouts) {
-	timeouts->ReadIntervalTimeout = 50;
-	timeouts->ReadTotalTimeoutConstant = 50;
-	timeouts->ReadTotalTimeoutMultiplier = 10;
-	timeouts->WriteTotalTimeoutConstant = 50;
-	timeouts->WriteTotalTimeoutMultiplier = 10;
-
-	if (!SetCommTimeouts(handle, timeouts)) {
-		CloseHandle(handle);
-		return false;
-	}
-
-	return true;
-}
 
 bool pressA(Person player)
 {
-	if ((player.CL.y - player.LH.y) < -threshold && player.LHS)
+	if ((player.CL.y - player.LH.y) < -player.threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -213,7 +171,7 @@ bool pressA(Person player)
 
 bool pressB(Person player)
 {
-	if ((player.CL.y - player.LH.y) > threshold && player.LHS)
+	if ((player.CL.y - player.LH.y) > player.threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -221,7 +179,7 @@ bool pressB(Person player)
 
 bool pressUp(Person player)
 {
-	if ((player.CR.y - player.RH.y) < -threshold && player.RHS)
+	if ((player.CR.y - player.RH.y) < -player.threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -229,7 +187,7 @@ bool pressUp(Person player)
 
 bool pressDown(Person player)
 {
-	if ((player.CR.y - player.RH.y) > threshold && player.RHS)
+	if ((player.CR.y - player.RH.y) > player.threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -237,7 +195,7 @@ bool pressDown(Person player)
 
 bool pressLeft(Person player)
 {
-	if ((player.CR.x - player.RH.x) > threshold && player.RHS)
+	if ((player.CR.x - player.RH.x) > player.threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -245,7 +203,7 @@ bool pressLeft(Person player)
 
 bool pressRight(Person player)
 {
-	if ((player.CR.x - player.RH.x) < -threshold && player.RHS)
+	if ((player.CR.x - player.RH.x) < -player.threshold && player.RHS)
 		return true;
 	else
 		return false;
@@ -253,7 +211,7 @@ bool pressRight(Person player)
 
 bool pressStart(Person player)
 {
-	if ((player.CL.x - player.LH.x) > threshold && player.LHS)
+	if ((player.CL.x - player.LH.x) > player.threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -261,7 +219,7 @@ bool pressStart(Person player)
 
 bool pressSelect(Person player)
 {
-	if ((player.CL.x - player.LH.x) < -threshold && player.LHS)
+	if ((player.CL.x - player.LH.x) < -player.threshold && player.LHS)
 		return true;
 	else
 		return false;
@@ -327,6 +285,28 @@ bool sendInit() {
 }
 
 bool sendButtonPress(char address, char* presses) {
+
+	if (uart.sendData(&address, 1)) {
+		if (uart.sendData(presses, sizeof(presses))) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool receiveHS()
+{
+	char data[4];
+	char init[4] = { 'i', 'n', 'i', 't' };
+	char rx[1] = { 'z' };
+	sendInit();
+	uart.receiveData(data, 4);
 	
+	if (data[0] == 'i' && data[1] == 'n' && data[2] == 'i' && data[3] == 't') {
+		uart.sendData(rx, 1);
+		return true;
+	}
+
 	return false;
 }
