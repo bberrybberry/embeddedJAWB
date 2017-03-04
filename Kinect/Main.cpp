@@ -24,7 +24,7 @@ using namespace std;
 
 int main() {
 
-	char data[1];
+	char data[1] = { 0x10 };
 	if (!uart.UARTInit("\\\\.\\COM6"))
 		return -2;
 	if (!uart.configTimeouts())
@@ -33,6 +33,12 @@ int main() {
 		return -4;
 
 	while (!receiveHS());
+
+	/*while (1)
+	{
+		uart.sendData(data, 1);
+		Sleep(250);
+	}*/
 
 	if (FAILED(GetDefaultKinectSensor(&sensor)))
 		return -1;
@@ -124,26 +130,27 @@ int main() {
 						}
 						buttonPress[i] = pollButtons(people[i]);
 
-						if (!(buttonPress[i] - prevButtonPress[i])) {
-							//if (buttonPress[i] & (0x01))
-							//	command.append(" up");
-							//if (buttonPress[i] & (0x01 << 1))
-							//	command.append(" down");
-							//if (buttonPress[i] & (0x01 << 2))
-							//	command.append(" left");
-							//if (buttonPress[i] & (0x01 << 3))
-							//	command.append(" right");
-							//if (buttonPress[i] & (0x01 << 4))
-							//	command.append(" A");
-							//if (buttonPress[i] & (0x01 << 5))
-							//	command.append(" B");
-							//if (buttonPress[i] & (0x01 << 6))
-							//	command.append(" start");
-							//if (buttonPress[i] & (0x01 << 7))
-							//	command.append(" select");
-							//cout << command << "\r\n";
+						if ((buttonPress[i] - prevButtonPress[i])) {
+							if (buttonPress[i] & (0x01))
+								command.append(" up");
+							if (buttonPress[i] & (0x01 << 1))
+								command.append(" down");
+							if (buttonPress[i] & (0x01 << 2))
+								command.append(" left");
+							if (buttonPress[i] & (0x01 << 3))
+								command.append(" right");
+							if (buttonPress[i] & (0x01 << 4))
+								command.append(" A");
+							if (buttonPress[i] & (0x01 << 5))
+								command.append(" B");
+							if (buttonPress[i] & (0x01 << 6))
+								command.append(" start");
+							if (buttonPress[i] & (0x01 << 7))
+								command.append(" select");
+							cout << command << "\r\n";
 
-							sendButtonPress((char)i, &buttonPress[i]);
+						sendButtonPress(people[i].addr, &buttonPress[i]);
+						//tempButtonPress(&buttonPress[i]);
 						}
 					}
 					memcpy(prevButtonPress, buttonPress, sizeof(buttonPress));
@@ -160,33 +167,33 @@ cv::Point3f jointToPt3f(Joint joint) {
 	return cv::Point3f(joint.Position.X, joint.Position.Y, joint.Position.Z);
 }
 
+float getDistance(Joint joints[25],  int j1, int j2) {
+	return sqrtf(powf(joints[j1].Position.X - joints[j2].Position.X, 2) + powf(joints[j1].Position.Y - joints[j2].Position.Y, 2) + powf(joints[j1].Position.Z - joints[j2].Position.Z, 2));
+}
 
-bool pressA(Person player)
-{
+
+bool pressA(Person player) {
 	if ((player.CL.y - player.LH.y) < -player.threshold && player.LHS)
 		return true;
 	else
 		return false;
 }
 
-bool pressB(Person player)
-{
+bool pressB(Person player) {
 	if ((player.CL.y - player.LH.y) > player.threshold && player.LHS)
 		return true;
 	else
 		return false;
 }
 
-bool pressUp(Person player)
-{
+bool pressUp(Person player) {
 	if ((player.CR.y - player.RH.y) < -player.threshold && player.RHS)
 		return true;
 	else
 		return false;
 }
 
-bool pressDown(Person player)
-{
+bool pressDown(Person player) {
 	if ((player.CR.y - player.RH.y) > player.threshold && player.RHS)
 		return true;
 	else
@@ -201,24 +208,21 @@ bool pressLeft(Person player)
 		return false;
 }
 
-bool pressRight(Person player)
-{
+bool pressRight(Person player) {
 	if ((player.CR.x - player.RH.x) < -player.threshold && player.RHS)
 		return true;
 	else
 		return false;
 }
 
-bool pressStart(Person player)
-{
+bool pressStart(Person player) {
 	if ((player.CL.x - player.LH.x) > player.threshold && player.LHS)
 		return true;
 	else
 		return false;
 }
 
-bool pressSelect(Person player)
-{
+bool pressSelect(Person player) {
 	if ((player.CL.x - player.LH.x) < -player.threshold && player.LHS)
 		return true;
 	else
@@ -230,10 +234,33 @@ void updatePerson(Person* player, Joint joints[25]) {
 	player->CR = jointToPt3f(joints[JointType_ElbowRight]);
 	player->RH = jointToPt3f(joints[JointType_HandRight]);
 	player->LH = jointToPt3f(joints[JointType_HandLeft]);
+
+	player->threshold = getDistance(joints, JointType_ElbowLeft, JointType_HandLeft) * 0.5;
 }
 
-unsigned char pollButtons(Person player)
-{
+void getAddressofPlayers(Person* players[BODY_COUNT]) {
+	float CL[BODY_COUNT];
+
+	for (int i = 0; i < BODY_COUNT; i++) {
+		if (!trackedJoints[i]) {
+			CL[i] = 10;
+			continue;
+		}
+
+		CL[i] = players[i]->CL.x;
+	}
+	
+	for (unsigned char i = 0; i < BODY_COUNT; i++) {
+		float maxVal = *max_element(CL, CL + BODY_COUNT);
+		int minIdx = distance(CL, min_element(CL, CL + BODY_COUNT));
+		players[minIdx]->addr = i + 1;
+		CL[minIdx] = maxVal + 1.0f;
+	}
+
+	
+}
+
+unsigned char pollButtons(Person player) {
 	unsigned char output = 0x00;
 	if (pressUp(player))
 		output |= (0x01);
@@ -279,16 +306,19 @@ unsigned char pollButtons(Person player)
 }
 
 bool sendInit() {
-	char* data = "init";
+	char data[4] = { 'i', 'n' , 'i', 't'};
 
 	return uart.sendData(data, sizeof(data));
 }
 
 bool sendButtonPress(char address, char* presses) {
+	char start = 0xFF;
 
-	if (uart.sendData(&address, 1)) {
-		if (uart.sendData(presses, sizeof(presses))) {
-			return true;
+	if (uart.sendData(&start, 1)) {
+		if (uart.sendData(&address, 1)) {
+			if (uart.sendData(presses, sizeof(presses))) {
+				return true;
+			}
 		}
 	}
 

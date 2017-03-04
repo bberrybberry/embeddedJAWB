@@ -16,6 +16,7 @@
 #include <opencv2\highgui\highgui.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
 #include "UART.h"
+#include <algorithm>
 
 /**
 * @def width
@@ -45,6 +46,7 @@ typedef struct Person {
 	BOOLEAN RHS;/**< State of the right hand*/
 	BOOLEAN LHS;/**< State of the left hand*/
 	float threshold; /**< Threshold for what determines a button press*/
+	char addr;
 };
 
 
@@ -97,11 +99,6 @@ ICoordinateMapper* mapper;
 
 
 
-/**
-* @var float threshold
-* @brief Threshold to determine if a button is being "pressed"
-*/
-float threshold[BODY_COUNT];
 /**
  * @var BOOLEAN tracked
  * @brief Boolean to tell if a person is being tracked or not
@@ -183,7 +180,14 @@ UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
 * @brief Converts a joint position into a cv::Point3f
 */
 cv::Point3f jointToPt3f(Joint joint);
-
+/**
+ * @fn getDistance(Joint joints[25], int j1, int j2)
+ * @param joints All joints for a person
+ * @param j1 First joint
+ * @param j2 Second joint
+ * @brief Gets the distance between two joints, used for the threshold of a button press
+ */
+float getDistance(Joint joints[25], int j1, int j2);
 
 
 /**
@@ -244,8 +248,13 @@ bool pressSelect(Person player);
 * @brief Inserts the coordinates from the joints to the player info
 */
 void updatePerson(Person* player, Joint joints[25]);
-
-
+/**
+ * @fn getAddressofPlayers(Person* players[BODY_COUNT])
+ * @param player All players in view
+ * @brief Finds who is player 1, 2, 3, etc. based on the position
+ * from left to right facing the Kinect
+ */
+void getAddressofPlayers(Person* players[BODY_COUNT]);
 
 /**
 * @fn pollButtons(Person player)
