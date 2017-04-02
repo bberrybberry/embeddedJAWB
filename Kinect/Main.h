@@ -15,8 +15,9 @@
 #include <iostream>
 #include <opencv2\highgui\highgui.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
-#include "UART.h"
 #include <algorithm>
+#include <conio.h>
+#include "UART.h"
 
 /**
 * @def width
@@ -180,6 +181,8 @@ UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
 * @brief Converts a joint position into a cv::Point3f
 */
 cv::Point3f jointToPt3f(Joint joint);
+
+CameraSpacePoint pt3fToCSP(cv::Point3f point);
 /**
  * @fn getDistance(Joint joints[25], int j1, int j2)
  * @param joints All joints for a person
@@ -262,6 +265,21 @@ void getAddressofPlayers(Person* players[BODY_COUNT]);
 * @brief Returns 8-bit button field of buttons that have been pressed
 */
 unsigned char pollButtons(Person player);
+
+/**
+ * @fn drawJoints()
+ * @brief Draws the tracked joints of all players
+ */
+
+cv::Mat drawJoints(cv::Mat color);
+
+/**
+ * @fn printButtons(int i)
+ * @param i Index of the current player
+ * @brief Simply prints when a button is pressed 
+ */
+void printButtons(int i);
+
 /**
  * @fn sendInit()
  * @brief Sends an initial message to the Controller Client Module for a handshake

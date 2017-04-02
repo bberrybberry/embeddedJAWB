@@ -4,7 +4,8 @@
  */
 
 #include "Main.h"
-
+#define USE_KEYBOARD
+#define USE_MULTIPLAYER
 
 /**
  * @namespace cv
@@ -21,10 +22,11 @@ using namespace std;
  * @fn main
  * @brief Executes the program
  */
-
+#define BUTTON_ENTRY 2
 int main() {
 
-	char data[1] = { 0x10 };
+	char data[3] = { 0xFF, 0x00, 0x00 };
+	char rxData[1];
 	if (!uart.UARTInit("\\\\.\\COM6"))
 		return -2;
 	if (!uart.configTimeouts())
@@ -33,13 +35,91 @@ int main() {
 		return -4;
 
 	while (!receiveHS());
-
-	/*while (1)
+	cout << "Handshake Successful";
+#ifdef USE_KEYBOARD	
+	while (1)
 	{
-		uart.sendData(data, 1);
-		Sleep(250);
-	}*/
+		if (_kbhit()) {
+			char press = _getch();
 
+			switch (press) {
+			case 'w':
+				data[2] = (0x01);
+				data[1] = 0x00;
+				break;
+			case 's':
+				data[2] = (0x01) << 1;
+				data[1] = 0x00;
+				break;
+			case 'a':
+				data[2] = (0x01) << 2;
+				data[1] = 0x00;
+				break;
+			case 'd':
+				data[2] = (0x01) << 3;
+				data[1] = 0x00;
+				break;
+			case 'e':
+				data[2] = (0x01) << 4;
+				data[1] = 0x00;
+				break;
+			case 'q': 
+				data[2] = (0x01) << 5;
+				data[1] = 0x00;
+				break;
+			case 'r':
+				data[2] = (0x01) << 6;
+				data[1] = 0x00;
+				break;
+			case 't':
+				data[2] = (0x01) << 7;
+				data[1] = 0x00;
+				break;
+#ifdef USE_MULTIPLAYER
+			case 'o':
+				data[2] = (0x01);
+				data[1] = 0x01;
+				break;
+			case 'l':
+				data[2] = (0x01) << 1;
+				data[1] = 0x01;
+				break;
+			case 'k':
+				data[2] = (0x01) << 2;
+				data[1] = 0x01;
+				break;
+			case ';':
+				data[2] = (0x01) << 3;
+				data[1] = 0x01;
+				break;
+			case 'p':
+				data[2] = (0x01) << 4;
+				data[1] = 0x01;
+				break;
+			case 'i':
+				data[2] = (0x01) << 5;
+				data[1] = 0x01;
+				break;
+			case '[':
+				data[2] = (0x01) << 6;
+				data[1] = 0x01;
+				break;
+			case ']':
+				data[2] = (0x01) << 7;
+				data[1] = 0x01;
+				break;
+#endif
+			default:
+				data[2] = 0x00;
+				break;
+			}
+
+			uart.sendData(data, 3);
+			uart.receiveData(rxData, 1);
+			cout << rxData[0];
+		}
+	}
+#endif
 	if (FAILED(GetDefaultKinectSensor(&sensor)))
 		return -1;
 
@@ -70,8 +150,8 @@ int main() {
 						color = cv::Mat(height, width, CV_8UC4, colorBuffer);
 						cv::cvtColor(color, color, cv::COLOR_RGBA2BGR);
 
-						cv::imshow("color", color);
-						cv::waitKey(1);
+						//cv::imshow("color", color);
+						//cv::waitKey(1);
 					}
 
 					colorFrame->Release();
@@ -119,40 +199,26 @@ int main() {
 							}
 						}
 					}
+					
+					color = drawJoints(color);
+					
+					cv::imshow("color", color);
+					cv::waitKey(1);
 
 					frame->Release();
 					bodyFrame->Release();
-					string command = "";
+
 					for (int i = 0; i < BODY_COUNT; i++) {
 						if (!trackedJoints[i]) {
 							buttonPress[i] = NULL;
 							continue;
 						}
 						buttonPress[i] = pollButtons(people[i]);
-
-						if ((buttonPress[i] - prevButtonPress[i])) {
-							if (buttonPress[i] & (0x01))
-								command.append(" up");
-							if (buttonPress[i] & (0x01 << 1))
-								command.append(" down");
-							if (buttonPress[i] & (0x01 << 2))
-								command.append(" left");
-							if (buttonPress[i] & (0x01 << 3))
-								command.append(" right");
-							if (buttonPress[i] & (0x01 << 4))
-								command.append(" A");
-							if (buttonPress[i] & (0x01 << 5))
-								command.append(" B");
-							if (buttonPress[i] & (0x01 << 6))
-								command.append(" start");
-							if (buttonPress[i] & (0x01 << 7))
-								command.append(" select");
-							cout << command << "\r\n";
+						printButtons(i);
 
 						sendButtonPress(people[i].addr, &buttonPress[i]);
-						//tempButtonPress(&buttonPress[i]);
-						}
 					}
+
 					memcpy(prevButtonPress, buttonPress, sizeof(buttonPress));
 					trackedJoints.clear();
 				}
@@ -165,6 +231,16 @@ int main() {
 
 cv::Point3f jointToPt3f(Joint joint) {
 	return cv::Point3f(joint.Position.X, joint.Position.Y, joint.Position.Z);
+}
+
+CameraSpacePoint pt3fToCSP(cv::Point3f point)
+{
+	CameraSpacePoint csp;
+	csp.X = point.x;
+	csp.Y = point.y;
+	csp.Z = point.z;
+
+	return csp;
 }
 
 float getDistance(Joint joints[25],  int j1, int j2) {
@@ -305,6 +381,71 @@ unsigned char pollButtons(Person player) {
 	return output;
 }
 
+cv::Mat drawJoints(cv:: Mat color) {
+	
+	CameraSpacePoint csp;
+	ColorSpacePoint cop;
+	for (int i = 0; i < BODY_COUNT; i++) {
+		if (!trackedJoints[i]) {
+			continue;
+		}
+
+		csp = pt3fToCSP(people[i].CL);
+		mapper->MapCameraPointToColorSpace(csp, &cop);
+		cv::circle(color, cv::Point((int)cop.X, (int)cop.Y) , 10, cv::Scalar(255, 255, 255));
+
+		csp = pt3fToCSP(people[i].CR);
+		mapper->MapCameraPointToColorSpace(csp, &cop);
+		cv::circle(color, cv::Point((int)cop.X, (int)cop.Y), 10, cv::Scalar(255, 255, 255));
+
+		csp = pt3fToCSP(people[i].LH);
+		mapper->MapCameraPointToColorSpace(csp, &cop);
+
+		if (people[i].LHS) {
+			cv::circle(color, cv::Point((int)cop.X, (int)cop.Y), 10, cv::Scalar(0, 255, 0));
+		}
+		else {
+			cv::circle(color, cv::Point((int)cop.X, (int)cop.Y), 10, cv::Scalar(0, 0, 255));
+		}
+
+		csp = pt3fToCSP(people[i].RH);
+		mapper->MapCameraPointToColorSpace(csp, &cop);
+
+		if (people[i].RHS) {
+			cv::circle(color, cv::Point((int)cop.X, (int)cop.Y), 10, cv::Scalar(0, 255, 0));
+		}
+		else {
+			cv::circle(color, cv::Point((int)cop.X, (int)cop.Y), 10, cv::Scalar(0, 0, 255));
+		}
+	}
+
+	return color;
+}
+
+void printButtons(int i) {
+	string command = "";
+	
+	if ((buttonPress[i] - prevButtonPress[i])) {
+		if (buttonPress[i] & (0x01))
+			command.append(" up");
+		if (buttonPress[i] & (0x01 << 1))
+			command.append(" down");
+		if (buttonPress[i] & (0x01 << 2))
+			command.append(" left");
+		if (buttonPress[i] & (0x01 << 3))
+			command.append(" right");
+		if (buttonPress[i] & (0x01 << 4))
+			command.append(" A");
+		if (buttonPress[i] & (0x01 << 5))
+			command.append(" B");
+		if (buttonPress[i] & (0x01 << 6))
+			command.append(" start");
+		if (buttonPress[i] & (0x01 << 7))
+			command.append(" select");
+		cout << command << "\r\n";
+	}
+}
+
 bool sendInit() {
 	char data[4] = { 'i', 'n' , 'i', 't'};
 
@@ -316,7 +457,7 @@ bool sendButtonPress(char address, char* presses) {
 
 	if (uart.sendData(&start, 1)) {
 		if (uart.sendData(&address, 1)) {
-			if (uart.sendData(presses, sizeof(presses))) {
+			if (uart.sendData(presses, 1)) {
 				return true;
 			}
 		}
@@ -337,6 +478,6 @@ bool receiveHS()
 		uart.sendData(rx, 1);
 		return true;
 	}
-
+	
 	return false;
 }
