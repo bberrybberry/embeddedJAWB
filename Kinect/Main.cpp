@@ -8,11 +8,6 @@
 #define USE_MULTIPLAYER
 
 /**
- * @namespace cv
- * @brief OpenCV namespace
- * 
- */
-/**
  * @namespace std
  * @brief Standard namespace
  */
@@ -63,7 +58,7 @@ int main() {
 				data[2] = (0x01) << 4;
 				data[1] = 0x00;
 				break;
-			case 'q': 
+			case 'q':
 				data[2] = (0x01) << 5;
 				data[1] = 0x00;
 				break;
@@ -119,7 +114,9 @@ int main() {
 			cout << rxData[0];
 		}
 	}
+}
 #endif
+#ifdef USE_KINECT_AND_OPENCV
 	if (FAILED(GetDefaultKinectSensor(&sensor)))
 		return -1;
 
@@ -445,7 +442,7 @@ void printButtons(int i) {
 		cout << command << "\r\n";
 	}
 }
-
+#endif
 bool sendInit() {
 	char data[4] = { 'i', 'n' , 'i', 't'};
 

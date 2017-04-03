@@ -8,13 +8,21 @@
 * @mainpage Kinect 2 Controller
 */
 
+#define USE_KINECT_AND_OPENCV
+#define USE_KEYBOARD
+#define USE_MULTIPLAYER
+
+
+#ifdef USE_KINECT_AND_OPENCV
 #include <Kinect.h>
 #include <Windows.h>
 #include <Ole2.h>
-#include <stdio.h>
-#include <iostream>
 #include <opencv2\highgui\highgui.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
+#endif
+
+#include <stdio.h>
+#include <iostream>
 #include <algorithm>
 #include <conio.h>
 #include "UART.h"
@@ -34,7 +42,7 @@
 * @brief COM port that the UART will be sent to
 */
 #define COMport		"\\\\.\\COM6"
-
+#ifdef USE_KINECT_AND_OPENCV
 /**
 * @struct Person
 * @brief Contains coordinates of the joints of all tracked people
@@ -161,6 +169,8 @@ IBody* body[BODY_COUNT] = { 0 };
 * @brief Array of persons
 */
 Person people[BODY_COUNT];
+
+#endif
 /**
 * @var DCB serialParams
 * @brief Settings for the serial connection
@@ -174,7 +184,7 @@ DCB serialParams;
 UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
 
 
-
+#ifdef USE_KINECT_AND_OPENCV
 /**
 * @fn jointToPt3f(Joint joint)
 * @param joint Joint structure that contains the relative X, Y, and Z coordinates
@@ -279,7 +289,7 @@ cv::Mat drawJoints(cv::Mat color);
  * @brief Simply prints when a button is pressed 
  */
 void printButtons(int i);
-
+#endif
 /**
  * @fn sendInit()
  * @brief Sends an initial message to the Controller Client Module for a handshake
