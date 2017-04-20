@@ -69,7 +69,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 			GPIOPinConfigure(GPIO_PF1_SSI1TX); //MOSI
 			GPIOPinTypeSSI(GPIO_PORTF_BASE, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3);
 			
-			//Enable SSI for SPI
+			//Enable SSI for SPI 
 			SSIConfigSetExpClk(SSI1_BASE, 		//SSI module base address 
 					SysCtlClockGet(), 			//Clock rate supplied to SSI module
 					SSI_FRF_MOTO_MODE_0, 		//data transfer protocol: Freescale Motorola on SSI0, this sets phase and polarity, see datasheet for frame format information beginning page 956 in section 15.3.4
