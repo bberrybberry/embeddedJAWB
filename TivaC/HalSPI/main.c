@@ -106,20 +106,25 @@ int main(void) {
 // This function is provided to the network layer in the init function and is used to control the
 // Chip Enable pin on the radio
 void RF1_CE(uint8_t out){
-	P2OUT = (P2OUT & ~BIT4) | (out << 4);
+	//CE is PE2
+	GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_2, out << 4);
+//	P2OUT = (P2OUT & ~BIT4) | (out << 4);
 }
 
 // This function is provided to the network layer in the init function and is used to control the
 // Chip Select pin on the radio
 void RF1_CSN(uint8_t out){
-	P2OUT = (P2OUT & ~BIT3) | (out << 3);
+	//CSN is PE1
+	GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_1, out << 3);
+//	P2OUT = (P2OUT & ~BIT3) | (out << 3);
 }
 
 // Method to poll the interrupt pin and see if an interrupt has occured
 void RF1_PollIRQ(void){
+	//IRQ is PE3
 	static uint8_t pin_state = 1;
 	static uint32_t last = 0;
-	uint8_t new_state = (P2IN & BIT5) >> 5;
+	uint8_t new_state = GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_3) >> 5;//(P2IN & BIT5) >> 5;
 
 	if( (new_state != pin_state) && !new_state) {
 		last = TimeNow();
