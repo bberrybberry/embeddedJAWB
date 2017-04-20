@@ -9,9 +9,6 @@
  
 //TODO: Rewrite msp code for tiva
 void hal_SPI_Init(spi_settings_t* settings){
-	//Var to hold garbage data
-	uint32_t dataCleaner[settings->hal_settings.bytesToSend];
-	
 	// Disable
 	// hal_SPI_Disable(settings->channel);
 	switch(settings->channel){
@@ -182,7 +179,90 @@ void hal_SPI_Init(spi_settings_t* settings){
 }
 
 void hal_SPI_Enable(uint8_t channel){
-	//TODO
+	//Var to hold garbage data
+	uint32_t dataCleaner[settings->hal_settings.bytesToSend];
+	
+	switch(settings->channel){
+		case SPI_A0: //SSI0
+			//Enable module
+			SSIEnable(SSI0_BASE);
+	
+			//From spi_master.c in tivaware/examples/peripherals:
+			//
+			// Read any residual data from the SSI port.  This makes sure the receive
+			// FIFOs are empty, so we don't read any unwanted junk.  This is done here
+			// because the SPI SSI mode is full-duplex, which allows you to send and
+			// receive at the same time.  The SSIDataGetNonBlocking function returns
+			// "true" when data was returned, and "false" when no data was returned.
+			// The "non-blocking" function checks if there is any data in the receive
+			// FIFO and does not "hang" if there isn't.
+			//
+			while(SSIDataGetNonBlocking(SSI0_BASE, &dataCleaner[0]))
+			{
+			}
+	
+			break;
+		case SPI_A1: //SSI1
+		//This one is really weird. You just shouldn't use it.
+		
+			//Enable module
+			SSIEnable(SSI1_BASE);
+	
+			//From spi_master.c in tivaware/examples/peripherals:
+			//
+			// Read any residual data from the SSI port.  This makes sure the receive
+			// FIFOs are empty, so we don't read any unwanted junk.  This is done here
+			// because the SPI SSI mode is full-duplex, which allows you to send and
+			// receive at the same time.  The SSIDataGetNonBlocking function returns
+			// "true" when data was returned, and "false" when no data was returned.
+			// The "non-blocking" function checks if there is any data in the receive
+			// FIFO and does not "hang" if there isn't.
+			//
+			while(SSIDataGetNonBlocking(SSI1_BASE, &dataCleaner[0]))
+			{
+			}
+
+			break;
+		case SPI_B0: //SSI2
+	
+			//Enable module
+			SSIEnable(SSI1_BASE);
+	
+			//From spi_master.c in tivaware/examples/peripherals:
+			//
+			// Read any residual data from the SSI port.  This makes sure the receive
+			// FIFOs are empty, so we don't read any unwanted junk.  This is done here
+			// because the SPI SSI mode is full-duplex, which allows you to send and
+			// receive at the same time.  The SSIDataGetNonBlocking function returns
+			// "true" when data was returned, and "false" when no data was returned.
+			// The "non-blocking" function checks if there is any data in the receive
+			// FIFO and does not "hang" if there isn't.
+			//
+			while(SSIDataGetNonBlocking(SSI2_BASE, &dataCleaner[0]))
+			{
+			}
+			break;
+		case SPI_B1: //SSI3
+	
+			//Enable module
+			SSIEnable(SSI3_BASE);
+	
+			//From spi_master.c in tivaware/examples/peripherals:
+			//
+			// Read any residual data from the SSI port.  This makes sure the receive
+			// FIFOs are empty, so we don't read any unwanted junk.  This is done here
+			// because the SPI SSI mode is full-duplex, which allows you to send and
+			// receive at the same time.  The SSIDataGetNonBlocking function returns
+			// "true" when data was returned, and "false" when no data was returned.
+			// The "non-blocking" function checks if there is any data in the receive
+			// FIFO and does not "hang" if there isn't.
+			//
+			while(SSIDataGetNonBlocking(SSI3_BASE, &dataCleaner[0]))
+			{
+			}
+			break;
+		
+	}
 }
 
 void hal_SPI_Disable(uint8_t channel){
