@@ -38,9 +38,9 @@ typedef struct line_t {
 	uint16_t y2;
 } line_t;
 
-//typedef struct {
-//	Graphics_Context g_sContext;
-//} hal_graphics_t;
+typedef struct {
+	//Graphics_Context g_sContext;
+} hal_graphics_t;
 
 Graphics_Context g_sContext;
 
@@ -57,6 +57,7 @@ void drawRectangle(uint32_t color, rectangle_t* rect);
 void fillRectangle(uint32_t color, rectangle_t* rect);
 void drawThickRectangle(uint32_t color, uint8_t thickness, rectangle_t* rect);
 
+void setFont(const Graphics_Font* font);
 void drawString(uint32_t color, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque);
 
 

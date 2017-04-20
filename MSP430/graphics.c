@@ -6,18 +6,28 @@
  */
 
 #include "graphics.h"
+#include "hal_graphics.h"
+#include <stdarg.h>
+#include <stdio.h>
+
+#define MAX_CHAR_LIMIT	200
 
 void Graphics_Init(graphics_t * gptr) {
 	initDisplay();
-	gptr->screen_size = SCREEN_SIZE_320X240;
+	Graphics_SetInputScreenSize(gptr, SCREEN_SIZE_320X240);
 }
 
 void Graphics_SetInputScreenSize(graphics_t * gptr, enum screen_size_e screen_size) {
 	gptr->screen_size = screen_size;
 }
 
-void Graphics_DrawTile(graphics_t * gptr, char *tile[], char x, char y) {
-
+void Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[], char x, char y) {
+	volatile uint16_t i, j;
+	for(i = 0; i < y; i++) {
+		for(j = 0; j < x; j++) {
+			drawPixel(pixelToHex((uint8_t)(*(*tile+(j+i*x))).all), position.x + j, position.y + i);
+		}
+	}
 }
 
 void Graphics_SetBackground(graphics_t * gptr, uint8_t color[3]) {
@@ -75,38 +85,19 @@ void Graphics_DrawRectangle(graphics_t * gptr, g_point_t top_left, g_point_t bot
 }
 
 void Graphics_DrawText(graphics_t * gptr, g_point_t position, char * str, ...) {
+	int32_t len = 0;
+	char string[MAX_CHAR_LIMIT];
+	char* strPtr = &string[0];
 	va_list valist;
-	volatile int i;
-	char* tempStr, newStr = str;
-	char escape = 0;
-	uint16_t curPos = 0, len = 0, remLen = 0;
 	va_start(valist, str);
+	vsprintf(strPtr, str, valist);
 
-	while(*str != 0) {
+	while(*strPtr != '\0') {
 		len++;
+		strPtr++;
 	}
 
-	str = newStr;
-
-	while(*str != 0) {
-		if (*str == '%' && !escape) {
-			switch(*(str+1)) {
-			case 0:
-				str++;
-				continue;
-			case 'd':
-				tempStr = newStr + curPos;
-
-				while(*tempStr !=0) {
-					remLen++;
-				}
-
-
-			}
-		}
-
-		curPos++;
-	}
+	drawString(colorToHex(gptr->foreground), &string[0], len, position.x, position.y, true);
 }
 
 void Graphics_ClearScreen(graphics_t * gptr) {
