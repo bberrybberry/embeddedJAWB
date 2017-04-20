@@ -181,6 +181,73 @@ void hal_SPI_Init(spi_settings_t* settings){
 	// hal_SPI_EnableRxInterrupt(settings->channel);
 }
 
+void hal_SPI_Enable(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_Disable(uint8_t channel){
+	//TODO
+}
+
+uint8_t hal_SPI_SpaceAvailable(uint8_t channel){
+	//TODO
+}
+
+uint8_t hal_SPI_DataAvailable(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_ClearRxIF(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_ClearTxIF(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_EnableRxInterrupt(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_EnableTxInterrupt(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_DisableRxInterrupt(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_DisableTxInterrupt(uint8_t channel){
+	//TODO
+}
+
+uint8_t hal_SPI_TxIntStatus(uint8_t channel){
+	//TODO
+}
+
+uint8_t hal_SPI_RxIntStatus(uint8_t channel){
+	//TODO
+}
+
+uint8_t hal_SPI_IsTxIntEnabled(uint8_t channel){
+	//TODO
+}
+
+uint8_t hal_SPI_RxByte(uint8_t channel){
+	//TODO
+}
+
+void hal_SPI_TxByte(uint8_t channel, uint8_t b){
+	//TODO
+}
+
+uint8_t hal_SPI_OverrunError(uint8_t channel){
+	//TODO
+}
+
+	
+	
+	
 //TODO: Rewrite msp code for tiva
 // void hal_SPI_Enable(uint8_t channel){
 	// switch(channel){
