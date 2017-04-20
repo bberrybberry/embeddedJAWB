@@ -13,21 +13,27 @@
 #define _HAL_SPI_H_
 
 #include <stdint.h>
+#include "inc/hw_memmap.h"
+#include "driverlib/gpio.h"
+#include "driverlib/pin_map.h"
+#include "driverlib/ssi.h"
+#include "driverlib/sysctl.h"
 #include "system.h"
+
+
  
  /**
   * @brief spi settings structure
-  * TODO: Make this accurate for settings needed for Tiva C
   */
 typedef struct hal_spi_settings_t {
-	uint8_t char7bit : 1; ///< char7bit
-	uint8_t msb_first : 1; ///< msb_first
+	uint8_t bytesToSend : 8; ///<Size of data
+	uint8_t modeOfOperation : SSI_MODE_MASTER; ///<SSI Module operation mode (can be \b SSI_MODE_MASTER, \b SSI_MODE_SLAVE, or \b SSI_MODE_SLAVE_OD.)
+	uint32_t bitRate : FCPU/2 -1; ///<Master mode, bit rate must statisfy FSSI >= 2 * bitRate
+	uint32_t dataWidth: 8; ///<Width of data transfers, num of bits per frame
 }hal_spi_settings_t;
   
 // This must be included after hal_spi_settings_t so that spi.h can find that definition
 #include "spi.h"
-
-//TODO: See how these USE_SPI_XY match up with actual Tiva C Pin functions
 
 /*
 From Tiva C TM4C123 Datasheet page 952:
@@ -38,10 +44,11 @@ interfaces.
 
 See page 954 for list of SSI pins and functions on all four SSI modules
 
-Names are whatever, so far this seems correct. Define example USE_SPI_A0 in main.c and the USE_SPI0 is used internally for hal_spi.c
+Names are whatever, so far this seems correct. Define example USE_SPI_A0 in main.c and the USE_SPI0 is used internally for hal_spi.c and library's spi.c
 
 */
 #ifdef USE_SPI_A0
+#warning "Pins PA[5:2] of Tiva C are GPIO locked. If you don't know how to unlock those pins, you should pick a different SSI module. SSI2 is my favorite"
 #define USE_SPI0
 #endif
 
