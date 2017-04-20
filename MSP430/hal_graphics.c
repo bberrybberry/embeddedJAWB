@@ -5,7 +5,7 @@
  *      Author: Aaron
  */
 
-#include <hal_graphics.h>
+#include "hal_graphics.h"
 
 
 void initDisplay(void) {
@@ -25,7 +25,7 @@ unsigned long pixelToHex(uint8_t pixel) {
 	red = multiplier * (pixel & 0x03);
 	green = multiplier * ((pixel & (0x03 << 2)) >> 2);
 	blue = multiplier * ((pixel & (0x03 << 4)) >> 4);
-	//unsigned long color = (red << 16) | (green << 8) | (blue << 0);
+
 	return (red << 16) | (green << 8) | (blue << 0);
 }
 
@@ -38,6 +38,7 @@ void clearDisplay(void) {
 }
 
 void drawPixel(uint32_t color, uint16_t x, uint16_t y) {
+	Graphics_setForegroundColor(&g_sContext, color);
 	Graphics_drawPixel(&g_sContext, x, y);
 }
 
@@ -73,6 +74,10 @@ void drawThickRectangle(uint32_t color, uint8_t thickness, rectangle_t* rect) {
 			break;
 		}
 	}
+
+}
+
+void setFont(const Graphics_Font* font) {
 
 }
 
