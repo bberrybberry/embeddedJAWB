@@ -29,7 +29,7 @@ typedef struct hal_spi_settings_t {
 	uint8_t bytesToSend 	: 8; 		///<Size of data
 	uint8_t modeOfOperation : 1;		///<SSI Module operation mode (can be \b SSI_MODE_MASTER, \b SSI_MODE_SLAVE, or \b SSI_MODE_SLAVE_OD.)
 	//TODO: Figure out why bitRate is stuck at such tiny numbers/how to get over "invalid size for bitfield" error
-	uint32_t bitRate 		: 31; 		///<Master mode, bit rate must statisfy FSSI >= 2 * bitRate
+	uint32_t bitRate; 		///<Master mode, bit rate must statisfy FSSI >= 2 * bitRate
 	uint8_t dataWidth		: 8; 		///<Width of data transfers, num of bits per frame
 }hal_spi_settings_t;
   
