@@ -10,7 +10,7 @@
 //TODO: Rewrite msp code for tiva
 void hal_SPI_Init(spi_settings_t* settings){
 	//Var to hold garbage data
-	uint32_t dataCleaner[settings->bytesToSend];
+	uint32_t dataCleaner[settings->hal_settings.bytesToSend];
 	
 	// Disable
 	// hal_SPI_Disable(settings->channel);
@@ -32,9 +32,9 @@ void hal_SPI_Init(spi_settings_t* settings){
 			SSIConfigSetExpClk(SSI0_BASE, 		//SSI module base address 
 					SysCtlClockGet(), 			//Clock rate supplied to SSI module
 					SSI_FRF_MOTO_MODE_0, 		//data transfer protocol: Freescale Motorola on SSI0, this sets phase and polarity, see datasheet for frame format information beginning page 956 in section 15.3.4
-					settings->modeOfOperation,	//mode of operation
-					settings->bitRate,			//clock rate/bit rate
-					settings->dataWidth			//number of bits per frame
+					settings->hal_settings.modeOfOperation,		//mode of operation
+					settings->hal_settings.bitRate,				//clock rate/bit rate
+					settings->hal_settings.dataWidth			//number of bits per frame
 			);
 	
 			//Enable module
@@ -73,9 +73,9 @@ void hal_SPI_Init(spi_settings_t* settings){
 			SSIConfigSetExpClk(SSI1_BASE, 		//SSI module base address 
 					SysCtlClockGet(), 			//Clock rate supplied to SSI module
 					SSI_FRF_MOTO_MODE_0, 		//data transfer protocol: Freescale Motorola on SSI0, this sets phase and polarity, see datasheet for frame format information beginning page 956 in section 15.3.4
-					settings->modeOfOperation,	//mode of operation
-					settings->bitRate,			//clock rate/bit rate
-					settings->dataWidth			//number of bits per frame
+					settings->hal_settings.modeOfOperation,		//mode of operation
+					settings->hal_settings.bitRate,				//clock rate/bit rate
+					settings->hal_settings.dataWidth			//number of bits per frame
 			);
 	
 			//Enable module
@@ -113,9 +113,9 @@ void hal_SPI_Init(spi_settings_t* settings){
 			SSIConfigSetExpClk(SSI2_BASE, 		//SSI module base address 
 					SysCtlClockGet(), 			//Clock rate supplied to SSI module
 					SSI_FRF_MOTO_MODE_0, 		//data transfer protocol: Freescale Motorola on SSI0, this sets phase and polarity, see datasheet for frame format information beginning page 956 in section 15.3.4
-					settings->modeOfOperation,	//mode of operation
-					settings->bitRate,			//clock rate/bit rate
-					settings->dataWidth			//number of bits per frame
+					settings->hal_settings.modeOfOperation,		//mode of operation
+					settings->hal_settings.bitRate,				//clock rate/bit rate
+					settings->hal_settings.dataWidth			//number of bits per frame
 			);
 	
 			//Enable module
@@ -149,12 +149,12 @@ void hal_SPI_Init(spi_settings_t* settings){
 			GPIOPinTypeSSI(GPIO_PORTD_BASE, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3);
 			
 			//Enable SSI for SPI
-			SSIConfigSetExpClk(SSI3_BASE, 		//SSI module base address 
-					SysCtlClockGet(), 			//Clock rate supplied to SSI module
-					SSI_FRF_MOTO_MODE_0, 		//data transfer protocol: Freescale Motorola on SSI0, this sets phase and polarity, see datasheet for frame format information beginning page 956 in section 15.3.4
-					settings->modeOfOperation,	//mode of operation
-					settings->bitRate,			//clock rate/bit rate
-					settings->dataWidth			//number of bits per frame
+			SSIConfigSetExpClk(SSI3_BASE, 						//SSI module base address
+					SysCtlClockGet(), 							//Clock rate supplied to SSI module
+					SSI_FRF_MOTO_MODE_0, 						//data transfer protocol: Freescale Motorola on SSI0, this sets phase and polarity, see datasheet for frame format information beginning page 956 in section 15.3.4
+					settings->hal_settings.modeOfOperation,		//mode of operation
+					settings->hal_settings.bitRate,				//clock rate/bit rate
+					settings->hal_settings.dataWidth			//number of bits per frame
 			);
 	
 			//Enable module

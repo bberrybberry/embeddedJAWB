@@ -7,6 +7,7 @@
 #include "driverlib/gpio.h"
 #include "driverlib/pin_map.h"
 #include "driverlib/sysctl.h"
+#include "driverlib/ssi.h"
 
 
 #include "system.h"
@@ -49,9 +50,9 @@ int main(void) {
     //WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
 
     //set Tiva C clock to 24Mhz
-	SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_24MHZ)
+	SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_24MHZ);
 
-    DisableInterrupts();
+//    DisableInterrupts();
 
     Timing_Init();
     Task_Init();
@@ -64,14 +65,20 @@ int main(void) {
 
     //Setup IRQ, CE, CSN for RF1
 
-    P2DIR |= BIT3 | BIT4; // CE, CSN as output
-    P2DIR &= ~BIT5; // IRQ as input
+    GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_1|GPIO_PIN_2);
+    GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_3);
+//    P2DIR |= BIT3 | BIT4; // CE, CSN as output
+//    P2DIR &= ~BIT5; // IRQ as input
 
     spi_settings_t spi_settings;
     spi_settings.channel = RF_SPI_CH;
     spi_settings.bit_rate = 200000;
-    spi_settings.hal_settings.char7bit = 0;
-    spi_settings.hal_settings.msb_first = 1;
+    spi_settings.hal_settings.bytesToSend = 8;
+    spi_settings.hal_settings.modeOfOperation = SSI_MODE_MASTER;
+    spi_settings.hal_settings.bitRate = spi_settings.bit_rate;
+    spi_settings.hal_settings.dataWidth = 8;
+//    spi_settings.hal_settings.char7bit = 0;
+//    spi_settings.hal_settings.msb_first = 1;
     spi_settings.mode = 0;
     SPI_Init(&spi_settings);
 
