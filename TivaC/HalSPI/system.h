@@ -32,12 +32,13 @@
 #define SUBSYS_UART 0
 
 #define UART1_TX_BUFFER_LENGTH 1024
+#define UART0_TX_BUFFER_LENGTH 1024
 
 #define USE_UPACKET_0
 #define USE_UART0
 #define USE_UART1
 
-#define GAME_CONTROLLER_UART 0
+#define GAME_CONTROLLER_UART 1
 #define USE_MODULE_GAME_NFR24
 
 #define UART_BAUD 115200	// Run the system at this baud rate

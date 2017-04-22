@@ -25,7 +25,6 @@
 // #define SPI_MAX_SIZE 33
 
 
-//TODO: MAke this run on the Tiva
 /* TivaC TM4C123 RF1:
 * - MISO PB6
 * - MOSI PB7
@@ -68,7 +67,7 @@ int main(void) {
 
     Timing_Init();
     Task_Init();
-    UART_Init(1);
+    UART_Init(SUBSYS_UART);
 
     spi_settings_t spi_settings;
     spi_settings.channel = RF_SPI_CH;
@@ -93,7 +92,7 @@ int main(void) {
     Game_nRF_Test_Init();
     Game_NetworkInit(&RF1);
     Log_EchoOn();
-    UART_Printf(UART1, "System Initialized\r\n");
+    UART_Printf(SUBSYS_UART, "System Initialized\r\n");
 
     EnableInterrupts();
 

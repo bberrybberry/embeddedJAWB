@@ -328,8 +328,6 @@ void hal_SPI_Disable(uint8_t channel){
 }
 
 uint8_t hal_SPI_SpaceAvailable(uint8_t channel){
-	//TODO
-
 	//see if there's a pending transmit interrupt, if so return 1
 
 	switch(channel){
@@ -472,7 +470,6 @@ uint8_t hal_SPI_RxIntStatus(uint8_t channel){
 }
 
 uint8_t hal_SPI_IsTxIntEnabled(uint8_t channel){
-	//TODO
 	return 1;
 }
 
