@@ -5,7 +5,7 @@
 
 #include "Main.h"
 #define USE_KEYBOARD
-#define USE_MULTIPLAYER
+//#define USE_MULTIPLAYER
 
 /**
  * @namespace cv
@@ -120,6 +120,7 @@ int main() {
 		}
 	}
 #endif
+#ifdef USE_KINECT
 	if (FAILED(GetDefaultKinectSensor(&sensor)))
 		return -1;
 
@@ -227,8 +228,9 @@ int main() {
 	}
 
 	return 0;
+#endif
 }
-
+#ifdef USE_KINECT
 cv::Point3f jointToPt3f(Joint joint) {
 	return cv::Point3f(joint.Position.X, joint.Position.Y, joint.Position.Z);
 }
@@ -445,7 +447,7 @@ void printButtons(int i) {
 		cout << command << "\r\n";
 	}
 }
-
+#endif
 bool sendInit() {
 	char data[4] = { 'i', 'n' , 'i', 't'};
 
