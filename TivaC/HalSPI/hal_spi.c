@@ -67,8 +67,12 @@ void hal_SPI_Init(spi_settings_t* settings){
 					settings->hal_settings.dataWidth			//number of bits per frame
 			);
 
+
 			//Disable
 			SSIDisable(SSI0_BASE);
+
+			//Disable interrupts
+			SSIIntDisable(SSI0_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
 
 			//Clear interrupts
 			SSIIntClear(SSI0_BASE, SSI_RXTO|SSI_RXOR);
@@ -76,11 +80,11 @@ void hal_SPI_Init(spi_settings_t* settings){
 			//Register int handlers
 			SSIIntRegister(SSI0_BASE, SSI0_Handler);
 
-			//Enable interrupts
-			SSIIntEnable(SSI0_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
-
 			//Enable SSI
 			hal_SPI_Enable(settings->channel);
+
+//			//Enable interrupts
+//			SSIIntEnable(SSI0_BASE, SSI_TXFF|SSI_RXFF);
 	
 			break;
 		case SPI_A1: //SSI1
@@ -106,8 +110,12 @@ void hal_SPI_Init(spi_settings_t* settings){
 					settings->hal_settings.dataWidth			//number of bits per frame
 			);
 
+
 			//Disable
 			SSIDisable(SSI1_BASE);
+
+			//Disable interrupts
+			SSIIntDisable(SSI1_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
 
 			//Clear interrupts
 			SSIIntClear(SSI1_BASE, SSI_RXTO|SSI_RXOR);
@@ -115,11 +123,11 @@ void hal_SPI_Init(spi_settings_t* settings){
 			//Register int handlers
 			SSIIntRegister(SSI1_BASE, SSI1_Handler);
 
-			//Enable interrupts
-			SSIIntEnable(SSI1_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
-
 			//Enable SSI
 			hal_SPI_Enable(settings->channel);
+
+//			//Enable interrupts
+//			SSIIntEnable(SSI1_BASE, SSI_TXFF|SSI_RXFF);
 
 			break;
 		case SPI_B0: //SSI2
@@ -188,9 +196,11 @@ void hal_SPI_Init(spi_settings_t* settings){
 			);
 
 
-
 			//Disable
 			SSIDisable(SSI3_BASE);
+
+			//Disable interrupts
+			SSIIntDisable(SSI3_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
 
 			//Clear interrupts
 			SSIIntClear(SSI3_BASE, SSI_RXTO|SSI_RXOR);
@@ -198,11 +208,11 @@ void hal_SPI_Init(spi_settings_t* settings){
 			//Register int handlers
 			SSIIntRegister(SSI3_BASE, SSI3_Handler);
 
-			//Enable interrupts
-			SSIIntEnable(SSI3_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
-
 			//Enable SSI
 			hal_SPI_Enable(settings->channel);
+
+//			//Enable interrupts
+//			SSIIntEnable(SSI3_BASE, SSI_TXFF|SSI_RXFF);
 
 			break;
 		
