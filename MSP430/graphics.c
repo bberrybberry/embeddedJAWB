@@ -25,7 +25,9 @@ void Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[],
 	volatile uint16_t i, j;
 	for(i = 0; i < y; i++) {
 		for(j = 0; j < x; j++) {
-			drawPixel(pixelToHex((uint8_t)(*(*tile+(j+i*x))).all), position.x + j, position.y + i);
+			if ((*(*tile + (j+i*x))).transparent == 0) {
+				drawPixel(pixelToHex((uint8_t)(*(*tile+(j+i*x))).all), position.x + j, position.y + i);
+			}
 		}
 	}
 }
