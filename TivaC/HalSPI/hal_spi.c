@@ -13,7 +13,9 @@
 #endif
 void SSI0_Handler(void){
 	//Handle interrupt
+	SPI_Rx_Handler(SPI_A0);
 	SSIIntClear(SSI0_BASE, SSI_RXTO|SSI_RXOR);
+	SPI_Tx_Handler(SPI_A0);
 }
 
 #ifdef USE_SPI1
@@ -21,7 +23,9 @@ void SSI0_Handler(void){
 #endif
 void SSI1_Handler(void){
 	//Handle interrupt
+	SPI_Rx_Handler(SPI_A1);
 	SSIIntClear(SSI1_BASE, SSI_RXTO|SSI_RXOR);
+	SPI_Tx_Handler(SPI_A1);
 }
 
 #ifdef USE_SPI2
@@ -29,7 +33,9 @@ void SSI1_Handler(void){
 #endif
 void SSI2_Handler(void){
 	//Handle interrupt
+	SPI_Rx_Handler(SPI_B0);
 	SSIIntClear(SSI2_BASE, SSI_RXTO|SSI_RXOR);
+	SPI_Tx_Handler(SPI_B0);
 }
 
 #ifdef USE_SPI3
@@ -37,7 +43,9 @@ void SSI2_Handler(void){
 #endif
 void SSI3_Handler(void){
 	//Handle interrupt
+	SPI_Rx_Handler(SPI_B1);
 	SSIIntClear(SSI3_BASE, SSI_RXTO|SSI_RXOR);
+	SPI_Tx_Handler(SPI_B1);
 }
  
 //TODO: Rewrite msp code for tiva
@@ -169,8 +177,8 @@ void hal_SPI_Init(spi_settings_t* settings){
 			//Enable SSI
 			hal_SPI_Enable(settings->channel);
 
-//			//Enable interrupts
-//			SSIIntEnable(SSI2_BASE, SSI_TXFF|SSI_RXFF);
+			//Enable interrupts
+			SSIIntEnable(SSI2_BASE, SSI_TXFF|SSI_RXFF);
 
 			break;
 		case SPI_B1: //SSI3
