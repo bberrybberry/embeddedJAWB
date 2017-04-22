@@ -13,6 +13,7 @@
 #endif
 void SSI0_Handler(void){
 	//Handle interrupt
+	SSIIntClear(SSI0_BASE, SSI_RXTO|SSI_RXOR);
 }
 
 #ifdef USE_SPI1
@@ -20,6 +21,7 @@ void SSI0_Handler(void){
 #endif
 void SSI1_Handler(void){
 	//Handle interrupt
+	SSIIntClear(SSI1_BASE, SSI_RXTO|SSI_RXOR);
 }
 
 #ifdef USE_SPI2
@@ -27,6 +29,7 @@ void SSI1_Handler(void){
 #endif
 void SSI2_Handler(void){
 	//Handle interrupt
+	SSIIntClear(SSI2_BASE, SSI_RXTO|SSI_RXOR);
 }
 
 #ifdef USE_SPI3
@@ -34,6 +37,7 @@ void SSI2_Handler(void){
 #endif
 void SSI3_Handler(void){
 	//Handle interrupt
+	SSIIntClear(SSI3_BASE, SSI_RXTO|SSI_RXOR);
 }
  
 //TODO: Rewrite msp code for tiva
@@ -102,6 +106,21 @@ void hal_SPI_Init(spi_settings_t* settings){
 					settings->hal_settings.dataWidth			//number of bits per frame
 			);
 
+			//Disable
+			SSIDisable(SSI1_BASE);
+
+			//Clear interrupts
+			SSIIntClear(SSI1_BASE, SSI_RXTO|SSI_RXOR);
+
+			//Register int handlers
+			SSIIntRegister(SSI1_BASE, SSI1_Handler);
+
+			//Enable interrupts
+			SSIIntEnable(SSI1_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
+
+			//Enable SSI
+			hal_SPI_Enable(settings->channel);
+
 			break;
 		case SPI_B0: //SSI2
 
@@ -124,6 +143,27 @@ void hal_SPI_Init(spi_settings_t* settings){
 					settings->hal_settings.bitRate,				//clock rate/bit rate
 					settings->hal_settings.dataWidth			//number of bits per frame
 			);
+
+
+
+			//Disable
+			SSIDisable(SSI2_BASE);
+
+			//Disable interrupts
+			SSIIntDisable(SSI2_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
+
+			//Clear interrupts
+			SSIIntClear(SSI2_BASE, SSI_RXTO|SSI_RXOR);
+
+			//Register int handlers
+			SSIIntRegister(SSI2_BASE, SSI2_Handler);
+
+			//Enable SSI
+			hal_SPI_Enable(settings->channel);
+
+//			//Enable interrupts
+//			SSIIntEnable(SSI2_BASE, SSI_TXFF|SSI_RXFF);
+
 			break;
 		case SPI_B1: //SSI3
 
@@ -146,6 +186,24 @@ void hal_SPI_Init(spi_settings_t* settings){
 					settings->hal_settings.bitRate,				//clock rate/bit rate
 					settings->hal_settings.dataWidth			//number of bits per frame
 			);
+
+
+
+			//Disable
+			SSIDisable(SSI3_BASE);
+
+			//Clear interrupts
+			SSIIntClear(SSI3_BASE, SSI_RXTO|SSI_RXOR);
+
+			//Register int handlers
+			SSIIntRegister(SSI3_BASE, SSI3_Handler);
+
+			//Enable interrupts
+			SSIIntEnable(SSI3_BASE, SSI_TXFF|SSI_RXFF|SSI_RXOR|SSI_RXTO);
+
+			//Enable SSI
+			hal_SPI_Enable(settings->channel);
+
 			break;
 		
 	}
@@ -202,7 +260,7 @@ void hal_SPI_Enable(uint8_t channel){
 		case SPI_B0: //SSI2
 	
 			//Enable module
-			SSIEnable(SSI1_BASE);
+			SSIEnable(SSI2_BASE);
 	
 			//From spi_master.c in tivaware/examples/peripherals:
 			//

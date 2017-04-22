@@ -52,23 +52,23 @@ int main(void) {
     //set Tiva C clock to 24Mhz
 	SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_24MHZ);
 
-//    DisableInterrupts();
-
-    Timing_Init();
-    Task_Init();
-    UART_Init(1);
-
 //    //Setup IRQ, CE, CSN for RF2
 //	P7DIR |= BIT0; // CE as output
 //	P2DIR |= BIT2; // CSN as output
 //	P6DIR &= ~BIT4; // IRQ as input
 
     //Setup IRQ, CE, CSN for RF1
-
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
     GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_1|GPIO_PIN_2);
     GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_3);
 //    P2DIR |= BIT3 | BIT4; // CE, CSN as output
 //    P2DIR &= ~BIT5; // IRQ as input
+
+    DisableInterrupts();
+
+    Timing_Init();
+    Task_Init();
+    UART_Init(1);
 
     spi_settings_t spi_settings;
     spi_settings.channel = RF_SPI_CH;
