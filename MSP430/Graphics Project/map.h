@@ -25,28 +25,7 @@ g_pixel_t* gPPTilePtr = &black16x12[0];//&genPokePlayer[0];
 g_pixel_t* blackTilePtr = &black16x12[0];
 g_pixel_t* whiteTilePtr = &white16x12[0];
 
-g_pixel_t* map[GRID_X * GRID_Y];// = {
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr,
-//		whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr, whiteTilePtr
-//};
+g_pixel_t* map[GRID_X * GRID_Y];
 
 
 
