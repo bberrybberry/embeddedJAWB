@@ -39,7 +39,7 @@
 
 //#define MOVE_RECTANGLE
 #define MOVE_CHARACTER
-#define BW_MAP
+//#define BW_MAP
 
 graphics_t gCntx;
 
@@ -88,7 +88,6 @@ int main(void) {
 	Graphics_SetForeground(&gCntx, color);
 
 	Graphics_Init(&gCntx);
-
 
 	populateMap();
 	drawMap();
@@ -207,28 +206,28 @@ void populateMap(void) {
 	}
 
 #else
-	// TODO: Fill this in with actual pointers
-	 map = {gr, gr, gr, gr, gr, gr, gr, rk, gr, gr, gr, gr,
-			gr, gr, tr, tr, gr, gr, gr, gr, gr, gr, gr, gr,
-			gr, gr, tr, gr, gr, gr, gr, gr, gr, tr, tr, gr,
-			gr, gr, gr, gr, gr, tr, rk, gr, gr, gr, tr, gr,
-			gr, rk, gr, gd, gd, gd, gd, gd, gd, gr, tr, gr,
-			gr, gr, gd, gr, gr, gr, gr, gr, gr, gd, gr, gr,
-			gr, gd, tr, gr, gr, gr, gr, tr, gr, gr, gd, gr,
-			gr, gd, tr, gr, gr, gr, gr, gr, gr, gr, gd, gr,
-			gd, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gd,
-			gd, gd, gd, gd, rk, gd, gd, rk, gd, gd, gd, gd,
-			gd, gd, gd, gd, rk, gd, gd, rk, gd, gd, gd, gd,
-			gd, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gd,
-			gr, gd, gr, gr, gr, gr, gr, gr, gr, gr, gd, gr,
-			gr, gd, gr, gr, gr, gr, tr, gr, gr, gr, gd, gr,
-			gr, gr, gd, gr, gr, rk, gr, gr, gr, gd, gr, gr,
-			gr, tr, gr, gd, gd, gd, gd, gd, gd, gr, rk, tr,
-			gr, rk, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr,
-			gr, gr, gr, gr, rk, gr, gr, tr, gr, gr, gr, gr,
-			gr, tr, tr, gr, gr, gr, gr, tr, tr, gr, gr, gr,
-			gr, gr, tr, gr, gr, gr, gr, tr, gr, gr, gr, gr
+	 map = (MapStruct){grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
+			grassTilePtr, grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
+			grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr,
+			grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr,
+			grassTilePtr, rocksTilePtr, grassTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, grassTilePtr, treesTilePtr, grassTilePtr,
+			grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr,
+			grassTilePtr, goundTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
+			grassTilePtr, goundTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
+			goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr,
+			goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr,
+			goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr,
+			goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr,
+			grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
+			grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
+			grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr,
+			grassTilePtr, treesTilePtr, grassTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, grassTilePtr, rocksTilePtr, treesTilePtr,
+			grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
+			grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
+			grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
+			grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr
 	 };
+
 #endif
 }
 
@@ -239,33 +238,19 @@ void drawMap(void) {
 		for (j = 0; j < GRID_Y; j++) {
 			pt.x = i * WHITE16X12_TILE_X;
 			pt.y = j * WHITE16X12_TILE_Y;
-			Graphics_DrawTile(&gCntx, pt, &map[i + j * GRID_X], WHITE16X12_TILE_X, WHITE16X12_TILE_Y);
+			Graphics_DrawTile(&gCntx, pt, &map.map[i + j * GRID_X], WHITE16X12_TILE_X, WHITE16X12_TILE_Y);
 		}
 	}
 }
 
 void aPressed(controller_buttons_t input, void* handle) {
-	//g_point_t p1;//, p2;
-	//p1.x = 100; p1.y = 100;
-//	p2.x = 50; p2.y = 50;
-
-//	uint8_t c[3] = {0x00, 0x00, 0xFF};
-//	Graphics_SetForeground(&gCntx, c);
-//
-//	Graphics_DrawRectangle(&gCntx, p1, p2);
-	//Graphics_DrawText(&gCntx, p1,"Hello World!%d", 4);
 	UART_Printf(CMC_UART_UPSTREAM, "A");
 }
 
 void bPressed(controller_buttons_t input, void* handle) {
-//	g_point_t p1, p2;
-//	p1.x = 0; p1. y = 0;
-//	p2.x = 50; p2.y = 50;
-
 	uint8_t c[3] = {0xFF, 0x00, 0x00};
 	Graphics_SetForeground(&gCntx, c);
 
-	//Graphics_DrawRectangle(&gCntx, p1, p2);
 	UART_Printf(CMC_UART_UPSTREAM, "B");
 }
 
@@ -298,8 +283,8 @@ void upPressed(controller_buttons_t input, void* handle) {
 #ifdef MOVE_CHARACTER
 
 	if ((t1.y - 1) < GRID_Y ) {
-		if (map[t1.x + t1.y * GRID_X]) {
-			Graphics_DrawTile(&gCntx, p1, &map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
+		if (map.map[t1.x + t1.y * GRID_X]) {
+			Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
 		}
 		else {
 			Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
@@ -331,8 +316,8 @@ void downPressed(controller_buttons_t input, void* handle) {
 #ifdef MOVE_CHARACTER
 
 	if (t1.y + 1 < GRID_Y) {
-		if (map[t1.x + t1.y * GRID_X]) {
-			Graphics_DrawTile(&gCntx, p1, &map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
+		if (map.map[t1.x + t1.y * GRID_X]) {
+			Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
 		}
 		else {
 			Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
@@ -364,8 +349,8 @@ void leftPressed(controller_buttons_t input, void* handle) {
 #ifdef MOVE_CHARACTER
 
 	if ((t1.x - 1) < GRID_X) {
-		if (map[t1.x + t1.y * GRID_X]) {
-			Graphics_DrawTile(&gCntx, p1, &map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
+		if (map.map[t1.x + t1.y * GRID_X]) {
+			Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
 		}
 		else {
 			Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
@@ -397,8 +382,8 @@ void rightPressed(controller_buttons_t input, void* handle) {
 #ifdef MOVE_CHARACTER
 
 	if (t1.x + 1 < GRID_X) {
-		if (map[t1.x + t1.y * GRID_X]) {
-			Graphics_DrawTile(&gCntx, p1, &map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
+		if (map.map[t1.x + t1.y * GRID_X]) {
+			Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
 		}
 		else {
 			Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
