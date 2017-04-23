@@ -236,9 +236,9 @@ void drawMap(void) {
 	g_point_t pt;
 	for (i = 0; i < GRID_X; i++) {
 		for (j = 0; j < GRID_Y; j++) {
-			pt.x = i * WHITE16X12_TILE_X;
-			pt.y = j * WHITE16X12_TILE_Y;
-			Graphics_DrawTile(&gCntx, pt, &map.map[i + j * GRID_X], WHITE16X12_TILE_X, WHITE16X12_TILE_Y);
+			pt.x = i * TILE_X;
+			pt.y = j * TILE_Y;
+			Graphics_DrawTile(&gCntx, pt, &map.map[i + j * GRID_X], TILE_X, TILE_Y);
 		}
 	}
 }
