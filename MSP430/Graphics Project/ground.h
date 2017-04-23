@@ -50,3 +50,4 @@ g_pixel_t ground[GROUND_TILE_X * GROUND_TILE_Y] = {
 	};
 
 #endif
+
