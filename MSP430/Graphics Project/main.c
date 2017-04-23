@@ -96,12 +96,7 @@ int main(void) {
 	t1.y = 5;
 	p1.x = t1.x * TILE_X;
 	p1.y = t1.y * TILE_Y;
-	Graphics_DrawTile(&gCntx, p1, &gPPTilePtr, TILE_X, TILE_Y);
-//	for(pt.x = 0; pt.x < WIDTH; pt.x += FLOWER_TILE_X) {
-//		for(pt.y = 0; pt.y < HEIGHT; pt.y += FLOWER_TILE_Y) {
-//			Graphics_DrawTile(&gCntx, pt, &tilePtr, FLOWER_TILE_X, FLOWER_TILE_Y);
-//		}
-//	}
+	Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
 
 	Task_Schedule(printTime, 0, 1000, 1000);
 
@@ -285,7 +280,7 @@ void upPressed(controller_buttons_t input, void* handle) {
 
 		t1.y--;
 		p1.y = t1.y * TILE_Y;
-		Graphics_DrawTile(&gCntx, p1, &gPPTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
 	}
 
 #endif
@@ -318,7 +313,7 @@ void downPressed(controller_buttons_t input, void* handle) {
 
 		t1.y++;
 		p1.y = t1.y * TILE_Y;
-		Graphics_DrawTile(&gCntx, p1, &gPPTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
 	}
 
 #endif
@@ -351,7 +346,7 @@ void leftPressed(controller_buttons_t input, void* handle) {
 
 		t1.x--;
 		p1.x = t1.x * TILE_X;
-		Graphics_DrawTile(&gCntx, p1, &gPPTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, &gPLTilePtr, TILE_X, TILE_Y);
 	}
 
 #endif
@@ -384,7 +379,7 @@ void rightPressed(controller_buttons_t input, void* handle) {
 
 		t1.x++;
 		p1.x = t1.x * TILE_X;
-		Graphics_DrawTile(&gCntx, p1, &gPPTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, &gPRTilePtr, TILE_X, TILE_Y);
 	}
 
 #endif
