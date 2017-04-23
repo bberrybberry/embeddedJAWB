@@ -30,7 +30,7 @@ static struct {
     int shots_fired; ///< shots fired for the round
     uint8_t id; ///< ID of game=
 } game;
-static char pkmnWeight[] = {5, 15, 30, 50, 75, 100};
+static char pkmnWeight[] = {5, 15, 30, 50, 75, 100};  //http://stackoverflow.com/questions/4511331/randomly-selecting-an-element-from-a-weighted-list
 static char_object_t player[4];
 //static char playLoc= {-1, -1, -1, -1};       //Tile location of each player
                                             //index 0 is player 1, index 3 is player 4
@@ -78,28 +78,28 @@ void Help(void) {
 }
 
 static void InputCallback(game_network_payload_t * input) {
-	static uint8_t index = 0;
-	static uint8_t fps = 0;
-	static uint32_t time = 0;
-	uint8_t i;
-	fps++;
-	if(index != 0 && input->index != index + 1) {
-		Game_Printf("index skip");
-	}
-	index = input->index;
-	for(i = 0; i < 4; i++) {
-		if(input->controller[i].button.up) MoveUp(&player[i]);
-		if(input->controller[i].button.down) MoveDown(&player[i]);
-		if(input->controller[i].button.left) MoveLeft(&player[i]);
-		if(input->controller[i].button.right) MoveRight(&player[i]);
-	}
-	if(TimeSince(time) > 1000) {
-		Game_CharXY('F', 0, MAP_HEIGHT+1);
-		Game_Printf("PS: %d  ", fps);
-		fps = 0;
-		time = TimeNow();
-	}
-	Game_CharXY(' ', 0, MAP_HEIGHT+2);
+    static uint8_t index = 0;
+    static uint8_t fps = 0;
+    static uint32_t time = 0;
+    uint8_t i;
+    fps++;
+    if(index != 0 && input->index != index + 1) {
+        Game_Printf("index skip");
+    }
+    index = input->index;
+    for(i = 0; i < 4; i++) {
+        if(input->controller[i].button.up) MoveUp(&player[i]);
+        if(input->controller[i].button.down) MoveDown(&player[i]);
+        if(input->controller[i].button.left) MoveLeft(&player[i]);
+        if(input->controller[i].button.right) MoveRight(&player[i]);
+    }
+    if(TimeSince(time) > 1000) {
+        Game_CharXY('F', 0, MAP_HEIGHT+1);
+        Game_Printf("PS: %d  ", fps);
+        fps = 0;
+        time = TimeNow();
+    }
+    Game_CharXY(' ', 0, MAP_HEIGHT+2);
 }
 
 void Play(void) {
@@ -115,18 +115,18 @@ void Play(void) {
     player[0].x = 5;
     player[0].y = 5;
     player[1].c = '2';
-	player[1].x = 25;
-	player[1].y = 5;
-	player[2].c = '3';
-	player[2].x = 5;
-	player[2].y = 15;
-	player[3].c = '4';
-	player[3].x = 25;
-	player[3].y = 15;
-	Game_CharXY(player[0].c, player[0].x, player[0].y);
-	Game_CharXY(player[1].c, player[1].x, player[1].y);
-	Game_CharXY(player[2].c, player[2].x, player[2].y);
-	Game_CharXY(player[3].c, player[3].x, player[3].y);
+    player[1].x = 25;
+    player[1].y = 5;
+    player[2].c = '3';
+    player[2].x = 5;
+    player[2].y = 15;
+    player[3].c = '4';
+    player[3].x = 25;
+    player[3].y = 15;
+    Game_CharXY(player[0].c, player[0].x, player[0].y);
+    Game_CharXY(player[1].c, player[1].x, player[1].y);
+    Game_CharXY(player[2].c, player[2].x, player[2].y);
+    Game_CharXY(player[3].c, player[3].x, player[3].y);
 
     // hide cursor
     Game_HideCursor();
@@ -170,9 +170,9 @@ static void MoveLeft(char_object_t * o) {
     // make sure we can move right
     if (o->x > 1) {
         // clear location
-    	Game_CharXY(' ', o->x, o->y);
-    	//x-=TILE_X
-    	o->x-=TILE_X;
+        Game_CharXY(' ', o->x, o->y);
+        //x-=TILE_X
+        o->x-=TILE_X;
         if(checkCollision(o->x, o->y)==0)
         // update
         Game_CharXY(o->c, o->x, o->y);
@@ -183,10 +183,10 @@ static void MoveUp(char_object_t * o) {
     // make sure we can move right
     if (o->y > 1 ) {
         // clear location
-    	Game_CharXY(' ', o->x, o->y);
-    	o->y-=TILE_Y;
+        Game_CharXY(' ', o->x, o->y);
+        o->y-=TILE_Y;
         if(checkCollision(o->x, o->y)==0)
-    	// update
+        // update
         Game_CharXY(o->c, o->x, o->y);
     }
 }
@@ -213,8 +213,8 @@ static char checkCollision(char xLoc, char yLoc){
     return collide;
 }
 void GameOver(void) {
-	// clear the input callback
-	Game_RegisterInputCallback(0);
+    // clear the input callback
+    Game_RegisterInputCallback(0);
     // set cursor below bottom of map
     Game_CharXY('\r', 0, MAP_HEIGHT + 2);
     // show score
