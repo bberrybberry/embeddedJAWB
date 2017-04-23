@@ -39,6 +39,7 @@
 
 //#define MOVE_RECTANGLE
 #define MOVE_CHARACTER
+#define BW_MAP
 
 graphics_t gCntx;
 
@@ -194,6 +195,7 @@ void printTime(void) {
 }
 
 void populateMap(void) {
+#ifdef BW_MAP
 	volatile int i;
 	for (i = 0; i < GRID_X * GRID_Y; i++) {
 		if (i % 6) {
@@ -203,6 +205,31 @@ void populateMap(void) {
 			map[i] = blackTilePtr;
 		}
 	}
+
+#else
+	// TODO: Fill this in with actual pointers
+	 map = {gr, gr, gr, gr, gr, gr, gr, rk, gr, gr, gr, gr,
+			gr, gr, tr, tr, gr, gr, gr, gr, gr, gr, gr, gr,
+			gr, gr, tr, gr, gr, gr, gr, gr, gr, tr, tr, gr,
+			gr, gr, gr, gr, gr, tr, rk, gr, gr, gr, tr, gr,
+			gr, rk, gr, gd, gd, gd, gd, gd, gd, gr, tr, gr,
+			gr, gr, gd, gr, gr, gr, gr, gr, gr, gd, gr, gr,
+			gr, gd, tr, gr, gr, gr, gr, tr, gr, gr, gd, gr,
+			gr, gd, tr, gr, gr, gr, gr, gr, gr, gr, gd, gr,
+			gd, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gd,
+			gd, gd, gd, gd, rk, gd, gd, rk, gd, gd, gd, gd,
+			gd, gd, gd, gd, rk, gd, gd, rk, gd, gd, gd, gd,
+			gd, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr, gd,
+			gr, gd, gr, gr, gr, gr, gr, gr, gr, gr, gd, gr,
+			gr, gd, gr, gr, gr, gr, tr, gr, gr, gr, gd, gr,
+			gr, gr, gd, gr, gr, rk, gr, gr, gr, gd, gr, gr,
+			gr, tr, gr, gd, gd, gd, gd, gd, gd, gr, rk, tr,
+			gr, rk, gr, gr, gr, gr, gr, gr, gr, gr, gr, gr,
+			gr, gr, gr, gr, rk, gr, gr, tr, gr, gr, gr, gr,
+			gr, tr, tr, gr, gr, gr, gr, tr, tr, gr, gr, gr,
+			gr, gr, tr, gr, gr, gr, gr, tr, gr, gr, gr, gr
+	 };
+#endif
 }
 
 void drawMap(void) {
