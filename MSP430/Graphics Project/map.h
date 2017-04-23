@@ -11,9 +11,12 @@
 #include "genPlayerL.h"
 #include "genPlayerR.h"
 #include "genPlayerS.h"
-#include "blackPokePlayer.h"
 #include "black16x12.h"
 #include "white16x12.h"
+#include "grass.h"
+#include "ground.h"
+#include "trees.h"
+#include "rocks.h"
 #include "graphics.h"
 
 #define WIDTH				320
@@ -29,8 +32,15 @@ g_pixel_t* gPRTilePtr = &genPlayerR[0];
 g_pixel_t* gPSTilePtr = &genPlayerS[0];
 g_pixel_t* blackTilePtr = &black16x12[0];
 g_pixel_t* whiteTilePtr = &white16x12[0];
+g_pixel_t* grassTilePtr = &grass[0];
+g_pixel_t* goundTilePtr = &ground[0];
+g_pixel_t* treesTilePtr = &trees[0];
+g_pixel_t* rocksTilePtr = &rocks[0];
 
-g_pixel_t* map[GRID_X * GRID_Y];
+typedef struct {
+	g_pixel_t* map[GRID_X * GRID_Y];
+} MapStruct;
+MapStruct map;
 
 
 #endif /* MAP_H_ */
