@@ -198,7 +198,7 @@ void populateMap(void) {
 #ifdef BW_MAP
 	volatile int i;
 	for (i = 0; i < GRID_X * GRID_Y; i++) {
-		if (i % 6) {
+		if (i % (GRID_X/2 - 1)) {
 			map[i] = whiteTilePtr;
 		}
 		else {
