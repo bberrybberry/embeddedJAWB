@@ -189,7 +189,7 @@ void buttonCallbacks(void) {
 }
 
 void printTime(void) {
-	p2.x = 16; p2.y = 12;
+	p2.x = (GRID_X+1)*TILE_X; p2.y = (GRID_Y - 1)*TILE_Y;
 	setFont(&g_sFontCmss12);
 	Graphics_DrawText(&gCntx, p2, "Time: %lu s  ", TimeNow() / 1000);
 }
