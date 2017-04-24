@@ -20,8 +20,7 @@
 #include "radioButton.h"
 #include "checkbox.h"
 #include "driverlib.h"
-#include "touch_F5529LP.h"
-#include "LcdDriver/kitronix320x240x16_ssd2119_spi.h"
+#include "kitronix320x240x16_ssd2119_spi.h"
 #include "Images/images.h"
 
 /**
