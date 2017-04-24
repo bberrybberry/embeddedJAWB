@@ -50,3 +50,4 @@ g_pixel_t trees[TREES_TILE_X * TREES_TILE_Y] = {
 	};
 
 #endif
+

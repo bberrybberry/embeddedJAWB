@@ -50,3 +50,4 @@ g_pixel_t grass[GRASS_TILE_X * GRASS_TILE_Y] = {
 	};
 
 #endif
+

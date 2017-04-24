@@ -50,3 +50,4 @@ g_pixel_t rocks[ROCKS_TILE_X * ROCKS_TILE_Y] = {
 	};
 
 #endif
+
