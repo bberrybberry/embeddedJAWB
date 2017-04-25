@@ -96,7 +96,7 @@ int main(void) {
 	t1.y = 5;
 	p1.x = t1.x * TILE_X;
 	p1.y = t1.y * TILE_Y;
-	Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+	Graphics_DrawTile(&gCntx, p1, &aaronRTilePtr, TILE_X, TILE_Y);
 
 	Task_Schedule(printTime, 0, 1000, 1000);
 
@@ -244,6 +244,9 @@ void drawMap(void) {
 }
 
 void aPressed(controller_buttons_t input, void* handle) {
+	uint8_t c[3] = {0xFF, 0xFF, 0xFF};
+	Graphics_SetForeground(&gCntx, c);
+
 	UART_Printf(CMC_UART_UPSTREAM, "A");
 }
 
@@ -255,12 +258,6 @@ void bPressed(controller_buttons_t input, void* handle) {
 }
 
 void startPressed(controller_buttons_t input, void* handle) {
-
-//	g_pixel_t* tilePtr = &grass[0];
-//	g_point_t pt;
-//	pt.x = 10;
-//	pt.y = 10;
-//	Graphics_DrawTile(&gCntx, pt, &tilePtr, TILE_X, TILE_Y);
 
 	UART_Printf(CMC_UART_UPSTREAM, "S");
 }
@@ -281,7 +278,7 @@ void upPressed(controller_buttons_t input, void* handle) {
 	Graphics_DrawRectangle(&gCntx, p1, p2);
 #endif
 #ifdef MOVE_CHARACTER
-
+	static uint8_t right = 0x01;
 	if ((t1.y - 1) < GRID_Y ) {
 		if (map.map[t1.x + t1.y * GRID_X]) {
 			Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
@@ -292,7 +289,9 @@ void upPressed(controller_buttons_t input, void* handle) {
 
 		t1.y--;
 		p1.y = t1.y * TILE_Y;
-		Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+		//Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
+		right ^= 0x01;
 	}
 
 #endif
@@ -314,7 +313,7 @@ void downPressed(controller_buttons_t input, void* handle) {
 	Graphics_DrawRectangle(&gCntx, p1, p2);
 #endif
 #ifdef MOVE_CHARACTER
-
+	static uint8_t right = 0x01;
 	if (t1.y + 1 < GRID_Y) {
 		if (map.map[t1.x + t1.y * GRID_X]) {
 			Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
@@ -325,7 +324,9 @@ void downPressed(controller_buttons_t input, void* handle) {
 
 		t1.y++;
 		p1.y = t1.y * TILE_Y;
-		Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+		//Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
+		right ^= 0x01;
 	}
 
 #endif
@@ -358,7 +359,8 @@ void leftPressed(controller_buttons_t input, void* handle) {
 
 		t1.x--;
 		p1.x = t1.x * TILE_X;
-		Graphics_DrawTile(&gCntx, p1, &gPLTilePtr, TILE_X, TILE_Y);
+		//Graphics_DrawTile(&gCntx, p1, &gPLTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, &aaronLTilePtr, TILE_X, TILE_Y);
 	}
 
 #endif
@@ -391,7 +393,8 @@ void rightPressed(controller_buttons_t input, void* handle) {
 
 		t1.x++;
 		p1.x = t1.x * TILE_X;
-		Graphics_DrawTile(&gCntx, p1, &gPRTilePtr, TILE_X, TILE_Y);
+		//Graphics_DrawTile(&gCntx, p1, &gPRTilePtr, TILE_X, TILE_Y);
+		Graphics_DrawTile(&gCntx, p1, &aaronRTilePtr, TILE_X, TILE_Y);
 	}
 
 #endif

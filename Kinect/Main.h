@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <conio.h>
 #include "UART.h"
+#include "HTTP.h"
 
 /**
 * @def width
@@ -38,6 +39,44 @@
 * @brief COM port that the UART will be sent to
 */
 #define COMport		"\\\\.\\COM6"
+
+#define P1_U_PRESS	"__SL_P_UKC=P1_UBTN_PRESS"
+#define P1_D_PRESS	"__SL_P_UKC=P1_DBTN_PRESS"
+#define P1_L_PRESS	"__SL_P_UKC=P1_LBTN_PRESS"
+#define P1_R_PRESS	"__SL_P_UKC=P1_RBTN_PRESS"
+#define P1_A_PRESS	"__SL_P_UKC=P1_ABTN_PRESS"
+#define P1_B_PRESS	"__SL_P_UKC=P1_BBTN_PRESS"
+#define P1_S_PRESS	"__SL_P_UKC=P1_SBTN_PRESS"
+#define P1_E_PRESS	"__SL_P_UKC=P1_EBTN_PRESS"
+
+#define P2_U_PRESS	"__SL_P_UKC=P2_UBTN_PRESS"
+#define P2_D_PRESS	"__SL_P_UKC=P2_DBTN_PRESS"
+#define P2_L_PRESS	"__SL_P_UKC=P2_LBTN_PRESS"
+#define P2_R_PRESS	"__SL_P_UKC=P2_RBTN_PRESS"
+#define P2_A_PRESS	"__SL_P_UKC=P2_ABTN_PRESS"
+#define P2_B_PRESS	"__SL_P_UKC=P2_BBTN_PRESS"
+#define P2_S_PRESS	"__SL_P_UKC=P2_SBTN_PRESS"
+#define P2_E_PRESS	"__SL_P_UKC=P2_EBTN_PRESS"
+
+#define P3_U_PRESS	"__SL_P_UKC=P3_UBTN_PRESS"
+#define P3_D_PRESS	"__SL_P_UKC=P3_DBTN_PRESS"
+#define P3_L_PRESS	"__SL_P_UKC=P3_LBTN_PRESS"
+#define P3_R_PRESS	"__SL_P_UKC=P3_RBTN_PRESS"
+#define P3_A_PRESS	"__SL_P_UKC=P3_ABTN_PRESS"
+#define P3_B_PRESS	"__SL_P_UKC=P3_BBTN_PRESS"
+#define P3_S_PRESS	"__SL_P_UKC=P3_SBTN_PRESS"
+#define P3_E_PRESS	"__SL_P_UKC=P3_EBTN_PRESS"
+
+#define P4_U_PRESS	"__SL_P_UKC=P4_UBTN_PRESS"
+#define P4_D_PRESS	"__SL_P_UKC=P4_DBTN_PRESS"
+#define P4_L_PRESS	"__SL_P_UKC=P4_LBTN_PRESS"
+#define P4_R_PRESS	"__SL_P_UKC=P4_RBTN_PRESS"
+#define P4_A_PRESS	"__SL_P_UKC=P4_ABTN_PRESS"
+#define P4_B_PRESS	"__SL_P_UKC=P4_BBTN_PRESS"
+#define P4_S_PRESS	"__SL_P_UKC=P4_SBTN_PRESS"
+#define P4_E_PRESS	"__SL_P_UKC=P4_EBTN_PRESS"
+
+
 #ifdef USE_KINECT
 /**
 * @struct Person
@@ -178,6 +217,8 @@ DCB serialParams;
  * Uses a baud rate of 115200, byte size of 8, one stop bit, and no parity
  */
 UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
+
+HTTP http;
 
 #ifdef USE_KINECT
 
