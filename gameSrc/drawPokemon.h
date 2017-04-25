@@ -31,7 +31,6 @@
 //Custom Includes
 #include "graphics.h"
 #include "pixel_defs.h"
-#include "map.h"
 #include "pokemonImages.h"
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +65,7 @@ typedef enum{RUN_BALL, BALL_SELECT, NONE} menuState;
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
+void Graphics_Init(graphics_t * gptr); //TODO: Aaron //TODO: Make capitalization across project consistent
 void drawPlayer(playerSprite ps, walkState ws, uint8_t location);
 void drawGrass(grassState gs, uint8_t location);
 void drawMap(MapStruct map);

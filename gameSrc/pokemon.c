@@ -10,6 +10,8 @@
 void initGame(){
 
     //draw initial game
+    graphics_t* gptr = &gCntx; //TODO See if this is right
+    Graphics_Init(gptr);
 
     //set up map
     initMap();
@@ -53,6 +55,7 @@ void initMap(){
     };
 
     //draw map
+    drawMap(map);
 }
 
 void initPlayers(){

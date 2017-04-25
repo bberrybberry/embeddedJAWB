@@ -2,8 +2,12 @@
 
 #include "drawPokemon.h"
 
-//TODO: Aaron: Explain what this is and tell us if this the correct way to store this
-graphics_t gCntx;
+
+void Graphics_Init(graphics_t* gptr) {
+    //graphics_t* gptr = &gCntx; //TODO: Aaron, see if you agree with me changing param of init to void and doing this weird pointer thing
+    initDisplay();
+    Graphics_SetInputScreenSize(gptr, SCREEN_SIZE_320X240);
+}
 
 void drawPlayer(playerSprite ps, walkState ws, uint8_t location){
     //TODO
