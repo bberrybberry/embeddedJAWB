@@ -18,7 +18,6 @@
 #include "terminal.h"
 #include "game_controller.h"
 #include "pokemon.h"
-#include "drawPokemon.h"
 
 /// game structure
 static struct {
