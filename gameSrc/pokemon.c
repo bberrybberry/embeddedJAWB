@@ -60,6 +60,10 @@ void initMap(){
 
 void initPlayers(){
     //TODO
+
+    //register players 1-4
+
+    //draw players in init pos
 }
 
 void initTextBox(){
@@ -72,6 +76,8 @@ void playGame(){
 
 void pauseGame(){
     //TODO
+
+    //TODO: How to access game variable from pokemonGame to set state to pause
 }
 
 pokemon_t generatePokemon(){

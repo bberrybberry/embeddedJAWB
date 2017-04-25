@@ -52,7 +52,6 @@ typedef struct{
     uint8_t points;         ///< Points to award player for successful catch
 } pokemon_t;
 
-//TODO: Define map structure
 //TODO: Define weights for random pokemon generation
 
 /////////////////////////////////////////////////////////////////////////////////////
