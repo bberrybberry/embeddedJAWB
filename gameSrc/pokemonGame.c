@@ -8,30 +8,19 @@
  * Author: Breanna Higgins,
  */
 
-#include "system.h"
-#include "random_int.h"
-#include "stddef.h"
-#include "strings.h"
-#include "game.h"
-#include "timing.h"
-#include "task.h"
-#include "terminal.h"
-#include "game_controller.h"
-#include "pokemon.h"
+
+#include "pokemonGame.h"
 
 /// game structure
 static struct {
-    char x; ///< x coordinate of gun
-    char c; ///< character of gun
-    int score; ///< score for the round
-    int shots_fired; ///< shots fired for the round
-    uint8_t id; ///< ID of game=
+    gameState currGameState;    ///< Current state of the game
+    uint8_t id;                 ///< ID of game
 } game;
 
-//Not sure why this stops compiling when not declared like this :/
-void pkmnPlay();
-void pkmnHelp();
-void inputCallback(game_network_payload_t * input);
+////Not sure why this stops compiling when not declared like this :/
+//void pkmnPlay();
+//void pkmnHelp();
+//void inputCallback(game_network_payload_t * input);
 
 void pkmnGameInit(void){
     // Register the module with the game system and give it the name "pokemon"
@@ -41,7 +30,8 @@ void pkmnGameInit(void){
 void pkmnPlay(void){
     Game_RegisterInputCallback(inputCallback);
 
-    //TODO Add game code from pokemon.h to start on display
+    //init pokemon game
+    initGame();
 }
 
 void pkmnHelp(void){

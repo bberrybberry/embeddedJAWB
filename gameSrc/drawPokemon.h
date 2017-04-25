@@ -3,6 +3,8 @@
  * @author Breanna Higgins
  *
  * @brief Utilities for drawing visuals of pokemon game
+ *
+ * TODO: Docs
  */
 
 //#include "pokemonImages.h"
@@ -19,25 +21,11 @@
 #define MAP_WIDTH   12*TILE_X
 #define MAP_HEIGHT  20*TILE_Y
 
-//TODO Fix this
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Enums
 //
 /////////////////////////////////////////////////////////////////////////////////////
-
-///**
-//* @enum gameState
-//* @brief Defines direction of the ball's path, as defined as leaving the paddle
-//*/
-//typedef enum{
-//    PAUSE,
-//    PLAY,
-//    GAME_OVER_WIN,
-//    GAME_OVER_LOSE
-//} gameState;
-
-
 
 typedef enum {AARON, BREANNA, JOSH, WALT} playerSprite;
 
