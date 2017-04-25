@@ -30,8 +30,10 @@ static struct {
     int shots_fired; ///< shots fired for the round
     uint8_t id; ///< ID of game=
 } game;
+
 static char pkmnWeight[] = {5, 15, 30, 50, 75, 100};  //http://stackoverflow.com/questions/4511331/randomly-selecting-an-element-from-a-weighted-list
 static char_object_t player[4];
+static char_object_t * pikachu;
 //static char playLoc= {-1, -1, -1, -1};       //Tile location of each player
                                             //index 0 is player 1, index 3 is player 4
                                             //-1 player not in game
@@ -48,7 +50,8 @@ static void MoveUp(char_object_t * o);
 static void MoveDown(char_object_t * o);
 static void encounter();
 static char checkCollision(char xLoc, char yLoc);
-static char getPkmn();
+static char_object_t * getPkmn();
+static char catchCheck(char catchRate, char mod);
 static char binarySearch(char a[], char item, char low, char high);
 static void GameOver(void);
 
@@ -114,15 +117,21 @@ void Play(void) {
     player[0].c = '1';
     player[0].x = 5;
     player[0].y = 5;
+    player[0].status = 1;
     player[1].c = '2';
     player[1].x = 25;
     player[1].y = 5;
+    player[1].status = 1;
     player[2].c = '3';
     player[2].x = 5;
     player[2].y = 15;
+    player[2].status = 1;
     player[3].c = '4';
     player[3].x = 25;
     player[3].y = 15;
+    player[3].status = 1;
+    pikachu->x= 190;
+    pikachu->y= 25;
     Game_CharXY(player[0].c, player[0].x, player[0].y);
     Game_CharXY(player[1].c, player[1].x, player[1].y);
     Game_CharXY(player[2].c, player[2].x, player[2].y);
@@ -152,54 +161,98 @@ static void MoveRight(char_object_t * o) {
 //array of pkmn structs
 //has name, catch rate, and ptValue
 static void encounter(char_object_t * o){
-    char pkmn = getPkmn();
+    char_object_t * pkmn = getPkmn();
     //Print Player o Encounters
+    o->status = 0;
     char caught =0;
-    while(caught==0/*&& run == 0*/){
-
+    char selection = 'b';
+    while(caught==0 && selection == 'b'){
+        //selection = getSelection();
+        selection  = 'b';
+        if(selection == 'b'){
+            //ball select
+            char ball = 1;
+            if(catchCheck(pkmn->x, ball)){
+                caught =1;
+                game.score+=pkmn->y;
+            }
+        }
     }
+    o->status = 1;
 }
-/*TODO make cursur select*/
-static char getPkmn(){
+static char catchCheck(char catchRate, char mod){
+    char catchValue = catchRate*mod;
+    uint8_t catch = 1048560 / (16711680 / catchValue);
+    char x = random_int(1, 100);
+    return x>catch;
+}
+/*TODO make cursor select*/
+/*static void moveCursor(char_object_t * o){
+    if(o)
+
+}*/
+static char_object_t * getPkmn(){
     //gen pkmn
     char x = random_int(1, 100);
     char index = binarySearch(pkmnWeight, x, 0, 6);
-    return index;
+    switch(index){
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    default:
+        return pikachu;
+    }
 }
 static void MoveLeft(char_object_t * o) {
     // make sure we can move right
     if (o->x > 1) {
-        // clear location
-        Game_CharXY(' ', o->x, o->y);
         //x-=TILE_X
         o->x-=TILE_X;
-        if(checkCollision(o->x, o->y)==0)
+        if(checkCollision(o->x, o->y)==0){
         // update
+        // clear location
+        Game_CharXY(' ', o->x, o->y);
         Game_CharXY(o->c, o->x, o->y);
+        if(random_int(1,2)==2){
+            encounter(o);
+        }
+        }
+
     }
 }
 
 static void MoveUp(char_object_t * o) {
     // make sure we can move right
     if (o->y > 1 ) {
+        o->y-=TILE_Y;
+        if(checkCollision(o->x, o->y)==0){
+        // update
         // clear location
         Game_CharXY(' ', o->x, o->y);
-        o->y-=TILE_Y;
-        if(checkCollision(o->x, o->y)==0)
-        // update
         Game_CharXY(o->c, o->x, o->y);
+        if(random_int(1,2)==2){
+            encounter(o);
+        }
+        }
     }
 }
 
 static void MoveDown(char_object_t * o) {
     // make sure we can move right
     if (o->y < MAP_HEIGHT - 1) {
+        o->y +=TILE_Y;
+        if(checkCollision(o->x, o->y)==0){
+        // update
         // clear location
         Game_CharXY(' ', o->x, o->y);
-        o->y +=TILE_Y;
-        if(checkCollision(o->x, o->y)==0)
-        // update
         Game_CharXY(o->c, o->x, o->y);
+        if(random_int(1,2)==2){
+            encounter(o);
+        }
+        }
     }
 }
 static char checkCollision(char xLoc, char yLoc){
