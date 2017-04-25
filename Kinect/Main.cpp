@@ -5,6 +5,7 @@
 
 #include "Main.h"
 #define USE_KEYBOARD
+#define USE_HTTP
 //#define USE_MULTIPLAYER
 
 /**
@@ -24,7 +25,16 @@ using namespace std;
  */
 #define BUTTON_ENTRY 2
 int main() {
+	char data1[64] = "__SL_P_ULD=LED1_ON";
+	char data2[64] = "__SL_P_ULD=LED1_OFF";
+	//while (1) {
+	//	http.Request(POST, "mysimplelink.net", "No_content", "Content-Type: application/x-www-form-urlencoded", data1);
+	//	Sleep(500);
+	//	http.Request(POST, "mysimplelink.net", "No_content", "Content-Type: application/x-www-form-urlencoded", data2);
+	//	Sleep(500);
+	//}
 
+#ifndef USE_HTTP
 	char data[3] = { 0xFF, 0x00, 0x00 };
 	char rxData[1];
 	if (!uart.UARTInit("\\\\.\\COM6"))
@@ -36,6 +46,9 @@ int main() {
 
 	while (!receiveHS());
 	cout << "Handshake Successful";
+#else
+	char data[25];
+#endif
 #ifdef USE_KEYBOARD	
 	while (1)
 	{
@@ -44,79 +57,146 @@ int main() {
 
 			switch (press) {
 			case 'w':
+#ifndef USE_HTTP
 				data[2] = (0x01);
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_U_PRESS, sizeof(P1_U_PRESS));
+#endif
 				break;
 			case 's':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 1;
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_D_PRESS, sizeof(P1_D_PRESS));
+#endif
 				break;
 			case 'a':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 2;
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_L_PRESS, sizeof(P1_L_PRESS));
+#endif
 				break;
 			case 'd':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 3;
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_R_PRESS, sizeof(P1_R_PRESS));
+#endif
 				break;
 			case 'e':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 4;
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_A_PRESS, sizeof(P1_A_PRESS));
+#endif
 				break;
 			case 'q': 
+#ifndef USE_HTTP
 				data[2] = (0x01) << 5;
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_B_PRESS, sizeof(P1_B_PRESS));
+#endif
 				break;
 			case 'r':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 6;
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_S_PRESS, sizeof(P1_S_PRESS));
+#endif
 				break;
 			case 't':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 7;
 				data[1] = 0x00;
+#else
+				memcpy_s(data, sizeof(data), P1_E_PRESS, sizeof(P1_E_PRESS));
+#endif
 				break;
 #ifdef USE_MULTIPLAYER
 			case 'o':
+#ifndef USE_HTTP
 				data[2] = (0x01);
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_U_PRESS, sizeof(P2_U_PRESS));
+#endif
 				break;
 			case 'l':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 1;
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_D_PRESS, sizeof(P2_D_PRESS));
+#endif
 				break;
 			case 'k':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 2;
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_L_PRESS, sizeof(P2_L_PRESS));
+#endif
 				break;
 			case ';':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 3;
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_R_PRESS, sizeof(P2_R_PRESS));
+#endif
 				break;
 			case 'p':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 4;
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_A_PRESS, sizeof(P2_A_PRESS));
+#endif
 				break;
 			case 'i':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 5;
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_B_PRESS, sizeof(P2_B_PRESS));
+#endif
 				break;
 			case '[':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 6;
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_S_PRESS, sizeof(P2_S_PRESS));
+#endif
 				break;
 			case ']':
+#ifndef USE_HTTP
 				data[2] = (0x01) << 7;
 				data[1] = 0x01;
+#else
+				memcpy_s(data, sizeof(data), P2_E_PRESS, sizeof(P2_E_PRESS));
+#endif
 				break;
 #endif
 			default:
 				data[2] = 0x00;
 				break;
 			}
-
+#ifndef USE_HTTP
 			uart.sendData(data, 3);
 			uart.receiveData(rxData, 1);
 			cout << rxData[0];
+#else
+			http.Request(POST, "mysimplelink.net", "No_content", "Content-Type: application/x-www-form-urlencoded", data);
+#endif
 		}
 	}
 #endif
