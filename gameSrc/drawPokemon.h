@@ -7,7 +7,32 @@
  * TODO: Docs
  */
 
-//#include "pokemonImages.h"
+// System Includes
+#include <msp430f5529.h>
+#include <stdint.h>
+
+//GrLib Includes
+#include "grlib.h"
+#include "driverlib.h"
+
+// Embedded Library Includes
+#include "system.h"
+#include "game_controller_host.h"
+#include "game_controller.h"
+#include "game.h"
+#include "uart.h"
+#include "hal_general.h"
+#include "hal_uart.h"
+#include "task.h"
+#include "timing.h"
+#include "terminal.h"
+#include "random_int.h"
+
+//Custom Includes
+#include "graphics.h"
+#include "pixel_defs.h"
+#include "map.h"
+#include "pokemonImages.h"
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -43,6 +68,7 @@ typedef enum{RUN_BALL, BALL_SELECT, NONE} menuState;
 
 void drawPlayer(playerSprite ps, walkState ws, uint8_t location);
 void drawGrass(grassState gs, uint8_t location);
+void drawMap(MapStruct map);
 void drawStatic(/*tile graphics*/);
 void printMenu(uint8_t playerID, menuState ms, char* text);
 void printStats(uint8_t time, char* text);
