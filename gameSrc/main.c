@@ -53,12 +53,12 @@
 // #define SPI_MAX_SIZE 33
 
 /* MSP430F5529 RF1:
-* - MISO P3.1->3.4
-* - MOSI P3.0->3.3
-* - SCK  P3.2->2.7
+* - MISO P3.1->4.2
+* - MOSI P3.0->4.1
+* - SCK  P3.2->4.3
 * - CS   P2.3
 * - CE   P2.4
-* - IRQ  P2.5->4.1
+* - IRQ  P2.5->6.4
 */
 
 void clockInit(void);
@@ -88,15 +88,15 @@ int main(void) {
     Task_Init();
     UART_Init(1);
 
-    //Setup IRQ, CE, CSN for RF2
-	P7DIR |= BIT0; // CE as output
-	P2DIR |= BIT2; // CSN as output
-	P6DIR &= ~BIT4; // IRQ as input
+//    //Setup IRQ, CE, CSN for RF2
+//	P7DIR |= BIT0; // CE as output
+//	P2DIR |= BIT2; // CSN as output
+//	P6DIR &= ~BIT4; // IRQ as input
 
     //Setup IRQ, CE, CSN for RF1
     P2DIR |= BIT3 | BIT4; // CE, CSN as output
     //P2DIR &= ~BIT5; // IRQ as input
-    P4DIR &= ~BIT1; //IRQ as input
+    P6DIR &= ~BIT4; // IRQ as input
 
     spi_settings_t spi_settings;
     spi_settings.channel = RF_SPI_CH;
@@ -143,7 +143,7 @@ void RF1_CSN(uint8_t out){
 void RF1_PollIRQ(void){
 	static uint8_t pin_state = 1;
 	static uint32_t last = 0;
-	uint8_t new_state = (P4IN & BIT1) >> 5;
+	uint8_t new_state = (P6IN & BIT4) >> 4;
 
 	if( (new_state != pin_state) && !new_state) {
 		last = TimeNow();
