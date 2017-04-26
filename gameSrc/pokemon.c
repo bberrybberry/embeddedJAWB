@@ -89,8 +89,16 @@ void updatePlayerLoc(pokePlayer_t player){
     //TODO
 }
 
-void checkAllCollisions(){
+char checkAllCollisions(char xLoc, char yLoc){
     //TODO
+    volatile uint8_t i;
+    char collide = 0;
+    for(i = 0; i < 3 && collide != 1; i++){
+        if(player[i].x == xLoc && player[i].y ==yLoc){
+            collide = 1;
+        }
+    }
+    return collide;
 }
 
 bool checkItem(pokePlayer_t player){
@@ -125,3 +133,25 @@ void generateItems(){
     //TODO
 }
 
+void upPressed(controller_buttons_t input, void* player) {
+    static uint8_t right = 0x01;
+
+    if ((t1.y - 1) < GRID_Y ) {
+        if(checkAllCollisions(player->tileX, player->tileY-1)==0){
+        if (map.map[t1.x + t1.y * GRID_X]) {
+            Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
+        }
+        else {
+            Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+        }
+
+        t1.y--;
+        p1.y = t1.y * TILE_Y;
+        //Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+        Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
+        right ^= 0x01;
+    }
+    }
+}
+static char checkCollision(char xLoc, char yLoc){
+}

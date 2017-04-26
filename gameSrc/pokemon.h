@@ -44,6 +44,10 @@ typedef struct{
     uint8_t gbCount;        ///< Player inventory of great balls
     uint8_t ubCount;        ///< Player inventory of ultra balls
     uint16_t score;         ///< Player score
+    uint8_t tileX;          ///< X tile position of the player
+    uint8_t tileY;          ///< Y tile position of the player
+    bool status;            ///< Whether or not the player is currently playing true: is playing false: is not playing
+    bool mvmt;              ///< Whether or not the player can move
 } pokePlayer_t;
 typedef struct{
     char name[MAX_STRING_LENGTH];            ///< Name of pokemon

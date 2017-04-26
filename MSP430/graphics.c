@@ -4,23 +4,60 @@
  *  Created on: Apr 1, 2017
  *      Author: Aaron
  */
-
+/**
+ * @file
+ * @brief Source file for graphics.c
+ *
+ * This is the source code for running the TI Launchpad LCD Boosterpack
+ * for the MSP430F5529.
+ */
 #include "graphics.h"
 #include "hal_graphics.h"
 #include <stdarg.h>
 #include <stdio.h>
 
+/**
+ * @def MAX_CHAR_LIMIT
+ * @brief This is an arbitrary limit for the number of characters that can be drawn on one line
+ *
+ * This is used to define the size of the char array the vsprintf function stores the resulting string
+ */
 #define MAX_CHAR_LIMIT	200
 
+/**
+ * @fn Graphics_Init(graphics_t * gptr)
+ * @param gptr Pointer to the graphics context
+ * @brief Initializes the graphics module
+ *
+ * Initializes the SPI for the boosterpack LCD and sets the screen size to 320x240
+ */
 void Graphics_Init(graphics_t * gptr) {
 	initDisplay();
 	Graphics_SetInputScreenSize(gptr, SCREEN_SIZE_320X240);
 }
 
+/**
+ * @fn Graphics_SetInputScreenSize(graphics_t * gptr, enum screen_size_e screen_size)
+ * @param gptr Pointer to the graphics context
+ * @param screen_size Screen size that the graphics context will be set to
+ * @brief Sets the screen size of the graphics context
+ */
 void Graphics_SetInputScreenSize(graphics_t * gptr, enum screen_size_e screen_size) {
 	gptr->screen_size = screen_size;
 }
 
+/**
+ * @fn Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[], char x, char y)
+ * @param gptr Pointer to the graphics context
+ * @param position Point of the top left corner of the tile
+ * @param *tile[] Array of pointers to g_pixel_t structures
+ * @param x X size, or width, of the tile
+ * @param y Y size, or height, of the tile
+ * @brief Draws the pixels defined in the tile array according to the given width and height
+ *
+ * The order in which the tile is drawn is from left to right, top to bottom. Meaning it starts at
+ * the top left corner, moves right and then goes down when the width is reached.
+ */
 void Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[], char x, char y) {
 	volatile uint16_t i, j;
 	for(i = 0; i < y; i++) {
@@ -32,18 +69,41 @@ void Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[],
 	}
 }
 
+/**
+ * @fn Graphics_SetBackground(graphics_t * gptr, uint8_t color[3])
+ * @param gptr Pointer to the graphics context
+ * @param color[3] Array of colors in RGB hex format
+ * @brief Sets the background color of the display to the given color
+ *
+ * The color array is set up as color[0] = R, color[1] = G, color[2] = B
+ */
 void Graphics_SetBackground(graphics_t * gptr, uint8_t color[3]) {
 	gptr->background[0] = color[0];
 	gptr->background[1] = color[1];
 	gptr->background[2] = color[2];
 }
 
+/**
+ * @fn Graphics_SetForeground(graphics_t * gptr, uint8_t color[3])
+ * @param gptr Pointer to the graphics context
+ * @param color[3] Array of colors in RGB hex format
+ * @brief Sets the foreground color of the display to the given color
+ *
+ * The color array is set up as color[0] = R, color[1] = G, color[2] = B
+ */
 void Graphics_SetForeground(graphics_t * gptr, uint8_t color[3]) {
 	gptr->foreground[0] = color[0];
 	gptr->foreground[1] = color[1];
 	gptr->foreground[2] = color[2];
 }
 
+/**
+ * @fn Graphics_DrawLine(graphics_t * gptr, g_point_t p1, g_point_t p2)
+ * @param gptr Pointer to graphics context
+ * @param p1 First point on the line
+ * @param p2 Second point on the line
+ * @brief Draws a line between the given points
+ */
 void Graphics_DrawLine(graphics_t * gptr, g_point_t p1, g_point_t p2) {
 	line_t line;
 
@@ -53,10 +113,23 @@ void Graphics_DrawLine(graphics_t * gptr, g_point_t p1, g_point_t p2) {
 	drawLine(colorToHex(gptr->foreground), &line);
 }
 
+/**
+ * @fn Graphics_DrawPixel(graphics_t * gptr, g_point_t p)
+ * @param gptr Pointer to the graphics context
+ * @param p Point of the pixel
+ * @brief Draws a pixel at the specified point
+ */
 void Graphics_DrawPixel(graphics_t * gptr, g_point_t p) {
 	drawPixel(colorToHex(gptr->foreground), p.x, p.y);
 }
 
+/**
+ * @fn Graphics_DrawRectangle(graphics_t * gptr, g_point_t top_left, g_point_t bottom_right)
+ * @param gptr Pointer to the graphics context
+ * @param top_left Point of the top left corner of the rectangle
+ * @param bottom_right Point of the bottom right corner of the rectangle
+ * @brief Draws a rectangle with the specified corners
+ */
 void Graphics_DrawRectangle(graphics_t * gptr, g_point_t top_left, g_point_t bottom_right) {
 	rectangle_t rect;
 
@@ -86,6 +159,16 @@ void Graphics_DrawRectangle(graphics_t * gptr, g_point_t top_left, g_point_t bot
 	drawRectangle(colorToHex(gptr->foreground), &rect);
 }
 
+/**
+ * @fn Graphics_DrawText(graphics_t * gptr, g_point_t position, char * str, ...)
+ * @param gptr Pointer to the graphics context
+ * @param position Top left point of the text
+ * @param str Pointer to char array that stores the string
+ * @param ... Variable argument list for "printf"ing onto the screen
+ * @brief Prints the string on the screen at the specified point
+ *
+ * Allows for full printf support with all options available
+ */
 void Graphics_DrawText(graphics_t * gptr, g_point_t position, char * str, ...) {
 	int32_t len = 0;
 	char string[MAX_CHAR_LIMIT];
@@ -102,10 +185,20 @@ void Graphics_DrawText(graphics_t * gptr, g_point_t position, char * str, ...) {
 	drawString(colorToHex(gptr->foreground), &string[0], len, position.x, position.y, true);
 }
 
+/**
+ * @fn Graphics_ClearScreen(graphics_t * gptr)
+ * @param gptr Pointer to the graphics context
+ * @brief Sets the entire screen to black
+ */
 void Graphics_ClearScreen(graphics_t * gptr) {
 	clearDisplay();
 }
 
+/**
+ * @fn Graphics_UpdateScreen(graphics_t * gptr)
+ * @param gptr Pointer to the graphics context
+ * @brief Ensures that everything sent to be displayed is displayed
+ */
 void Graphics_UpdateScreen(graphics_t * gptr) {
 
 }
