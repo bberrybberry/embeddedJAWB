@@ -53,17 +53,18 @@
 // #define SPI_MAX_SIZE 33
 
 /* MSP430F5529 RF1:
-* - MISO P3.1
-* - MOSI P3.0
-* - SCK  P3.2
+* - MISO P3.1->3.4
+* - MOSI P3.0->3.3
+* - SCK  P3.2->2.7
 * - CS   P2.3
 * - CE   P2.4
-* - IRQ  P2.5
+* - IRQ  P2.5->4.1
 */
 
 void clockInit(void);
+void boardInit(void);
 
-#define RF_SPI_CH SPI_B0
+#define RF_SPI_CH SPI_B1
 
 void RF1_CE(uint8_t out);
 void RF1_CSN(uint8_t out);
@@ -76,7 +77,10 @@ nrf24_t RF1;
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
 
+    boardInit();
     clockInit();
+    //init graphics
+    initDrawGraphics();
 
     DisableInterrupts();
 
@@ -91,7 +95,8 @@ int main(void) {
 
     //Setup IRQ, CE, CSN for RF1
     P2DIR |= BIT3 | BIT4; // CE, CSN as output
-    P2DIR &= ~BIT5; // IRQ as input
+    //P2DIR &= ~BIT5; // IRQ as input
+    P4DIR &= ~BIT1; //IRQ as input
 
     spi_settings_t spi_settings;
     spi_settings.channel = RF_SPI_CH;
@@ -138,7 +143,7 @@ void RF1_CSN(uint8_t out){
 void RF1_PollIRQ(void){
 	static uint8_t pin_state = 1;
 	static uint32_t last = 0;
-	uint8_t new_state = (P2IN & BIT5) >> 5;
+	uint8_t new_state = (P4IN & BIT1) >> 5;
 
 	if( (new_state != pin_state) && !new_state) {
 		last = TimeNow();
@@ -148,6 +153,16 @@ void RF1_PollIRQ(void){
 		nRF24_ISR(&RF1);
 	}
 	pin_state = new_state;
+}
+
+void boardInit(void)
+{
+    // Setup XT1 and XT2
+    GPIO_setAsPeripheralModuleFunctionInputPin(
+        GPIO_PORT_P5,
+        GPIO_PIN2 + GPIO_PIN3 +
+        GPIO_PIN4 + GPIO_PIN5
+        );
 }
 
 void clockInit(void)

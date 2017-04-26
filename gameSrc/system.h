@@ -25,8 +25,8 @@
 #define USE_MODULE_BUFFER_PRINTF
 #define USE_MODULE_UART
 #define USE_MODULE_GAME_CONTROLLER
-#define USE_SPI2
-#define USE_SPI_B0
+#define USE_SPI3
+#define USE_SPI_B1
 #define SPI_MAX_SIZE 33
 #define SUBSYS_UART 1
 
