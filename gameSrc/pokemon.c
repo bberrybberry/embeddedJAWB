@@ -63,7 +63,7 @@ void initMap(){
     //draw map
     drawMap(map);
 }
-
+//TODO create initPkmn()
 void initPlayers(){
     //TODO
     volatile uint8_t i;
