@@ -12,7 +12,7 @@ void initDisplay(void) {
 	Kitronix320x240x16_SSD2119Init();
 	Graphics_initContext(&g_sContext, &g_sKitronix320x240x16_SSD2119);
 	Graphics_setBackgroundColor(&g_sContext, GRAPHICS_COLOR_BLACK);
-	Graphics_setFont(&g_sContext, &g_sFontCmss20b);
+	Graphics_setFont(&g_sContext, &g_sFontCmss12);
 	Graphics_clearDisplay(&g_sContext);
 
 	touch_initInterface();
