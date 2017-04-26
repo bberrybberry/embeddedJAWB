@@ -31,44 +31,7 @@ void initGame(){
     //set up time and first item/pokemon generations
 
     //wait for someone to unpause game before starting
-    volatile uint8_t i;
-    for(i = 0; i<MAX_PLAYERS; i++){
-        /*if(i==0){
-            player[i].status = false;
-        } else {
-            player[i].status = true;
-        }*/
-        switch(i){
-        case 0:
-            player[i].sprite = AARON;
-            player[i].tileX  = 4;
-            player[i].tileY  = 9;
-            player[i].status = true;
-            break;
-        case 1:
-            player[i].sprite = BREANNA;
-            player[i].tileX  = 5;
-            player[i].tileY  = 10;
-            player[i].status = false;
-            break;
-        case 2:
-            player[i].sprite = JOSH;
-            player[i].tileX  = 5;
-            player[i].tileY  = 9;
-            player[i].status   = true;
-            break;
-        case 3:
-            player[i].sprite = WALT;
-            player[i].tileX  = 4;
-            player[i].tileY  = 10;
-            player[i].status = false;
-            break;
-        }
-        player[i].pbCount = 5;
-        player[i].gbCount = 3;
-        player[i].ubCount = 1;
-        player[i].mvmt    = true;
-    }
+
     pokeList[0].points = 25;
     pokeList[0].catchRate = 190;
 }
@@ -103,7 +66,44 @@ void initMap(){
 
 void initPlayers(){
     //TODO
-
+    volatile uint8_t i;
+        for(i = 0; i<MAX_PLAYERS; i++){
+            /*if(i==0){
+                player[i].status = false;
+            } else {
+                player[i].status = true;
+            }*/
+            switch(i){
+            case 0:
+                player[i].sprite = AARON;
+                player[i].tileX  = 4;
+                player[i].tileY  = 9;
+                player[i].status = true;
+                break;
+            case 1:
+                player[i].sprite = BREANNA;
+                player[i].tileX  = 5;
+                player[i].tileY  = 10;
+                player[i].status = false;
+                break;
+            case 2:
+                player[i].sprite = JOSH;
+                player[i].tileX  = 5;
+                player[i].tileY  = 9;
+                player[i].status   = true;
+                break;
+            case 3:
+                player[i].sprite = WALT;
+                player[i].tileX  = 4;
+                player[i].tileY  = 10;
+                player[i].status = false;
+                break;
+            }
+            player[i].pbCount = 5;
+            player[i].gbCount = 3;
+            player[i].ubCount = 1;
+            player[i].mvmt    = true;
+        }
     //register players 1-4
 
     //draw players in init pos
@@ -157,7 +157,6 @@ void updatePlayerLoc(pokePlayer_t player){
 }
 
 char checkAllCollisions(char xLoc, char yLoc){
-    //TODO
     volatile uint8_t i;
     char collide = 0;
     for(i = 0; i < 3 && collide != 1; i++){
@@ -227,6 +226,7 @@ char catchCheck(char catchRate, char mod){
 }
 void upPressed(controller_buttons_t input, void* player) {
     uint8_t right = 0x01;
+    //TODO Abstract this bullshit idk
     //player->position
     /*if ((t1.y - 1) < GRID_Y ) {
         if(checkAllCollisions(player->tileX, player->tileY-1)==0){
