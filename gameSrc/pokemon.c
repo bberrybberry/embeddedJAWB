@@ -8,8 +8,9 @@
 #include "pokemon.h"
 #include "graphics.h"
 //#include "pokemonImages.h"
-static pokePlayer_t player[MAX_PLAYERS]; //player[0] corresponds to player 1, player[1] to 2 and so on
-
+pokePlayer_t player[MAX_PLAYERS]; //player[0] corresponds to player 1, player[1] to 2 and so on
+pokemon_t pokeList[MAX_PKMN];
+char pkmnWeight[] = {5, 15, 30, 50, 75, 100};  //http://stackoverflow.com/questions/4511331/randomly-selecting-an-element-from-a-weighted-list
 void initGame(){
 
     //draw initial game
@@ -68,6 +69,8 @@ void initGame(){
         player[i].ubCount = 1;
         player[i].mvmt    = true;
     }
+    pokeList[0].points = 25;
+    pokeList[0].catchRate = 190;
 }
 
 void initMap(){
@@ -119,9 +122,34 @@ void pauseGame(){
 
     //TODO: How to access game variable from pokemonGame to set state to pause
 }
+char binarySearch(char a[], char item, char low, char high)
+{
+    if (high <= low)
+        return (item > a[low])?  (low + 1): low;
 
+    int mid = (low + high)/2;
+
+    if(item == a[mid])
+        return mid+1;
+
+    if(item > a[mid])
+        return binarySearch(a, item, mid+1, high);
+    return binarySearch(a, item, low, mid-1);
+}
 pokemon_t generatePokemon(){
     //TODO
+    char x = random_int(1, 100);
+    char index = binarySearch(pkmnWeight, x, 0, 6);
+    switch(index){
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        default:
+            return pokeList[1];
+    }
 }
 
 void updatePlayerLoc(pokePlayer_t player){
@@ -160,7 +188,7 @@ void updateTime(uint8_t time){
     //TODO
 }
 
-void updateScores(pokePlayer_t player, uint8_t score){
+void updateScores(pokePlayer_t * player, uint8_t score){
     //TODO
 }
 
@@ -171,9 +199,34 @@ void runEncounter(){
 void generateItems(){
     //TODO
 }
-
+void encounter(pokePlayer_t * o){
+    pokemon_t pkmn = generatePokemon();
+    //Print Player o Encounters
+    o->mvmt = false;
+    char caught =0;
+    char selection = 'b';
+    while(caught==0 && selection == 'b'){
+    //selection = getSelection();
+    selection  = 'b';
+        if(selection == 'b'){
+            //ball select
+            char ball = 1;
+            if(catchCheck(pkmn.catchRate, ball)){
+                caught =1;
+                updateScores(o, pkmn.points);
+            }
+        }
+    }
+    o->mvmt = true;
+}
+char catchCheck(char catchRate, char mod){
+    char catchValue = catchRate*mod;
+    uint8_t catch = 1048560 / (16711680 / catchValue);
+    char x = random_int(1, 100);
+    return x>catch;
+}
 void upPressed(controller_buttons_t input, void* player) {
-    static uint8_t right = 0x01;
+    uint8_t right = 0x01;
     //player->position
     /*if ((t1.y - 1) < GRID_Y ) {
         if(checkAllCollisions(player->tileX, player->tileY-1)==0){
