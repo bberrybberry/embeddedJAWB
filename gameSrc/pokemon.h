@@ -20,6 +20,7 @@
 //TODO Docs
 #define MAX_STRING_LENGTH   16
 #define MAX_PLAYERS          4
+#define MAX_PKMN             6
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
