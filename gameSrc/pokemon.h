@@ -80,7 +80,10 @@ bool checkPlayerLocValid(pokePlayer_t player);
 bool checkGrass(pokePlayer_t player);
 void updateGrass(uint8_t location);
 void updateTime(uint8_t time);
-void updateScores(pokePlayer_t player, uint8_t score);
+void updateScores(pokePlayer_t * player, uint8_t score);
 void runEncounter(void);
 void generateItems(void);
+void encounter(pokePlayer_t * o);
+void upPressed(controller_buttons_t input, void* player);
+char catchCheck(char catchRate, char mod);
 
