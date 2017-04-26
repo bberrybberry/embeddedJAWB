@@ -31,7 +31,7 @@
 //Custom Includes
 #include "graphics.h"
 #include "pixel_defs.h"
-#include "pokemonImages.h"
+//#include "pokemonImages.h" moved to .c
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -40,10 +40,27 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 //TODO: Docs for defines
-#define TILE_X      16
-#define TILE_Y      12
+#define WIDTH               320
+#define HEIGHT              240
+#define TEXT_TILES          8
+#define TILE_X              16
+#define TILE_Y              12
+#define GRID_X              ((WIDTH / TILE_X) - TEXT_TILES)
+#define GRID_Y              (HEIGHT / TILE_Y)
 #define MAP_WIDTH   12*TILE_X
 #define MAP_HEIGHT  20*TILE_Y
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// Structs
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+typedef struct {
+    g_pixel_t* map[GRID_X * GRID_Y];
+} MapStruct;
+MapStruct map;
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -64,8 +81,7 @@ typedef enum{RUN_BALL, BALL_SELECT, NONE} menuState;
 // Functions
 //
 /////////////////////////////////////////////////////////////////////////////////////
-
-void Graphics_Init(graphics_t * gptr); //TODO: Aaron //TODO: Make capitalization across project consistent
+void initDrawGraphics(void);
 void drawPlayer(playerSprite ps, walkState ws, uint8_t location);
 void drawGrass(grassState gs, uint8_t location);
 void drawMap(MapStruct map);
