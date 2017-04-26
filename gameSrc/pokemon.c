@@ -6,6 +6,7 @@
  */
 
 #include "pokemon.h"
+static pokePlayer_t player[MAX_PLAYERS]; //player[0] corresponds to player 1, player[1] to 2 and so on
 
 void initGame(){
 
@@ -28,6 +29,44 @@ void initGame(){
     //set up time and first item/pokemon generations
 
     //wait for someone to unpause game before starting
+    volatile uint8_t i;
+    for(i = 0; i<MAX_PLAYERS; i++){
+        /*if(i==0){
+            player[i].status = false;
+        } else {
+            player[i].status = true;
+        }*/
+        switch(i){
+        case 0:
+            player[i].sprite = AARON;
+            player[i].tileX  = 4;
+            player[i].tileY  = 9;
+            player[i].status = true;
+            break;
+        case 1:
+            player[i].sprite = BREANNA;
+            player[i].tileX  = 5;
+            player[i].tileY  = 10;
+            player[i].status = false;
+            break;
+        case 2:
+            player[i].sprite = JOSH;
+            player[i].tileX  = 5;
+            player[i].tileY  = 9;
+            player[i].status   = true;
+            break;
+        case 3:
+            player[i].sprite = WALT;
+            player[i].tileX  = 4;
+            player[i].tileY  = 10;
+            player[i].status = false;
+            break;
+        }
+        player[i].pbCount = 5;
+        player[i].gbCount = 3;
+        player[i].ubCount = 1;
+        player[i].mvmt    = true;
+    }
 }
 
 void initMap(){
@@ -93,7 +132,7 @@ char checkAllCollisions(char xLoc, char yLoc){
     volatile uint8_t i;
     char collide = 0;
     for(i = 0; i < 3 && collide != 1; i++){
-        if(player[i].x == xLoc && player[i].y ==yLoc){
+        if(player[i].tileX == xLoc && player[i].tileY ==yLoc){
             collide = 1;
         }
     }
@@ -134,8 +173,8 @@ void generateItems(){
 
 void upPressed(controller_buttons_t input, void* player) {
     static uint8_t right = 0x01;
-
-    if ((t1.y - 1) < GRID_Y ) {
+    //player->position
+    /*if ((t1.y - 1) < GRID_Y ) {
         if(checkAllCollisions(player->tileX, player->tileY-1)==0){
         if (map.map[t1.x + t1.y * GRID_X]) {
             Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
@@ -150,7 +189,5 @@ void upPressed(controller_buttons_t input, void* player) {
         Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
         right ^= 0x01;
     }
-    }
-}
-static char checkCollision(char xLoc, char yLoc){
+    }*/
 }

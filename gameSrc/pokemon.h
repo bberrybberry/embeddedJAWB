@@ -19,7 +19,7 @@
 
 //TODO Docs
 #define MAX_STRING_LENGTH   16
-
+#define MAX_PLAYERS          4
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -74,7 +74,7 @@ void playGame(void);
 void pauseGame(void);
 pokemon_t generatePokemon(void);
 void updatePlayerLoc(pokePlayer_t player);
-void checkAllCollisions(void);
+char checkAllCollisions(char xLoc, char yLoc);
 bool checkItem(pokePlayer_t player);
 bool checkPlayerLocValid(pokePlayer_t player);
 bool checkGrass(pokePlayer_t player);
