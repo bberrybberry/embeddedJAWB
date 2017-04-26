@@ -69,7 +69,6 @@ int main(void) {
 
     boardInit();
 	clockInit();
-	//timerInit();
 
 	Graphics_Init(&gCntx);
 
@@ -86,8 +85,6 @@ int main(void) {
 	uint8_t color[3];
 	color[0] = 0xFF; color[1] = 0xFF; color[2] = 0xFF;
 	Graphics_SetForeground(&gCntx, color);
-
-	Graphics_Init(&gCntx);
 
 	populateMap();
 	drawMap();
