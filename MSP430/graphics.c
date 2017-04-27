@@ -20,7 +20,7 @@
  * @def MAX_CHAR_LIMIT
  * @brief This is an arbitrary limit for the number of characters that can be drawn on one line
  *
- * This is used to define the size of the char array the vsprintf function stores the resulting string
+ * @details This is used to define the size of the char array the vsprintf function stores the resulting string
  */
 #define MAX_CHAR_LIMIT	200
 
@@ -29,7 +29,7 @@
  * @param gptr Pointer to the graphics context
  * @brief Initializes the graphics module
  *
- * Initializes the SPI for the boosterpack LCD and sets the screen size to 320x240
+ * @details Initializes the SPI for the boosterpack LCD and sets the screen size to 320x240
  */
 void Graphics_Init(graphics_t * gptr) {
 	initDisplay();
@@ -55,15 +55,37 @@ void Graphics_SetInputScreenSize(graphics_t * gptr, enum screen_size_e screen_si
  * @param y Y size, or height, of the tile
  * @brief Draws the pixels defined in the tile array according to the given width and height
  *
- * The order in which the tile is drawn is from left to right, top to bottom. Meaning it starts at
+ * @details The order in which the tile is drawn is from left to right, top to bottom. Meaning it starts at
  * the top left corner, moves right and then goes down when the width is reached.
  */
 void Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[], char x, char y) {
 	volatile uint16_t i, j;
-	for(i = 0; i < y; i++) {
-		for(j = 0; j < x; j++) {
-			if ((*(*tile + (j+i*x))).transparent == 0) {
-				drawPixel(pixelToHex((uint8_t)(*(*tile+(j+i*x))).all), position.x + j, position.y + i);
+	char width, height;
+	switch(gptr->screen_size) {
+	case SCREEN_SIZE_320X240:
+		width = x;
+		height = y;
+		break;
+	case SCREEN_SIZE_128X64:
+		position.x = (uint16_t)((position.x / 128.0f) * 320);
+		position.y = (uint16_t)((position.y / 64.0f) * 240);
+		width = (char)((x / 128.0f) * 320);
+		height = (char)((y / 64.0f) * 240);
+		break;
+	case SCREEN_SIZE_160X128:
+		position.x = (uint16_t)((position.x / 160.0f) * 320);
+		position.y = (uint16_t)((position.y / 128.0f) * 240);
+		width = (char)((x / 160.0f) * 320);
+		height = (char)((y / 128.0f) * 240);
+		break;
+	default:
+		break;
+	}
+
+	for(i = 0; i < height; i++) {
+		for(j = 0; j < width; j++) {
+			if ((*(*tile + (j+i*width))).transparent == 0) {
+				drawPixel(pixelToHex((uint8_t)(*(*tile+(j+i*width))).all), position.x + j, position.y + i);
 			}
 		}
 	}
@@ -75,7 +97,7 @@ void Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[],
  * @param color[3] Array of colors in RGB hex format
  * @brief Sets the background color of the display to the given color
  *
- * The color array is set up as color[0] = R, color[1] = G, color[2] = B
+ * @details The color array is set up as color[0] = R, color[1] = G, color[2] = B
  */
 void Graphics_SetBackground(graphics_t * gptr, uint8_t color[3]) {
 	gptr->background[0] = color[0];
@@ -89,7 +111,7 @@ void Graphics_SetBackground(graphics_t * gptr, uint8_t color[3]) {
  * @param color[3] Array of colors in RGB hex format
  * @brief Sets the foreground color of the display to the given color
  *
- * The color array is set up as color[0] = R, color[1] = G, color[2] = B
+ * @details The color array is set up as color[0] = R, color[1] = G, color[2] = B
  */
 void Graphics_SetForeground(graphics_t * gptr, uint8_t color[3]) {
 	gptr->foreground[0] = color[0];
@@ -107,8 +129,26 @@ void Graphics_SetForeground(graphics_t * gptr, uint8_t color[3]) {
 void Graphics_DrawLine(graphics_t * gptr, g_point_t p1, g_point_t p2) {
 	line_t line;
 
-	line.x1 = p1.x; line.y1 = p1.y;
-	line.x2 = p2.x; line.y2 = p2.y;
+	switch(gptr->screen_size) {
+	case SCREEN_SIZE_320X240:
+		line.x1 = p1.x; line.y1 = p1.y;
+		line.x2 = p2.x; line.y2 = p2.y;
+		break;
+	case SCREEN_SIZE_128X64:
+		line.x1 = (uint16_t)((p1.x / 128.0f) * 320);
+		line.x2 = (uint16_t)((p2.x / 128.0f) * 320);
+		line.y1 = (uint16_t)((p1.y / 64.0f) * 240);
+		line.y2 = (uint16_t)((p2.y / 64.0f) * 240);
+		break;
+	case SCREEN_SIZE_160X128:
+		line.x1 = (uint16_t)((p1.x / 160.0f) * 320);
+		line.x2 = (uint16_t)((p2.x / 160.0f) * 320);
+		line.y1 = (uint16_t)((p1.y / 128.0f) * 240);
+		line.y2 = (uint16_t)((p2.y / 128.0f) * 240);
+		break;
+	default:
+		break;
+	}
 
 	drawLine(colorToHex(gptr->foreground), &line);
 }
@@ -117,9 +157,24 @@ void Graphics_DrawLine(graphics_t * gptr, g_point_t p1, g_point_t p2) {
  * @fn Graphics_DrawPixel(graphics_t * gptr, g_point_t p)
  * @param gptr Pointer to the graphics context
  * @param p Point of the pixel
- * @brief Draws a pixel at the specified point
+ * @brief Draws a pixel at the specified point with the foreground color
  */
 void Graphics_DrawPixel(graphics_t * gptr, g_point_t p) {
+	switch (gptr->screen_size) {
+	case SCREEN_SIZE_320X240:
+		break;
+	case SCREEN_SIZE_128X64:
+		p.x = (uint16_t)((p.x / 128.0f) * 320);
+		p.y = (uint16_t)((p.y / 64.0f) * 240);
+		break;
+	case SCREEN_SIZE_160X128:
+		p.x = (uint16_t)((p.x / 160.0f) * 320);
+		p.y = (uint16_t)((p.y / 128.0f) * 240);
+		break;
+	default:
+		break;
+	}
+
 	drawPixel(colorToHex(gptr->foreground), p.x, p.y);
 }
 
@@ -128,7 +183,7 @@ void Graphics_DrawPixel(graphics_t * gptr, g_point_t p) {
  * @param gptr Pointer to the graphics context
  * @param top_left Point of the top left corner of the rectangle
  * @param bottom_right Point of the bottom right corner of the rectangle
- * @brief Draws a rectangle with the specified corners
+ * @brief Draws a rectangle with the specified corners with the foreground color
  */
 void Graphics_DrawRectangle(graphics_t * gptr, g_point_t top_left, g_point_t bottom_right) {
 	rectangle_t rect;
@@ -141,16 +196,16 @@ void Graphics_DrawRectangle(graphics_t * gptr, g_point_t top_left, g_point_t bot
 		rect.maxY = bottom_right.y;
 		break;
 	case SCREEN_SIZE_128X64:
-		rect.minX = (top_left.x / 128) * 320;
-		rect.minY = (top_left.y / 64) * 240;
-		rect.maxX = (bottom_right.x / 128) * 320;
-		rect.maxY = (bottom_right.y / 64) * 240;
+		rect.minX = (uint16_t)((top_left.x / 128.0f) * 320);
+		rect.minY = (uint16_t)((top_left.y / 64.0f) * 240);
+		rect.maxX = (uint16_t)((bottom_right.x / 128.0f) * 320);
+		rect.maxY = (uint16_t)((bottom_right.y / 64.0f) * 240);
 		break;
 	case SCREEN_SIZE_160X128:
-		rect.minX = (top_left.x / 160) * 320;
-		rect.minY = (top_left.y / 128) * 240;
-		rect.maxX = (bottom_right.x / 160) * 320;
-		rect.maxY = (bottom_right.y / 128) * 240;
+		rect.minX = (uint16_t)((top_left.x / 160.0f) * 320);
+		rect.minY = (uint16_t)((top_left.y / 128.0f) * 240);
+		rect.maxX = (uint16_t)((bottom_right.x / 160.0f) * 320);
+		rect.maxY = (uint16_t)((bottom_right.y / 128.0f) * 240);
 		break;
 	default:
 		break;
@@ -167,13 +222,29 @@ void Graphics_DrawRectangle(graphics_t * gptr, g_point_t top_left, g_point_t bot
  * @param ... Variable argument list for "printf"ing onto the screen
  * @brief Prints the string on the screen at the specified point
  *
- * Allows for full printf support with all options available
+ * @details Allows for full printf support with all options available
  */
 void Graphics_DrawText(graphics_t * gptr, g_point_t position, char * str, ...) {
 	int32_t len = 0;
 	char string[MAX_CHAR_LIMIT];
 	char* strPtr = &string[0];
 	va_list valist;
+
+	switch(gptr->screen_size) {
+	case SCREEN_SIZE_320X240:
+		break;
+	case SCREEN_SIZE_128X64:
+		position.x = (uint16_t)((position.x / 128.0f) * 320);
+		position.y = (uint16_t)((position.y / 64.0f) * 240);
+		break;
+	case SCREEN_SIZE_160X128:
+		position.x = (uint16_t)((position.x / 160.0f) * 320);
+		position.y = (uint16_t)((position.y / 128.0f) * 240);
+		break;
+	default:
+		break;
+	}
+
 	va_start(valist, str);
 	vsprintf(strPtr, str, valist);
 
