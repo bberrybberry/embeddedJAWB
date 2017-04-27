@@ -22,6 +22,10 @@ static struct {
 //void pkmnHelp();
 //void inputCallback(game_network_payload_t * input);
 
+void drawTest(){
+	initMap();
+}
+
 void pkmnGameInit(void){
     // Register the module with the game system and give it the name "pokemon"
     game.id = Game_Register("pokemon", "Play pokemon with friends", pkmnPlay, pkmnHelp);

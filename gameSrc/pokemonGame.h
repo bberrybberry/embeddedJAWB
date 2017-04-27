@@ -19,6 +19,7 @@
 #include "game_controller.h"
 #include "pokemon.h"
 
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Enums
@@ -83,3 +84,5 @@ void inputCallback(game_network_payload_t * input);
  * @brief Clear callbacks and set end of a game state
  */
 void pkmnGameOver(void);
+
+void drawTest();
