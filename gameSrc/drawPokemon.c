@@ -8,8 +8,24 @@ void initDrawGraphics(){
     Graphics_Init(gptr);
 }
 
-void drawPlayer(playerSprite ps, walkState ws, uint8_t location){
+void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY)){
     //TODO
+
+	switch(ps){
+	case AARON: //TODO
+	case BREANNA:
+		switch(ws){
+		case LEFT:
+			//draw Breanna in left state at given location
+
+			break;
+		case RIGHT: //TODO
+		case STAND: //TODO
+		}
+		break;
+	case JOSH: //TODO
+	case WALT: //TODO
+	}
 }
 
 void drawGrass(grassState gs, uint8_t location){
@@ -38,7 +54,7 @@ void drawMap(){
                     grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr
         };
 
-    BlockInterrupts();
+    //BlockInterrupts();
     //adapted from Aaron's code in grTest main::drawMap(void)
     volatile int i, j;
     g_point_t pt;
@@ -49,7 +65,7 @@ void drawMap(){
             Graphics_DrawTile(&gCntx, pt, &map.grid[i + j * GRID_X], TILE_X, TILE_Y);
         }
     }
-    RestoreInterrupts();
+    //RestoreInterrupts();
 }
 void drawStatic(/*tile graphics*/){
     //TODO

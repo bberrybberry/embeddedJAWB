@@ -82,7 +82,7 @@ typedef enum{RUN_BALL, BALL_SELECT, NONE} menuState;
 //
 /////////////////////////////////////////////////////////////////////////////////////
 void initDrawGraphics(void);
-void drawPlayer(playerSprite ps, walkState ws, uint8_t location);
+void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY);
 void drawGrass(grassState gs, uint8_t location);
 void drawMap();
 void drawStatic(/*tile graphics*/);

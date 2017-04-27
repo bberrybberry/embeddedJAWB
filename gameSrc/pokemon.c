@@ -9,6 +9,63 @@
 #include "graphics.h"
 //#include "pokemonImages.h"
 
+///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
+#define DEBUG_MODE //comment out to leave debug mode
+
+pokePlayer_t g_DEBUG_player;
+
+void DEBUG_playerMoveTest();
+void DEBUG_movePlayer(uint8_t dir, uint8_t player);
+
+/**
+ * set up move player test
+ */
+void DEBUG_playerMoveTest(){
+	//set up default player
+	g_DEBUG_player.sprite = BREANNA;
+	g_DEBUG_player.pbCount = 10;
+	g_DEBUG_player.gbCount = 10;
+	g_DEBUG_player.ubCount = 10;
+	g_DEBUG_player.score = 123;
+	g_DEBUG_player.tileX = 5;
+	g_DEBUG_player.tileY = 5;
+	g_DEBUG_player.status = true;
+	g_DEBUG_player.mvmt = true;
+
+	//draw player at default loc
+	drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, g_DEBUG_player.tileY);
+}
+
+/**
+ * move the player in specified direction
+ *
+ * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
+ * @param player: index number of player (0 to 3)
+ */
+void DEBUG_movePlayer(uint8_t dir, uint8_t player){
+	switch(player){
+	case 0:
+		switch(dir){
+		case 0: //up
+
+			break;
+		case 1: //down
+
+			break;
+		case 2: //right
+
+			break;
+		case 3: //left
+
+			break;
+		}
+
+		break;
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
 void initGame(){
 
     //draw initial game
@@ -16,6 +73,12 @@ void initGame(){
 
     //set up map
     initMap();
+
+#ifdef DEBUG_MODE
+    DEBUG_playerMoveTest();
+
+    return; //exit method immediately while we're debugging things
+#endif
 
     //init players
     initPlayers();
@@ -155,3 +218,6 @@ void upPressed(controller_buttons_t input, void* player) {
 }
 static char checkCollision(char xLoc, char yLoc){
 }
+
+
+

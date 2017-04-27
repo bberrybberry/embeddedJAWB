@@ -17,10 +17,31 @@ static struct {
     uint8_t id;                 ///< ID of game
 } game;
 
-////Not sure why this stops compiling when not declared like this :/
-//void pkmnPlay();
-//void pkmnHelp();
-//void inputCallback(game_network_payload_t * input);
+///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
+#define DEBUG_MODE //comment out to leave debug mode
+
+void DEBUG_upPressed(uint8_t player);
+void DEBUG_downPressed(uint8_t player);
+
+/**
+ * move the selected player up
+ *
+ * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
+ * @param player: player number index
+ */
+void DEBUG_upPressed(uint8_t player){
+	DEBUG_playerMoveTest(0, player);
+}
+/**
+ * move the selected player down
+ *
+ * @param player: player number index
+ */
+void DEBUG_downPressed(uint8_t player){
+	DEBUG_playerMoveTest(1, player);
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
 void drawTest(){
 	initMap();
@@ -62,6 +83,11 @@ void inputCallback(game_network_payload_t * input){
 //        if(input->controller[i].button.left) MoveLeft(&player[i]);
 //        if(input->controller[i].button.right) MoveRight(&player[i]);
     }
+#ifdef DEBUG_MODE
+    if(input->controller[0].button.up) DEBUG_upPressed(0);
+    if(input->controller[0].button.down) DEBUG_downPressed(0);
+#endif
+
     if(TimeSince(time) > 1000) {
         Game_CharXY('F', 0, MAP_HEIGHT+1);
         Game_Printf("PS: %d  ", fps);
