@@ -81,6 +81,7 @@ struct spi {
     uint8_t bytesToReceive; ///< the total number of bytes left to be received from SPI, not neccesarily used
     uint8_t bytesRead; ///< the number of bytes read into the data buffer
     uint8_t bytesToDelay; ///< the number of bytes to delay when receiving data before reading the bytes to the data buffer
+    uint8_t* DMABuffer : 0; ///< Pointer to beginning of DMA buffer
 } spi[NUM_SPI];
 
 /****************************************
@@ -89,12 +90,14 @@ struct spi {
 static void CheckTransactions(uint8_t channel);
 static void HandleCallback(spi_transaction_t* transaction_ptr);
 static void FinishTransaction(spi_transaction_t* transaction);
+void HandleLeftoverDMA(spi_transaction_t* transaction);
 void SPI_Tx_Handler(uint8_t channel);
 void SPI_Rx_Handler(uint8_t channel);
 
 void SPI_Init(spi_settings_t* spi_settings) {
     hal_SPI_Init(spi_settings);
     spi[spi_settings->channel].state = SPI_IDLE;
+    spi[spi_settings->channel].DMABuffer = spi_settings->hal_settings.DMA_buffer;
     switch (spi_settings->channel) {
 #ifdef USE_SPI0
     case 0:
@@ -232,6 +235,12 @@ static void CheckTransactions(uint8_t channel) {
         }
 
         hal_SPI_EnableTxInterrupt(channel);
+
+        if (hal_SPI_UsingDMA(channel)) {
+        	if (spi[channel].bytesToReceive % DMA_BUFFER_SIZE) {
+        		HandleLeftoverDMA(transaction);
+        	}
+        }
     }
 }
 
@@ -270,51 +279,126 @@ static void FinishTransaction(spi_transaction_t* transaction) {
     CheckTransactions(ch);
 }
 
+void HandleLeftoverDMA(spi_transaction_t* transaction) {
+	uint8_t ch = transaction->flags.channel;
+	uint8_t size = spi[ch].bytesToReceive % DMA_BUFFER_SIZE;
+
+	while(size) {
+		if(transaction->readLength){
+			if(spi[ch].bytesToDelay == 0) {
+				transaction->data[transaction->writeLength + spi[ch].bytesRead++] = spi[ch].DMABuffer[size - DMA_BUFFER_SIZE];
+				size--;
+			} else if(spi[ch].bytesToDelay < DMA_BUFFER_SIZE) {
+				transaction->data[transaction->writeLength + spi[ch].bytesRead++] = spi[ch].DMABuffer[size - DMA_BUFFER_SIZE + spi[ch].bytesToDelay];
+				spi[ch].bytesToDelay--;
+				size--;
+			} else {
+				// Should never get into this because bytesToDelay should not be more than the buffer size at this point
+			}
+		}
+
+		// Read the last byte that is needed
+		if(--spi[ch].bytesToReceive == 0) {
+			if(transaction->flags.blocking) {
+				transaction->flags.finished = 1;
+			} else {
+				Task_Queue((task_fn_t) FinishTransaction, transaction);
+			}
+			break;
+		}
+	}
+	hal_SPI_ClearDMABuffer(ch);
+}
+
 void SPI_Rx_Handler(uint8_t channel) {
 	uint8_t c;
-    // If the interrupt flag is not set, return
-    if(!hal_SPI_RxIntStatus(channel)) return;
+    // If this channel is using the DMA buffer, the buffer has filled up
+	if(!hal_SPI_UsingDMA(channel)) {
+		// If the interrupt flag is not set, return
+		if(!hal_SPI_RxIntStatus(channel)) return;
 
-    // For all data in the buffer
-    while(hal_SPI_DataAvailable(channel)) {
-        // Get the current transaction
-        spi_transaction_t * transaction;
-        transaction = spi[channel].currentTransaction_ptr;
+		// For all data in the buffer
+		while(hal_SPI_DataAvailable(channel)) {
+			// Get the current transaction
+			spi_transaction_t * transaction;
+			transaction = spi[channel].currentTransaction_ptr;
 
-        if(hal_SPI_OverrunError(channel)) {
-            transaction->flags.overrun = 1;
-            // force bytes to receive to 1 so it will abort the transaction
-            spi[channel].bytesToReceive = 1;
+			if(hal_SPI_OverrunError(channel)) {
+				transaction->flags.overrun = 1;
+				// force bytes to receive to 1 so it will abort the transaction
+				spi[channel].bytesToReceive = 1;
+			}
+			c = hal_SPI_RxByte(channel);
+
+			// If the current transaction is NULL, return
+			if(transaction == 0) {
+				hal_SPI_ClearRxIF(channel);
+				return;
+			}
+
+			// If the transaction cares about the data, grab it, if not, just do a dummy read
+			if(transaction->readLength){
+				if(spi[channel].bytesToDelay == 0){
+					//This is data we care about
+					transaction->data[transaction->writeLength + spi[channel].bytesRead++] = c;
+				} else {
+					spi[channel].bytesToDelay--;
+				}
+			}
+
+			// If we have received the last byte, end the transaction
+			if(--spi[channel].bytesToReceive == 0){
+				if(transaction->flags.blocking){
+					transaction->flags.finished = 1;
+				} else {
+					Task_Queue((task_fn_t) FinishTransaction, transaction);
+				}
+				break;
+			}
 		}
-		c = hal_SPI_RxByte(channel);
+		hal_SPI_ClearRxIF(channel);
+	} else {
+		// For the entire size of the DMA buffer
+		uint8_t size = DMA_BUFFER_SIZE;
+		while(size) {
+			spi_transaction_t * transaction;
+			// Get the current transaction
+			transaction = spi[channel].currentTransaction_ptr;
 
-        // If the current transaction is NULL, return
-        if(transaction == 0) {
-            hal_SPI_ClearRxIF(channel);
-            return;
-        }
+			// If the transaction is NULL then return, interrupt has already been disabled
+			if(transaction == 0){
+				return;
+			}
 
-        // If the transaction cares about the data, grab it, if not, just do a dummy read
-        if(transaction->readLength){
-            if(spi[channel].bytesToDelay == 0){
-                //This is data we care about
-                transaction->data[transaction->writeLength + spi[channel].bytesRead++] = c;
-            } else {
-                spi[channel].bytesToDelay--;
-            }
-        }
+			// If the transaction cares about the data, grab it, if not leave
+			if(transaction->readLength){
+				if(spi[channel].bytesToDelay == 0){
+					transaction->data[transaction->writeLength + spi[channel].bytesRead++] = spi[channel].DMABuffer[size-DMA_BUFFER_SIZE];
+					size--;
+				} else if(spi[channel].bytesToDelay < DMA_BUFFER_SIZE){
+					transaction->data[transaction->writeLength + spi[channel].bytesRead++] = spi[channel].DMABuffer[size-DMA_BUFFER_SIZE+spi[channel].bytesToDelay];
+					spi[channel].bytesToDelay--;
+					size--;
+				} else {
+					// We don't want any of this data so leave the loop, take DMA_BUFFER_SIZE off of bytes to receive and to delay
+					size = 0;
+					spi[channel].bytesToDelay -= DMA_BUFFER_SIZE;
+					spi[channel].bytesToReceive -= DMA_BUFFER_SIZE;
+					break;
+				}
+			}
 
-        // If we have received the last byte, end the transaction
-        if(--spi[channel].bytesToReceive == 0){
-            if(transaction->flags.blocking){
-                transaction->flags.finished = 1;
-            } else {
-                Task_Queue((task_fn_t) FinishTransaction, transaction);
-            }
-            break;
-        }
-    }
-    hal_SPI_ClearRxIF(channel);
+			// If we have received the last byte, end the transaction
+			if(--spi[channel].bytesToReceive == 0){
+				if(transaction->flags.blocking) {
+					transaction->flags.finished = 1;
+				} else {
+					Task_Queue((task_fn_t) FinishTransaction, transaction);
+				}
+				break;
+			}
+		}
+	}
 }
 
 void SPI_ISR(uint8_t channel){
