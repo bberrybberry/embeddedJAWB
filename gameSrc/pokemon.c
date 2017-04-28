@@ -15,7 +15,7 @@
 pokePlayer_t g_DEBUG_player;
 
 void DEBUG_playerMoveTest();
-void DEBUG_movePlayer(uint8_t dir, uint8_t player);
+void DEBUG_movePlayer(uint8_t dir, pokePlayer_t player);
 
 /**
  * set up move player test
@@ -40,25 +40,23 @@ void DEBUG_playerMoveTest(){
  * move the player in specified direction
  *
  * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
- * @param player: index number of player (0 to 3)
+ * @param player: poke player struct
  */
-void DEBUG_movePlayer(uint8_t dir, uint8_t player){
-	switch(player){
-	case 0:
-		switch(dir){
-		case 0: //up
+void DEBUG_movePlayer(uint8_t dir, pokePlayer_t player){
+	g_point_t initPt;
+	initPt.x = player.tileX;
+	initPt.y = player.tileY;
+	switch(dir){
+	case 0: //up
 
-			break;
-		case 1: //down
+		break;
+	case 1: //down
 
-			break;
-		case 2: //right
+		break;
+	case 2: //right
 
-			break;
-		case 3: //left
-
-			break;
-		}
+		break;
+	case 3: //left
 
 		break;
 	}
