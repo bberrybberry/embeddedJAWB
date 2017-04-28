@@ -276,5 +276,31 @@ void hal_SPI_TxByte(uint8_t channel, uint8_t b);
 uint8_t hal_SPI_OverrunError(uint8_t channel);
 #endif
 
+/** Check if DMA is in use for this channel
+ *
+ * @param channel SPI channel number
+ */
+#ifndef hal_SPI_UsingDMA
+uint8_t hal_SPI_UsingDMA(uint8_t channel);
+#endif
+
+/** Clear the DMA buffer
+ *
+ * @param channel SPI channel number
+ */
+#ifndef hal_SPI_ClearDMABuffer
+void hal_SPI_ClearDMABuffer(uint8_t channel);
+#endif
+
+/** Set the DMA buffer to another location
+ *
+ * @param channel SPI channel number
+ * @param buffer Pointer to start of new buffer
+ * @param size Size of the new buffer
+ */
+#ifndef hal_SPI_SetDMABuffer
+void hal_SPI_SetDMABuffer(uint8_t channel, uint8_t* buffer, uint8_t size);
+#endif
+
 ///@}
 #endif // _SPI_H_
