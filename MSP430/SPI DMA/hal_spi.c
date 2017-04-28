@@ -32,7 +32,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the destination address
 					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
 					// Set the buffer size
-					DMA0SZ = settings->hal_settings.dma_buf_size;
+					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					// Repeated single transfer, increment the destination address, source byte to destination byte
 					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					// Enable DMA and interrupts
@@ -47,7 +47,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the destination address
 					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
 					// Set the buffer size
-					DMA1SZ = settings->hal_settings.dma_buf_size;
+					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					// Repeated single transfer, increment the destination address, source byte to destination byte
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					// Enable DMA and interrupts
@@ -62,7 +62,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the destination address
 					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
 					// Set the buffer size
-					DMA2SZ = settings->hal_settings.dma_buf_size;
+					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					// Repeated single transfer, increment the destination address, source byte to destination byte
 					DMA2CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					// Enable DMA and interrupts
@@ -95,7 +95,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					DMACTL0 |= DMA0TSEL_16;
 					__data16_write_addr((unsigned short) &DMA0SA, (unsigned long) &UCA1RXBUF);
 					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA0SZ = settings->hal_settings.dma_buf_size;
+					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA0CTL |= DMAEN | DMAIE;
 				}
@@ -103,7 +103,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					DMACTL0 |= DMA1TSEL_16;
 					__data16_write_addr((unsigned short) &DMA1SA, (unsigned long) &UCA1RXBUF);
 					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA1SZ = settings->hal_settings.dma_buf_size;
+					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA1CTL |= DMAEN | DMAIE;
 				}
@@ -111,7 +111,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					DMACTL0 |= DMA2TSEL_16;
 					__data16_write_addr((unsigned short) &DMA2SA, (unsigned long) &UCA1RXBUF);
 					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA2SZ = settings->hal_settings.dma_buf_size;
+					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA2CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA2CTL |= DMAEN | DMAIE;
 				}
@@ -140,7 +140,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the source address
 					__data16_write_addr((unsigned short) &DMA0SA, (unsigned long) &UCB0RXBUF);
 					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA0SZ = settings->hal_settings.dma_buf_size;
+					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA0CTL |= DMAEN | DMAIE;
 				}
@@ -149,7 +149,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the source address
 					__data16_write_addr((unsigned short) &DMA1SA, (unsigned long) &UCB0RXBUF);
 					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA1SZ = settings->hal_settings.dma_buf_size;
+					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA1CTL |= DMAEN | DMAIE;
 				}
@@ -158,7 +158,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the source address
 					__data16_write_addr((unsigned short) &DMA2SA, (unsigned long) &UCB0RXBUF);
 					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA2SZ = settings->hal_settings.dma_buf_size;
+					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA2CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA2CTL |= DMAEN | DMAIE;
 				}
@@ -188,7 +188,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the source address
 					__data16_write_addr((unsigned short) &DMA0SA, (unsigned long) &UCB1RXBUF);
 					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA0SZ = settings->hal_settings.dma_buf_size;
+					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA0CTL |= DMAEN | DMAIE;
 				}
@@ -197,7 +197,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the source address
 					__data16_write_addr((unsigned short) &DMA1SA, (unsigned long) &UCB1RXBUF);
 					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA1SZ = settings->hal_settings.dma_buf_size;
+					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA1CTL |= DMAEN | DMAIE;
 				}
@@ -206,7 +206,7 @@ void hal_SPI_Init(spi_settings_t* settings){
 					// Set the source address
 					__data16_write_addr((unsigned short) &DMA2SA, (unsigned long) &UCB1RXBUF);
 					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA2SZ = settings->hal_settings.dma_buf_size;
+					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					DMA2CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA2CTL |= DMAEN | DMAIE;
 				}
@@ -497,6 +497,195 @@ uint8_t hal_SPI_OverrunError(uint8_t channel) {
 	}
 }
 
+uint8_t hal_SPI_UsingDMA(uint8_t channel) {
+	switch(channel){
+	case SPI_A0:
+		return ((DMACTL0 & DMA0TSEL_16) | (DMACTL0 & DMA1TSEL_16) | (DMACTL0 & DMA2TSEL_16));
+	case SPI_A1:
+		return ((DMACTL0 & DMA0TSEL_20) | (DMACTL0 & DMA1TSEL_20) | (DMACTL0 & DMA2TSEL_20));
+	case SPI_B0:
+		return ((DMACTL0 & DMA0TSEL_18) | (DMACTL0 & DMA1TSEL_18) | (DMACTL0 & DMA2TSEL_18));
+	case SPI_B1:
+		return ((DMACTL0 & DMA0TSEL_22) | (DMACTL0 & DMA1TSEL_22) | (DMACTL0 & DMA2TSEL_22));
+	default:
+		return 0;
+	}
+}
+
+void hal_SPI_ClearDMABuffer(uint8_t channel) {
+	switch(channel){
+	case SPI_A0:
+		if (DMACTL0 & DMA0TSEL_16) {
+			DMA0DA -= (DMA_BUFFER_SIZE - DMA0SZ);
+			DMA0SZ += (DMA_BUFFER_SIZE - DMA0SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_16) {
+			DMA1DA -= (DMA_BUFFER_SIZE - DMA1SZ);
+			DMA1SZ += (DMA_BUFFER_SIZE - DMA1SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_16) {
+			DMA2DA -= (DMA_BUFFER_SIZE - DMA2SZ);
+			DMA2SZ += (DMA_BUFFER_SIZE - DMA2SZ);
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	case SPI_A1:
+		if (DMACTL0 & DMA0TSEL_20) {
+			DMA0DA -= (DMA_BUFFER_SIZE - DMA0SZ);
+			DMA0SZ += (DMA_BUFFER_SIZE - DMA0SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_20) {
+			DMA1DA -= (DMA_BUFFER_SIZE - DMA1SZ);
+			DMA1SZ += (DMA_BUFFER_SIZE - DMA1SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_20) {
+			DMA2DA -= (DMA_BUFFER_SIZE - DMA2SZ);
+			DMA2SZ += (DMA_BUFFER_SIZE - DMA2SZ);
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	case SPI_B0:
+		if (DMACTL0 & DMA0TSEL_18) {
+			DMA0DA -= (DMA_BUFFER_SIZE - DMA0SZ);
+			DMA0SZ += (DMA_BUFFER_SIZE - DMA0SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_18) {
+			DMA1DA -= (DMA_BUFFER_SIZE - DMA1SZ);
+			DMA1SZ += (DMA_BUFFER_SIZE - DMA1SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_18) {
+			DMA2DA -= (DMA_BUFFER_SIZE - DMA2SZ);
+			DMA2SZ += (DMA_BUFFER_SIZE - DMA2SZ);
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	case SPI_B1:
+		if (DMACTL0 & DMA0TSEL_22) {
+			DMA0DA -= (DMA_BUFFER_SIZE - DMA0SZ);
+			DMA0SZ += (DMA_BUFFER_SIZE - DMA0SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_22) {
+			DMA1DA -= (DMA_BUFFER_SIZE - DMA1SZ);
+			DMA1SZ += (DMA_BUFFER_SIZE - DMA1SZ);
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_22) {
+			DMA2DA -= (DMA_BUFFER_SIZE - DMA2SZ);
+			DMA2SZ += (DMA_BUFFER_SIZE - DMA2SZ);
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	default:
+		return;
+	}
+}
+
+void hal_SPI_SetDMABuffer(uint8_t channel, uint8_t* buffer) {
+	switch(channel){
+	case SPI_A0:
+		if (DMACTL0 & DMA0TSEL_16) {
+			__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) buffer);
+			DMA0SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_16) {
+			__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) buffer);
+			DMA1SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_16) {
+			__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) buffer);
+			DMA2SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	case SPI_A1:
+		if (DMACTL0 & DMA0TSEL_20) {
+			__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) buffer);
+			DMA0SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_20) {
+			__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) buffer);
+			DMA1SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_20) {
+			__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) buffer);
+			DMA2SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	case SPI_B0:
+		if (DMACTL0 & DMA0TSEL_18) {
+			__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) buffer);
+			DMA0SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_18) {
+			__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) buffer);
+			DMA1SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_18) {
+			__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) buffer);
+			DMASZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	case SPI_B1:
+		if (DMACTL0 & DMA0TSEL_22) {
+			__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) buffer);
+			DMA0SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA1TSEL_22) {
+			__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) buffer);
+			DMA1SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else if (DMACTL0 & DMA2TSEL_22) {
+			__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) buffer);
+			DMA2SZ = DMA_BUFFER_SIZE;
+			return;
+		}
+		else {
+			return;
+		}
+		break;
+	default:
+		return;
+	}
+}
+
 #ifdef USE_SPI0
 #ifdef MSPGCC
 __attribute__((interrupt(USCI_A0_VECTOR)))
@@ -505,6 +694,16 @@ void _SPIA0_ISR(void) {
 #pragma vector=USCI_A0_VECTOR
 __interrupt void _SPIA0_ISR(void){
 #endif
+	SPI_ISR(SPI_A0);
+}
+#ifdef MSPGCC
+__attribute__((interrupt(USCI_B0_VECTOR)))
+void DMA_ISR(void) {
+#else
+#pragma vector=DMA_VECTOR
+__interrupt void DMA_ISR(void) {
+#endif
+	uint8_t dmaVec = DMAIV;
 	SPI_ISR(SPI_A0);
 }
 #endif
@@ -519,6 +718,16 @@ __interrupt void _SPIA1_ISR(void){
 #endif
 	SPI_ISR(SPI_A1);
 }
+#ifdef MSPGCC
+__attribute__((interrupt(USCI_B0_VECTOR)))
+void DMA_ISR(void) {
+#else
+#pragma vector=DMA_VECTOR
+__interrupt void DMA_ISR(void) {
+#endif
+	uint8_t dmaVec = DMAIV;
+	SPI_ISR(SPI_A1);
+}
 #endif
 
 #ifdef USE_SPI2
@@ -529,6 +738,17 @@ void _SPIB0_ISR(void) {
 #pragma vector=USCI_B0_VECTOR
 __interrupt void _SPIB0_ISR(void){
 #endif
+	uint8_t dmaVec = DMAIV;
+	SPI_ISR(SPI_B0);
+}
+#ifdef MSPGCC
+__attribute__((interrupt(USCI_B0_VECTOR)))
+void DMA_ISR(void) {
+#else
+#pragma vector=DMA_VECTOR
+__interrupt void DMA_ISR(void) {
+#endif
+	uint8_t dmaVec = DMAIV;
 	SPI_ISR(SPI_B0);
 }
 #endif
@@ -541,6 +761,16 @@ void _SPIB1_ISR(void) {
 #pragma vector=USCI_B1_VECTOR
 __interrupt void _SPIB1_ISR(void){
 #endif
+	SPI_ISR(SPI_B1);
+}
+#ifdef MSPGCC
+__attribute__((interrupt(USCI_B0_VECTOR)))
+void DMA_ISR(void) {
+#else
+#pragma vector=DMA_VECTOR
+__interrupt void DMA_ISR(void) {
+#endif
+	uint16_t dmaVec = DMAIV;
 	SPI_ISR(SPI_B1);
 }
 #endif
