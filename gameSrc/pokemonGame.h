@@ -8,6 +8,10 @@
  * pokemon game modules.
  */
 
+#ifndef POKEMONGAME_H_
+#define POKEMONGAME_H_
+
+
 #include "system.h"
 #include "random_int.h"
 #include "stddef.h"
@@ -86,3 +90,5 @@ void inputCallback(game_network_payload_t * input);
 void pkmnGameOver(void);
 
 void drawTest();
+
+#endif /* POKEMONGAME_H_ */

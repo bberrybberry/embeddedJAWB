@@ -7,6 +7,9 @@
  * each player runs around to catch the most pokemon in a fixed amount of time.
  */
 
+#ifndef POKEMON_H_
+#define POKEMON_H_
+
 #include <stdint.h>
 #include <stdbool.h>
 #include "drawPokemon.h"
@@ -84,3 +87,4 @@ void updateScores(pokePlayer_t player, uint8_t score);
 void runEncounter(void);
 void generateItems(void);
 
+#endif /* POKEMON_H_ */

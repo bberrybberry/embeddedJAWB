@@ -30,7 +30,7 @@ void DEBUG_downPressed(uint8_t player);
  * @param player: player number index
  */
 void DEBUG_upPressed(uint8_t player){
-	DEBUG_playerMoveTest(0, player);
+	DEBUG_movePlayer(0);
 }
 /**
  * move the selected player down
@@ -38,7 +38,23 @@ void DEBUG_upPressed(uint8_t player){
  * @param player: player number index
  */
 void DEBUG_downPressed(uint8_t player){
-	DEBUG_playerMoveTest(1, player);
+	DEBUG_movePlayer(1);
+}
+/**
+ * move the selected player right
+ *
+ * @param player: player number index
+ */
+void DEBUG_rightPressed(uint8_t player){
+	DEBUG_movePlayer(2);
+}
+/**
+ * move the selected player left
+ *
+ * @param player: player number index
+ */
+void DEBUG_leftPressed(uint8_t player){
+	DEBUG_movePlayer(3);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,6 +102,8 @@ void inputCallback(game_network_payload_t * input){
 #ifdef DEBUG_MODE
     if(input->controller[0].button.up) DEBUG_upPressed(0);
     if(input->controller[0].button.down) DEBUG_downPressed(0);
+    if(input->controller[0].button.left) DEBUG_leftPressed(0);
+    if(input->controller[0].button.right) DEBUG_rightPressed(0);
 #endif
 
     if(TimeSince(time) > 1000) {

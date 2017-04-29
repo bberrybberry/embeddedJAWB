@@ -7,6 +7,9 @@
  * TODO: Docs
  */
 
+#ifndef DRAWPOKEMON_H_
+#define DRAWPOKEMON_H_
+
 // System Includes
 #include <msp430f5529.h>
 #include <stdint.h>
@@ -85,7 +88,8 @@ void initDrawGraphics(void);
 void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY);
 void drawGrass(grassState gs, uint8_t location);
 void drawMap();
-void drawStatic(/*tile graphics*/);
+void drawStatic(const g_pixel_t* tileImg, g_point_t* pos);
 void printMenu(uint8_t playerID, menuState ms, char* text);
 void printStats(uint8_t time, char* text);
 
+#endif /* DRAWPOKEMON_H_ */

@@ -113,7 +113,7 @@ int main(void) {
     RF1.csn = RF1_CSN;
     RF1.spi_channel = RF_SPI_CH;
 
-    //Game_nRF_Test_Init();
+    Game_nRF_Test_Init();
     pkmnGameInit();
     Game_NetworkInit(&RF1);
     Log_EchoOn();
