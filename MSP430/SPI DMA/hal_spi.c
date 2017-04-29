@@ -27,40 +27,42 @@ void hal_SPI_Init(spi_settings_t* settings){
 				if (~(DMA0CTL & DMAEN)) {
 					// Set channel zero to trigger on UCA0 receives something
 					DMACTL0 |= DMA0TSEL_16;
-					// Set the source address
-					__data16_write_addr((unsigned short) &DMA0SA, (unsigned long) &UCA0RXBUF);
-					// Set the destination address
-					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
 					// Set the buffer size
 					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					// Repeated single transfer, increment the destination address, source byte to destination byte
 					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					// Enable DMA and interrupts
 					DMA0CTL |= DMAEN | DMAIE;
+					// Set the source address
+					__data20_write_long((unsigned long) &DMA0SA, (unsigned long) &UCA0RXBUF);
+					// Set the destination address
+					__data20_write_long((unsigned long) &DMA0DA, (unsigned long) settings->hal_settings.DMA_buffer);
+
 				}
 				// Or channel 1
 				else if(~(DMA1CTL & DMAEN)) {
 					// Set channel one to trigger on UCA0 receives something
 					DMACTL0 |= DMA1TSEL_16;
-					// Set the source address
-					__data16_write_addr((unsigned short) &DMA1SA, (unsigned long) &UCA0RXBUF);
-					// Set the destination address
-					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
 					// Set the buffer size
 					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					// Repeated single transfer, increment the destination address, source byte to destination byte
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					// Enable DMA and interrupts
 					DMA1CTL |= DMAEN | DMAIE;
+					// Set the source address
+					__data20_write_long((unsigned long) &DMA1SA, (unsigned long) &UCA0RXBUF);
+					// Set the destination address
+					__data20_write_long((unsigned long) &DMA1DA, (unsigned long) settings->hal_settings.DMA_buffer);
+
 				}
 				// Or channel 2
 				else if(~(DMA2CTL & DMAEN)) {
 					// Set channel two to trigger on UCA0 receives something
-					DMACTL0 |= DMA2TSEL_16;
+					DMACTL1 |= DMA2TSEL_16;
 					// Set the source address
-					__data16_write_addr((unsigned short) &DMA2SA, (unsigned long) &UCA0RXBUF);
+					__data20_write_long((unsigned long) &DMA2SA, (unsigned long) &UCA0RXBUF);
 					// Set the destination address
-					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
+					__data20_write_long((unsigned long) &DMA2DA, (unsigned long) settings->hal_settings.DMA_buffer);
 					// Set the buffer size
 					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
 					// Repeated single transfer, increment the destination address, source byte to destination byte
@@ -89,36 +91,38 @@ void hal_SPI_Init(spi_settings_t* settings){
 			// Configure bit rate
 			UCA1BR0 = FCPU / settings->bit_rate;
 			UCA1BR1 = FCPU / settings->bit_rate / 256;
-			break;
+
 			if (settings->hal_settings.use_dma && settings->hal_settings.DMA_buffer) {
 				if (~(DMA0CTL & DMAEN)) {
-					DMACTL0 |= DMA0TSEL_16;
-					__data16_write_addr((unsigned short) &DMA0SA, (unsigned long) &UCA1RXBUF);
-					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+					DMACTL0 |= DMA0TSEL_20;
+					DMA0SZ = DMA_BUFFER_SIZE;
 					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA0CTL |= DMAEN | DMAIE;
+					__data20_write_long((unsigned long) &DMA0SA, (unsigned long) &UCA1RXBUF);
+					__data20_write_long((unsigned long) &DMA0DA, (unsigned long) settings->hal_settings.DMA_buffer);
+
 				}
 				else if(~(DMA1CTL & DMAEN)) {
-					DMACTL0 |= DMA1TSEL_16;
-					__data16_write_addr((unsigned short) &DMA1SA, (unsigned long) &UCA1RXBUF);
-					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+					DMACTL0 |= DMA1TSEL_20;
+					DMA1SZ = DMA_BUFFER_SIZE;
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA1CTL |= DMAEN | DMAIE;
+					__data20_write_long((unsigned long) &DMA1SA, (unsigned long) &UCA1RXBUF);
+					__data20_write_long((unsigned long) &DMA1DA, (unsigned long) settings->hal_settings.DMA_buffer);
 				}
-				else if(~(DMA2CLT & DMAEN)) {
-					DMACTL0 |= DMA2TSEL_16;
-					__data16_write_addr((unsigned short) &DMA2SA, (unsigned long) &UCA1RXBUF);
-					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+				else if(~(DMA2CTL & DMAEN)) {
+					DMACTL1 |= DMA2TSEL_20;
+					DMA2SZ = DMA_BUFFER_SIZE;
 					DMA2CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA2CTL |= DMAEN | DMAIE;
+					__data20_write_long((unsigned long) &DMA2SA, (unsigned long) &UCA1RXBUF);
+					__data20_write_long((unsigned long) &DMA2DA, (unsigned long) settings->hal_settings.DMA_buffer);
 				}
 				else {
 					settings->hal_settings.use_dma = 0;
 				}
 			}
+			break;
 		case SPI_B0:
 			// Setup MOSI, MISO, SCLK
 			P3SEL |= BIT0 + BIT1 + BIT2;
@@ -133,39 +137,43 @@ void hal_SPI_Init(spi_settings_t* settings){
 			// Configure bit rate
 			UCB0BR0 = FCPU / settings->bit_rate;
 			UCB0BR1 = FCPU / settings->bit_rate / 256;
-			break;
+
 			if (settings->hal_settings.use_dma && settings->hal_settings.DMA_buffer) {
 				if (~(DMA0CTL & DMAEN)) {
-					DMACTL0 |= DMA0TSEL_16;
+					DMACTL0 |= DMA0TSEL_18;
+					DMA0CTL &= ~DMAIFG;
+					DMA0CTL = DMADT_4 + DMADSTINCR_3 + DMASBDB;
+					DMA0CTL |= DMAEN + DMAIE;
+					DMA0SZ = DMA_BUFFER_SIZE;
 					// Set the source address
-					__data16_write_addr((unsigned short) &DMA0SA, (unsigned long) &UCB0RXBUF);
-					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
-					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
-					DMA0CTL |= DMAEN | DMAIE;
+					__data20_write_long((unsigned long) &DMA0SA, (unsigned long) &UCB0RXBUF);
+					__data20_write_long((unsigned long) &DMA0DA, (unsigned long) settings->hal_settings.DMA_buffer);
+
 				}
 				else if(~(DMA1CTL & DMAEN)) {
-					DMACTL0 |= DMA1TSEL_16;
-					// Set the source address
-					__data16_write_addr((unsigned short) &DMA1SA, (unsigned long) &UCB0RXBUF);
-					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+					DMACTL0 |= DMA1TSEL_18;
+					DMA1SZ = DMA_BUFFER_SIZE;
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA1CTL |= DMAEN | DMAIE;
-				}
-				else if(~(DMA2CLT & DMAEN)) {
-					DMACTL0 |= DMA2TSEL_16;
 					// Set the source address
-					__data16_write_addr((unsigned short) &DMA2SA, (unsigned long) &UCB0RXBUF);
-					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+					__data20_write_long((unsigned long) &DMA1SA, (unsigned long) &UCB0RXBUF);
+					__data20_write_long((unsigned long) &DMA1DA, (unsigned long) settings->hal_settings.DMA_buffer);
+
+				}
+				else if(~(DMA2CTL & DMAEN)) {
+					DMACTL1 |= DMA2TSEL_18;
+					DMA2SZ = DMA_BUFFER_SIZE;
 					DMA2CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA2CTL |= DMAEN | DMAIE;
+					// Set the source address
+					__data20_write_long((unsigned long) &DMA2SA, (unsigned long) &UCB0RXBUF);
+					__data20_write_long((unsigned long) &DMA2DA, (unsigned long) settings->hal_settings.DMA_buffer);
 				}
 				else {
 					settings->hal_settings.use_dma = 0;
 				}
 			}
+			break;
 		case SPI_B1:
 			// Setup MOSI, MISO
 			P4SEL |= BIT1 + BIT2;
@@ -181,44 +189,52 @@ void hal_SPI_Init(spi_settings_t* settings){
 			// Configure bit rate
 			UCB1BR0 = FCPU / settings->bit_rate;
 			UCB1BR1 = FCPU / settings->bit_rate / 256;
-			break;
+
 			if (settings->hal_settings.use_dma && settings->hal_settings.DMA_buffer) {
 				if (~(DMA0CTL & DMAEN)) {
-					DMACTL0 |= DMA0TSEL_16;
-					// Set the source address
-					__data16_write_addr((unsigned short) &DMA0SA, (unsigned long) &UCB1RXBUF);
-					__data16_write_addr((unsigned short) &DMA0DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA0SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+					DMACTL0 |= DMA0TSEL_22;
+					DMA0SZ = DMA_BUFFER_SIZE;
 					DMA0CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA0CTL |= DMAEN | DMAIE;
+					// Set the source address
+					__data20_write_long((unsigned long) &DMA0SA, (unsigned long) &UCB1RXBUF);
+					__data20_write_long((unsigned long) &DMA0DA, (unsigned long) settings->hal_settings.DMA_buffer);
+
 				}
 				else if(~(DMA1CTL & DMAEN)) {
-					DMACTL0 |= DMA1TSEL_16;
-					// Set the source address
-					__data16_write_addr((unsigned short) &DMA1SA, (unsigned long) &UCB1RXBUF);
-					__data16_write_addr((unsigned short) &DMA1DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA1SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+					DMACTL0 |= DMA1TSEL_22;
+					DMA1SZ = DMA_BUFFER_SIZE;
 					DMA1CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA1CTL |= DMAEN | DMAIE;
-				}
-				else if(~(DMA2CLT & DMAEN)) {
-					DMACTL0 |= DMA2TSEL_16;
 					// Set the source address
-					__data16_write_addr((unsigned short) &DMA2SA, (unsigned long) &UCB1RXBUF);
-					__data16_write_addr((unsigned short) &DMA2DA, (unsigned long) &settings->hal_settings.DMA_buffer);
-					DMA2SZ = DMA_BUFFER_SIZE;//settings->hal_settings.dma_buf_size;
+					__data20_write_long((unsigned long) &DMA1SA, (unsigned long) &UCB1RXBUF);
+					__data20_write_long((unsigned long) &DMA1DA, (unsigned long) settings->hal_settings.DMA_buffer);
+
+
+				}
+				else if(~(DMA2CTL & DMAEN)) {
+					DMACTL1 |= DMA2TSEL_22;
+					DMA2SZ = DMA_BUFFER_SIZE;
 					DMA2CTL = DMADT_4 | DMADSTINCR_3 | DMASBDB;
 					DMA2CTL |= DMAEN | DMAIE;
+					// Set the source address
+					__data20_write_long((unsigned long) &DMA2SA, (unsigned long) &UCB1RXBUF);
+					__data20_write_long((unsigned long) &DMA2DA, (unsigned long) settings->hal_settings.DMA_buffer);
 				}
 				else {
 					settings->hal_settings.use_dma = 0;
 				}
 			}
-		
+			break;
 	}
 	hal_SPI_Enable(settings->channel);
 	hal_SPI_ClearRxIF(settings->channel);
-	hal_SPI_EnableRxInterrupt(settings->channel);
+
+	if(settings->hal_settings.use_dma == 0) {
+		hal_SPI_EnableRxInterrupt(settings->channel);
+	} else {
+		hal_SPI_DisableRxInterrupt(settings->channel);
+	}
 }
 
 void hal_SPI_Enable(uint8_t channel){
