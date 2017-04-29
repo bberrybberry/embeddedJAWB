@@ -24,9 +24,9 @@
 typedef struct hal_spi_settings_t {
 	uint8_t char7bit : 1; ///< char7bit
 	uint8_t msb_first : 1; ///< msb_first
-	uint8_t use_dma : 0; ///< Use DMA for the buffer
-	uint8_t dma_buf_size : 8; ///< Number of bytes used for the DMA buffer
-	uint8_t* DMA_buffer : 0; ///< Pointer to the start of the buffer
+	uint8_t use_dma; ///< Use DMA for the buffer
+	//uint8_t dma_buf_size; ///< Number of bytes used for the DMA buffer
+	uint8_t* DMA_buffer; ///< Pointer to the start of the buffer
 	}hal_spi_settings_t;
 
 // This must be included after hal_spi_settings_t so that spi.h can find that definition
