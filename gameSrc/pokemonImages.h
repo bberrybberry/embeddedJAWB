@@ -11,23 +11,27 @@
 #define POKEMONIMAGES_H_
 
 //Images
+#include "aaronL.h"
+#include "aaronR.h"
+#include "black16x12.h"
+#include "breannaR.h"
+#include "breannaL.h"
 #include "genPlayerL.h"
 #include "genPlayerR.h"
 #include "genPlayerS.h"
-#include "black16x12.h"
-#include "white16x12.h"
 #include "grass.h"
 #include "ground.h"
-#include "trees.h"
 #include "rocks.h"
-#include "aaronR.h"
-#include "aaronL.h"
-#include "breannaR.h"
-#include "breannaL.h"
+#include "shakingGrass.h"
+#include "trees.h"
 #include "waltR.h"
 #include "waltL.h"
+#include "white16x12.h"
 
-//TODO: Aaron: Explain what this is and tell us if this the correct way to store this
+/**
+ * @var graphics_t gCntx
+ * @brief
+ */
 graphics_t gCntx;
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +67,7 @@ const g_pixel_t* rocksTilePtr = &rocks[0];
 
 //playable ground
 const g_pixel_t* grassTilePtr = &grass[0];
+const g_pixel_t* shakingGrassPtr = &shakingGrass[0];
 
 //other
 const g_pixel_t* blackTilePtr = &black16x12[0];
