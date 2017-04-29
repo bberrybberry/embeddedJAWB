@@ -26,14 +26,6 @@
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
-// Enums
-//
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
 // Structs
 //
 /////////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +53,20 @@ typedef struct{
 
 //TODO: Define weights for random pokemon generation
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// Globals
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @var players
+ * @brief Container for all players currently in the game
+ */
+pokePlayer_t* players[3];
+
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
@@ -69,10 +75,31 @@ typedef struct{
 
 //TODO: Docs
 
+/**
+ * @fn initGame(void)
+ * @brief Set up of initial game state
+ */
 void initGame(void);
+
+/**
+ * @fn initMap(void)
+ * @brief Calls to set up graphics for initial map layout
+ */
 void initMap(void);
+
+/**
+ * TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
 void initTextBox(void);
+
+/**
+ * @fn initPlayers(void)
+ * @brief Sets up four players. All players are given inital stats and each player has
+ * a different sprite and starting position. After players are defined, they are drawn
+ * to the display.
+ */
 void initPlayers(void);
+
 void playGame(void);
 void pauseGame(void);
 pokemon_t generatePokemon(void);

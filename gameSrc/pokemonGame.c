@@ -18,7 +18,7 @@ static struct {
 } game;
 
 ///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
-#define DEBUG_MODE //comment out to leave debug mode
+//#define DEBUG_MODE //comment out to leave debug mode
 
 void DEBUG_upPressed(uint8_t player);
 void DEBUG_downPressed(uint8_t player);
@@ -58,11 +58,6 @@ void DEBUG_leftPressed(uint8_t player){
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
-
-void drawTest(){
-	initMap();
-}
-
 void pkmnGameInit(void){
     // Register the module with the game system and give it the name "pokemon"
     game.id = Game_Register("pokemon", "Play pokemon with friends", pkmnPlay, pkmnHelp);
@@ -93,11 +88,10 @@ void inputCallback(game_network_payload_t * input){
     }
     index = input->index;
     for(i = 0; i < 4; i++) {
-        //TODO
-//        if(input->controller[i].button.up) MoveUp(&player[i]);
-//        if(input->controller[i].button.down) MoveDown(&player[i]);
-//        if(input->controller[i].button.left) MoveLeft(&player[i]);
-//        if(input->controller[i].button.right) MoveRight(&player[i]);
+        if(input->controller[i].button.up) upPressed(i);//MoveUp(&player[i]);
+        if(input->controller[i].button.down) downPressed(i);
+        if(input->controller[i].button.left) leftPressed(i);
+        if(input->controller[i].button.right) rightPressed(i);
     }
 #ifdef DEBUG_MODE
     if(input->controller[0].button.up) DEBUG_upPressed(0);
@@ -125,4 +119,20 @@ void pkmnGameOver(void){
     // show cursor (it was hidden at the beginning
     Game_ShowCursor();
     Game_GameOver();
+}
+
+void upPressed(uint8_t player){
+
+}
+
+void downPressed(uint8_t player){
+
+}
+
+void leftPressed(uint8_t player){
+
+}
+
+void rightPressed(uint8_t player){
+
 }

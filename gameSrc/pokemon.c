@@ -7,10 +7,9 @@
 
 #include "pokemon.h"
 #include "graphics.h" //needed for types and defines
-//#include "pokemonImages.h"
 
 ///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
-#define DEBUG_MODE //comment out to leave debug mode
+//#define DEBUG_MODE //comment out to leave debug mode
 
 pokePlayer_t g_DEBUG_player;
 
@@ -106,10 +105,6 @@ void DEBUG_movePlayer(uint8_t dir){
 
 
 void initGame(){
-
-    //draw initial game
-    //initDrawGraphics();
-
     //set up map
     initMap();
 
@@ -121,6 +116,8 @@ void initGame(){
 
     //init players
     initPlayers();
+    //TODO: Find dynamic way to know how many players are playing
+    players[0]->status = true;
 
     //set up menus and text
     initTextBox();
@@ -162,11 +159,45 @@ void initMap(){
 }
 
 void initPlayers(){
-    //TODO
-
     //register players 1-4
+	volatile int i;
+	for(i = 0; i < 3; i++){
+		players[i]->pbCount = 15;
+		players[i]->gbCount = 10;
+		players[i]->ubCount = 5;
+		players[i]->mvmt = false;
+		players[i]->status = false;
+		players[i]->score = 0;
 
-    //draw players in init pos
+		//info different to each unique player define here
+		switch(i){
+		case 0:
+			players[i]->sprite = AARON;
+			players[i]->tileX = 5;
+			players[i]->tileY = 9;
+			break;
+		case 1:
+			players[i]->sprite = BREANNA;
+			players[i]->tileX = 6;
+			players[i]->tileY = 10;
+			break;
+		case 2:
+			players[i]->sprite = JOSH;
+			players[i]->tileX = 6;
+			players[i]->tileY = 9;
+			break;
+		case 3:
+			players[i]->sprite = WALT;
+			players[i]->tileX = 5;
+			players[i]->tileY = 10;
+			break;
+		}
+
+		//draw players in init pos
+		drawPlayer(players[i]->sprite, STAND, players[i]->tileX, players[i]->tileY);
+	}
+
+
 }
 
 void initTextBox(){
@@ -235,26 +266,26 @@ void generateItems(){
     //TODO
 }
 
-void upPressed(controller_buttons_t input, void* player) {
-//    static uint8_t right = 0x01;
-//
-//    if ((t1.y - 1) < GRID_Y ) {
-//        if(checkAllCollisions(player->tileX, player->tileY-1)==0){
-//        if (map.map[t1.x + t1.y * GRID_X]) {
-//            Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
-//        }
-//        else {
-//            Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-//        }
-//
-//        t1.y--;
-//        p1.y = t1.y * TILE_Y;
-//        //Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
-//        Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
-//        right ^= 0x01;
-//    }
-//    }
-}
+//void upPressed(controller_buttons_t input, void* player) {
+////    static uint8_t right = 0x01;
+////
+////    if ((t1.y - 1) < GRID_Y ) {
+////        if(checkAllCollisions(player->tileX, player->tileY-1)==0){
+////        if (map.map[t1.x + t1.y * GRID_X]) {
+////            Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
+////        }
+////        else {
+////            Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+////        }
+////
+////        t1.y--;
+////        p1.y = t1.y * TILE_Y;
+////        //Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+////        Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
+////        right ^= 0x01;
+////    }
+////    }
+//}
 static char checkCollision(char xLoc, char yLoc){
 }
 
