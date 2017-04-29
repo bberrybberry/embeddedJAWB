@@ -124,7 +124,7 @@ int8_t SPI_Transact(spi_transaction_t * transaction);
  *
  * @param channel SPI channel
  */
-void SPI_ISR(uint8_t channel);
+void SPI_ISR(uint8_t channel, uint8_t rx);
 
 /******************************************
  * HAL Functions
@@ -289,7 +289,7 @@ uint8_t hal_SPI_UsingDMA(uint8_t channel);
  * @param channel SPI channel number
  */
 #ifndef hal_SPI_ClearDMABuffer
-void hal_SPI_ClearDMABuffer(uint8_t channel);
+void hal_SPI_ClearDMABuffer(uint8_t channel, uint8_t* DMABuffer);
 #endif
 
 /** Set the DMA buffer to another location
@@ -299,7 +299,11 @@ void hal_SPI_ClearDMABuffer(uint8_t channel);
  * @param size Size of the new buffer
  */
 #ifndef hal_SPI_SetDMABuffer
-void hal_SPI_SetDMABuffer(uint8_t channel, uint8_t* buffer, uint8_t size);
+void hal_SPI_SetDMABuffer(uint8_t channel, uint8_t* buffer);
+#endif
+
+#ifndef hal_SPI_GetDMASize
+uint8_t hal_SPI_GetDMASize(uint8_t channel);
 #endif
 
 ///@}
