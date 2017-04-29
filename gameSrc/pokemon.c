@@ -6,7 +6,7 @@
  */
 
 #include "pokemon.h"
-#include "graphics.h"
+#include "graphics.h" //needed for types and defines
 //#include "pokemonImages.h"
 
 ///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
@@ -15,7 +15,7 @@
 pokePlayer_t g_DEBUG_player;
 
 void DEBUG_playerMoveTest();
-void DEBUG_movePlayer(uint8_t dir, uint8_t player);
+void DEBUG_movePlayer(uint8_t dir);
 
 /**
  * set up move player test
@@ -28,7 +28,7 @@ void DEBUG_playerMoveTest(){
 	g_DEBUG_player.ubCount = 10;
 	g_DEBUG_player.score = 123;
 	g_DEBUG_player.tileX = 5;
-	g_DEBUG_player.tileY = 5;
+	g_DEBUG_player.tileY = 9;
 	g_DEBUG_player.status = true;
 	g_DEBUG_player.mvmt = true;
 
@@ -40,25 +40,64 @@ void DEBUG_playerMoveTest(){
  * move the player in specified direction
  *
  * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
- * @param player: index number of player (0 to 3)
  */
-void DEBUG_movePlayer(uint8_t dir, uint8_t player){
-	switch(player){
-	case 0:
-		switch(dir){
-		case 0: //up
+void DEBUG_movePlayer(uint8_t dir){
+	g_point_t initPt;
+	initPt.x = g_DEBUG_player.tileX;
+	initPt.y = g_DEBUG_player.tileY;
+	switch(dir){
+	case 0: //up
+		if ((initPt.y - 1) < GRID_Y ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
 
-			break;
-		case 1: //down
-
-			break;
-		case 2: //right
-
-			break;
-		case 3: //left
-
-			break;
+			drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, --g_DEBUG_player.tileY);
 		}
+		break;
+	case 1: //down
+		if ((initPt.y + 1) < GRID_Y ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
+
+			drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, ++g_DEBUG_player.tileY);
+		}
+		break;
+	case 2: //right
+		if ((initPt.x + 1) < GRID_X ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
+
+			drawPlayer(g_DEBUG_player.sprite, LEFT, ++g_DEBUG_player.tileX, g_DEBUG_player.tileY);
+		}
+		break;
+	case 3: //left
+		if ((initPt.x - 1) < GRID_X ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
+
+			drawPlayer(g_DEBUG_player.sprite, LEFT, --g_DEBUG_player.tileX, g_DEBUG_player.tileY);
+		}
+		break;
 
 		break;
 	}

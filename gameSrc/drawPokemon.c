@@ -8,23 +8,27 @@ void initDrawGraphics(){
     Graphics_Init(gptr);
 }
 
-void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY)){
+void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY){
     //TODO
 
-	switch(ps){
-	case AARON: //TODO
-	case BREANNA:
-		switch(ws){
-		case LEFT:
-			//draw Breanna in left state at given location
+	g_point_t pt;
 
+	switch(ps){
+		case AARON: //TODO
+		case BREANNA:
+			switch(ws){
+				case LEFT:
+					//draw Breanna in left state at given location
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &breannaLTilePtr, TILE_X, TILE_Y);
+					break;
+				case RIGHT: //TODO
+				case STAND: //TODO
+			}
 			break;
-		case RIGHT: //TODO
-		case STAND: //TODO
-		}
-		break;
-	case JOSH: //TODO
-	case WALT: //TODO
+		case JOSH: //TODO
+		case WALT: //TODO
 	}
 }
 
@@ -67,8 +71,10 @@ void drawMap(){
     }
     //RestoreInterrupts();
 }
-void drawStatic(/*tile graphics*/){
-    //TODO
+void drawStatic(const g_pixel_t* tileImg, g_point_t* pos){
+	pos->x = pos->x * TILE_X;
+	pos->y = pos->y * TILE_Y;
+	Graphics_DrawTile(&gCntx, *pos, &tileImg, TILE_X, TILE_Y);
 }
 void printMenu(uint8_t playerID, menuState ms, char* text){
     //TODO
