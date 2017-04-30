@@ -53,6 +53,7 @@ typedef struct{
     uint8_t tileY;          ///< Y tile position of the player
     bool status;            ///< Whether or not the player is currently playing true: is playing false: is not playing
     bool mvmt;              ///< Whether or not the player can move
+    pokemon_t encountered;	///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
 typedef struct{
     char* name;            ///< Name of pokemon
@@ -186,6 +187,7 @@ void selectBall(uint8_t player);
 void lBallOpt(uint8_t player);
 void rBallOpt(uint8_t player);
 void throwBall(uint8_t player);
+void captureEvent(uint8_t player, uint8_t multiplier);
 
 void playGame(void);
 void pauseGame(void);

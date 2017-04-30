@@ -339,18 +339,18 @@ void movePlayerRight(uint8_t playerIndex){
 
 void initTextBox(){
 	drawInitMenu();
-    //TODO
+    //TODO is this done? It looks done? NOTE: Please remove "todo" comments when they're complete
 }
 
-void playGame(){
-    //TODO
-}
-
-void pauseGame(){
-    //TODO
-
-    //TODO: How to access game variable from pokemonGame to set state to pause
-}
+//void playGame(){
+//    //TODO
+//}
+//
+//void pauseGame(){
+//    //TODO
+//
+//    //TODO: How to access game variable from pokemonGame to set state to pause
+//}
 
 pokemon_t generatePokemon(){
     uint8_t r = 5; //TODO: replace with random num gen
@@ -366,18 +366,6 @@ pokemon_t generatePokemon(){
 		return pkmnList[0];
     }
 }
-
-//char checkAllCollisions(char xLoc, char yLoc){
-//    //TODO
-//    volatile uint8_t i;
-//    char collide = 0;
-//    for(i = 0; i < 3 && collide != 1; i++){
-////        if(player[i].x == xLoc && player[i].y ==yLoc){
-////            collide = 1;
-////        }
-//    }
-//    return collide;
-//}
 
 bool checkItem(pokePlayer_t player){
     //TODO
@@ -426,17 +414,12 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	pokemon_t pkmn = generatePokemon();
+	players[playerInd].encountered = generatePokemon();
+	printPokemon(playerInd, players[playerInd].encountered.name);
 	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
-
-	//wait for player input
-		//if run
-		//if ball
-
-	//finish event
 }
 
 void selectRun(uint8_t player){
@@ -444,7 +427,11 @@ void selectRun(uint8_t player){
 		//end encounter
 		players[player].mvmt = true;
 
-		//clear menu TODO
+		//clear menu
+		printMenu(player, NONE, -1, -1, -1, "");
+
+		//remove shaking grass
+		drawGrass(GRASS, players[player].tileX, players[player].tileY);
 	}
 }
 
@@ -452,10 +439,10 @@ void selectBall(uint8_t player){
 	if(players[player].mvmt == false){
 		//change menu to ball select
 		//circularly define one as only pos to optionally display them
-		players[playerInd].pbCount *= 1;
-		players[playerInd].gbCount *= -1;
-		players[playerInd].ubCount *= -1;
-		printMenu(player, BALL_SELECT, players[playerInd].pbCount, players[playerInd].gbCount, players[playerInd].ubCount);
+		players[player].pbCount *= 1;
+		players[player].gbCount *= -1;
+		players[player].ubCount *= -1;
+		printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
 
 	}
 }
@@ -470,51 +457,66 @@ void rBallOpt(uint8_t player){
 
 void throwBall(uint8_t player){
 	if(players[player].mvmt == false && //player is in menu state
-			(players[playerInd].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
 			){
 		if(players[player].pbCount > 0 ){ //has balls and is selected
-
+			--players[player].pbCount;
+			if(players[player].pbCount < 0 ) players[player].pbCount = 0; //don't let count fall below zero
+			captureEvent(player, 0);
 		}
 		else if(players[player].gbCount > 0){
-
+			--players[player].gbCount;
+			if(players[player].gbCount < 0 ) players[player].gbCount = 0; //don't let count fall below zero
+			captureEvent(player, 20);
 		}
 		else if(players[player].ubCount > 0){
-
+			--players[player].ubCount;
+			if(players[player].ubCount < 0 ) players[player].ubCount = 0; //don't let count fall below zero
+			captureEvent(player, 50);
 		}
 
 		//change negative values to positive to exit this state
+		if(players[player].pbCount < 0 ){ //has balls and is selected
+			captureEvent(player, 0);
+		}
+		else if(players[player].gbCount > 0){
+			captureEvent(player, 20);
+		}
+		else if(players[player].ubCount > 0){
+			captureEvent(player, 50);
+		}
 
 		//resume movement
+		players[player].mvmt = true;
 
 	}
+}
+
+void captureEvent(uint8_t player, uint8_t multiplier){
+	//try to catch pokemon
+	//throw ball at encountered pokemon
+	int rand = 51; //TODO: Random numbers
+	int thresh = 50;
+	int chance = rand * multiplier / 100;
+	if(chance > thresh){
+		players[player].score += players[player].encountered.points;
+		players[player].encountered = 0;
+		printScore(player, players[player].score);
+		//TODO: print pokemon caught
+	}
+	else{
+		players[player].encountered = 0;
+		//TODO: print pokemon ran
+	}
+
+	//clear menu
+	printMenu(player, NONE, -1, -1, -1, "");
+
+	//remove shaking grass
+	drawGrass(GRASS, players[player].tileX, players[player].tileY);
 }
 
 void generateItems(){
     //TODO
 }
-
-
-
-//void upPressed(controller_buttons_t input, void* player) {
-////    static uint8_t right = 0x01;
-////
-////    if ((t1.y - 1) < GRID_Y ) {
-////        if(checkAllCollisions(player->tileX, player->tileY-1)==0){
-////        if (map.map[t1.x + t1.y * GRID_X]) {
-////            Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
-////        }
-////        else {
-////            Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-////        }
-////
-////        t1.y--;
-////        p1.y = t1.y * TILE_Y;
-////        //Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
-////        Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
-////        right ^= 0x01;
-////    }
-////    }
-//}
-
-
 
