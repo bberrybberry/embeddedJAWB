@@ -134,12 +134,12 @@ typedef struct{
  */
 pokePlayer_t players[MAX_PLAYERS];
 /**
- * @var pkmnList[]
+ * @var pkmnList[MAX_PKMN]
  * @brief Container for all types of pokemon contained in the game
  */
 pokemon_t pkmnList[MAX_PKMN];
 /**
- * @var pkmnWeight[]
+ * @var pkmnWeight[MAX_PKMN]
  * @brief Parallel array to pkmnList for weighted generation of pokemon
  */
 uint8_t pkmnWeights[MAX_PKMN];
@@ -186,7 +186,7 @@ void initPokemon(void);
 
 /**
  * @fn movePlayerUp(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player up. Do nothing if the desired location is invalid
@@ -196,7 +196,7 @@ void movePlayerUp(uint8_t playerIndex);
 
 /**
  * @fn movePlayerDown(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player down. Do nothing if the desired location is invalid
@@ -206,7 +206,7 @@ void movePlayerDown(uint8_t playerIndex);
 
 /**
  * @fn movePlayerLeft(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player left. Do nothing if the desired location is invalid
@@ -216,7 +216,7 @@ void movePlayerLeft(uint8_t playerIndex);
 
 /**
  * @fn movePlayerRight(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player right. Do nothing if the desired location is invalid
@@ -225,9 +225,9 @@ void movePlayerRight(uint8_t playerIndex);
 
 /**
  * @fn checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY)
- * @param pokePlayer_t* player
- * @param uint8_t locX
- * @param uint8_t locY
+ * @param player
+ * @param locX
+ * @param locY
  * @return bool True if location is valid, false otherwise
  *
  * @brief Check is the location the player is attempting to move into is a valid
