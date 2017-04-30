@@ -69,6 +69,8 @@ void pkmnPlay(void){
     //init pokemon game
     initGame();
 
+    game.currGameState = PAUSE;
+
     g_startTime = TimeNow();
     Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
 }
@@ -96,7 +98,7 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.left) leftPressed(i);
         if(input->controller[i].button.right) rightPressed(i);
         if(input->controller[i].button.A) aPressed(i);
-        if(input->controller[i].button.B) bPressed(i);    }
+        if(input->controller[i].button.B) bPressed(i);
         if(input->controller[i].button.start) startPressed(i);
         if(input->controller[i].button.select) selectPressed(i);
     }
@@ -156,21 +158,26 @@ void bPressed(uint8_t player){
 }
 
 void startPressed(uint8_t player){
+	static uint8_t initial = 1;
+
+
 	if (game.currGameState == PLAY) {
 		game.currGameState = PAUSE;
-		pausedTime = TimeNow();
+		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
-//		Task_Remove((task_fn_t)generatePokemon, 0);
+		Task_Remove((task_fn_t)generatePokemon, 0);
 		pauseGame();
-		notPaused = 0;
-
 	}
 	else if (game.currGameState == PAUSE) {
-		if (pausedTime) {
-			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((pausedTime - startTime) % 1000), 1000);
-//			Task_Schedule((task_fn_t)generatePokemon, 0, 1000 - ((pausedTime - startTime) % 1000), 1000);
+		if (initial) {
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
+			Task_Schedule((task_fn_t)generatePokemon, 0, 0, 1000);
+			initial = 0;
+		}
+		if (g_pauseTime) {
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
+			Task_Schedule((task_fn_t)generatePokemon, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
 			playGame();
-			notPaused = 1;
 		}
 	}
 }
