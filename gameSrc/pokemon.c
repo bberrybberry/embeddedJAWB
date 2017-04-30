@@ -393,7 +393,7 @@ void setShakingGrass(uint8_t locX, uint8_t locY){
 }
 
 void updateTime(uint8_t time){
-    //TODO
+    printStats(time, "");
 }
 
 void updateScores(pokePlayer_t player, uint8_t score){
