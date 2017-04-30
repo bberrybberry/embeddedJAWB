@@ -44,6 +44,12 @@
  * TODO Docs
  */
 typedef struct{
+    char* name;            ///< Name of pokemon
+    uint8_t spawnRate;      ///< Spawn rate for random generation, out of 100
+    uint8_t catchRate;      ///< Catch rate of pokemon (percentage chance of successful ball catch)
+    uint8_t points;         ///< Points to award player for successful catch
+} pokemon_t;
+typedef struct{
     playerSprite sprite;    ///< Sprite of player (relates to graphics)
     int8_t pbCount;        ///< Player inventory of pokeballs
     int8_t gbCount;        ///< Player inventory of great balls
@@ -53,14 +59,8 @@ typedef struct{
     uint8_t tileY;          ///< Y tile position of the player
     bool status;            ///< Whether or not the player is currently playing true: is playing false: is not playing
     bool mvmt;              ///< Whether or not the player can move
+    pokemon_t encountered;    ///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
-typedef struct{
-    char* name;            ///< Name of pokemon
-    uint8_t spawnRate;      ///< Spawn rate for random generation, out of 100
-    uint8_t catchRate;      ///< Catch rate of pokemon (percentage chance of successful ball catch)
-    uint8_t points;         ///< Points to award player for successful catch
-} pokemon_t;
-
 //TODO: Define weights for random pokemon generation
 
 
