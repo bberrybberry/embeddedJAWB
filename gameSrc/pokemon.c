@@ -242,6 +242,7 @@ void movePlayerUp(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.y - 1) < GRID_Y && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y -1) //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
@@ -270,6 +271,7 @@ void movePlayerDown(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.y + 1) < GRID_Y && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y +1)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
@@ -298,6 +300,7 @@ void movePlayerLeft(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.x - 1) < GRID_X && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x -1, initPt.y)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
@@ -326,6 +329,7 @@ void movePlayerRight(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.x + 1) < GRID_X && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x +1, initPt.y)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
