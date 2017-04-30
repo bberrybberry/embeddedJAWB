@@ -229,6 +229,7 @@ void rBallOpt(uint8_t player);
  * @brief Routine that runs when the player throws a ball
  */
 void throwBall(uint8_t player);
+void captureEvent(uint8_t player, uint8_t multiplier);
 
 /**
  * @fn playGame(void)
