@@ -169,22 +169,70 @@ void drawInitMenu(void) {
 		p1.y = TILE_Y * (MENU_HEIGHT * (i - 1));
 		p2.x = TILE_X * (GRID_X + TEXT_TILES);
 		p2.y = TILE_Y * (MENU_HEIGHT * (i));
+
 		color[0] = 0x55; color[1] = 0x55; color[2] = 0x55;
 		Graphics_SetForeground(&gCntx, color);
 		Graphics_DrawRectangle(&gCntx, p1, p2);
 
 		color[0] = 0x00; color[1] = 0x00; color[2] = 0x00;
 		Graphics_SetForeground(&gCntx, color);
-		p1.x++; p1.y++;
+		p1.x += HORI_PADDING; p1.y += VERT_PADDING;
 		Graphics_DrawText(&gCntx, p1, "Player %d: %d", i, 0);
 	}
-}
-void printMenu(uint8_t playerID, menuState ms, char* text){
+	p1.x = TILE_X * GRID_X;
+	p1.y = TILE_Y * (MENU_HEIGHT * 4);
+	p2.y = TILE_Y * GRID_Y;
 
-    //TODO
+	color[0] = 0x55; color[1] = 0x55; color[2] = 0x55;
+	Graphics_SetForeground(&gCntx, color);
+	Graphics_DrawRectangle(&gCntx, p1, p2);
+
+}
+void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, char* text){
+	g_point_t pt;
+	uint8_t color[3];
+	int8_t numBalls;
+
+	pt.x = TILE_X * GRID_X + HORI_PADDING;
+	pt.y = TILE_Y * (MENU_HEIGHT * (playerID) + 1) + VERT_PADDING;
+
+	color[0] = 0x00; color[1] = 0x00; color[2] = 0x00;
+	Graphics_SetForeground(&gCntx, color);
+
+	color[0] = 0xFF; color[1] = 0xFF; color[2] = 0xFF;
+	Graphics_SetBackground(&gCntx, color);
+
+	if (pb > -1) {
+		numBalls = pb;
+	}
+	else if (gb > -1) {
+		numBalls = gb;
+	}
+	else if (ub > -1) {
+		numBalls = ub;
+	}
+
+	switch(ms) {
+	case RUN_BALL:
+		Graphics_DrawText(&gCntx, pt, "Select Ball: A Run: B");
+		break;
+	case BALL_SELECT:
+		Graphics_DrawText(&gCntx, pt, "%s: %d", text, numBalls);
+		break;
+	case NONE:
+		Graphics_DrawText(&gCntx, pt, "                                                     ");
+		break;
+	default:
+		break;
+	}
 }
 void printStats(uint8_t time, char* text){
-    //TODO
+	g_point_t pt;
+	pt.x = TILE_X * GRID_X + HORI_PADDING;
+	pt.y = TILE_Y * (MENU_HEIGHT * 4) + VERT_PADDING;
+
+	Graphics_DrawText(&gCntx, pt, "Time Remaining: %d", time);
+	//TODO: The other stats
 }
 
 bool isTreeTile(uint8_t locX, uint8_t locY){
