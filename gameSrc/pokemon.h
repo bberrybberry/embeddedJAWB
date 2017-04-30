@@ -45,9 +45,9 @@
  */
 typedef struct{
     playerSprite sprite;    ///< Sprite of player (relates to graphics)
-    uint8_t pbCount;        ///< Player inventory of pokeballs
-    uint8_t gbCount;        ///< Player inventory of great balls
-    uint8_t ubCount;        ///< Player inventory of ultra balls
+    int8_t pbCount;        ///< Player inventory of pokeballs
+    int8_t gbCount;        ///< Player inventory of great balls
+    int8_t ubCount;        ///< Player inventory of ultra balls
     uint16_t score;         ///< Player score
     uint8_t tileX;          ///< X tile position of the player
     uint8_t tileY;          ///< Y tile position of the player
