@@ -95,8 +95,8 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.down) downPressed(i);
         if(input->controller[i].button.left) leftPressed(i);
         if(input->controller[i].button.right) rightPressed(i);
-        if(input->controller[i].button.a) aPressed(i);
-        if(input->controller[i].button.b) bPressed(i);
+        if(input->controller[i].button.A) aPressed(i);
+        if(input->controller[i].button.B) bPressed(i);    }
         if(input->controller[i].button.start) startPressed(i);
         if(input->controller[i].button.select) selectPressed(i);
     }
@@ -138,14 +138,17 @@ void downPressed(uint8_t player){
 
 void leftPressed(uint8_t player){
 	movePlayerLeft(player);
+	lBallOpt(player);
 }
 
 void rightPressed(uint8_t player){
 	movePlayerRight(player);
+	rBallOpt(player);
 }
 
 void aPressed(uint8_t player){
 	selectBall(player);
+	throwBall(player);
 }
 
 void bPressed(uint8_t player){

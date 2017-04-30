@@ -100,9 +100,13 @@ void drawGrass(grassState gs, uint8_t locX, uint8_t locY){
 	pt.y = locY * TILE_Y;
 	switch(gs){
 	case GRASS:
+		//update grid as well as draw one tile
+		map.grid[locX + locY * TILE_Y] = grassTilePtr;
 		Graphics_DrawTile(&gCntx, pt, &grassTilePtr, TILE_X, TILE_Y);
 		break;
 	case SHAKE:
+		//update grid as well as draw one tile
+		map.grid[locX + locY * TILE_Y] = shakingGrassTilePtr;
 		Graphics_DrawTile(&gCntx, pt, &shakingGrassTilePtr, TILE_X, TILE_Y);
 		break;
 	}
@@ -242,10 +246,10 @@ void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, 
 
 	switch(ms) {
 	case RUN_BALL:
-		Graphics_DrawText(&gCntx, pt, "Select Ball: A Run: B");
+		Graphics_DrawText(&gCntx, pt, "Select Ball: A Run: B   ");
 		break;
 	case BALL_SELECT:
-		Graphics_DrawText(&gCntx, pt, "%s: %d   ", text, numBalls);
+		Graphics_DrawText(&gCntx, pt, "%s: %d     ", text, numBalls);
 		break;
 	case NONE:
 		Graphics_DrawText(&gCntx, pt, "                                                     ");
