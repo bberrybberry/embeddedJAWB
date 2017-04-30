@@ -25,6 +25,14 @@
 #define MAX_PLAYERS			4
 #define MAX_PKMN			6
 
+#define PLAYER1_INIT_X	5
+#define PLAYER1_INIT_Y	9
+#define PLAYER2_INIT_X	6
+#define PLAYER2_INIT_Y	10
+#define PLAYER3_INIT_X	6
+#define PLAYER3_INIT_Y	9
+#define PLAYER4_INIT_X	5
+#define PLAYER4_INIT_Y	10
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -172,7 +180,8 @@ bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY);
 void playGame(void);
 void pauseGame(void);
 pokemon_t generatePokemon(void);
-char checkAllCollisions(char xLoc, char yLoc);
+void updatePlayerLoc(pokePlayer_t player);
+bool checkAllCollisions(uint8_t xLoc, uint8_t yLoc);
 bool checkItem(pokePlayer_t player);
 bool checkGrass(pokePlayer_t player);
 void updateGrass(uint8_t location);

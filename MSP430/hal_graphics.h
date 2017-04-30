@@ -148,7 +148,8 @@ void setFont(const Graphics_Font* font);
 
 /**
  * @fn drawString(uint32_t color, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque)
- * @param color Hex color
+ * @param textColor Hex color
+ * @param bgColor Hex color
  * @param string Pointer to beginning of char array
  * @param lenght Length of the string to be drawn
  * @param x X coordinate of the top left corner of the text
@@ -156,7 +157,7 @@ void setFont(const Graphics_Font* font);
  * @param opaque Treated as boolean if the string is transparent
  * @brief Draws the given string on the display at the given location
  */
-void drawString(uint32_t color, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque);
+void drawString(uint32_t color, uint32_t bgColor, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque);
 
 
 #endif /* HAL_GRAPHICS_H_ */

@@ -253,7 +253,7 @@ void Graphics_DrawText(graphics_t * gptr, g_point_t position, char * str, ...) {
 		strPtr++;
 	}
 
-	drawString(colorToHex(gptr->foreground), &string[0], len, position.x, position.y, true);
+	drawString(colorToHex(gptr->foreground), colorToHex(gptr->background), &string[0], len, position.x, position.y, true);
 }
 
 /**
