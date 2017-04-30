@@ -116,6 +116,8 @@ void DEBUG_pokeGeneration(){
 	locY3 = 8;
 
 	setShakingGrass(locX1, locY1);
+	setShakingGrass(locX2, locY2);
+	setShakingGrass(locX3, locY3);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -247,6 +249,12 @@ void movePlayerUp(uint8_t playerIndex){
 		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, --players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+			runEncounter(playerIndex);
+		}
 	}
 }
 
@@ -267,6 +275,12 @@ void movePlayerDown(uint8_t playerIndex){
 		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, ++players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+			runEncounter(playerIndex);
+		}
 	}
 }
 
@@ -287,6 +301,12 @@ void movePlayerLeft(uint8_t playerIndex){
 		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, --players[playerIndex].tileX, players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+			runEncounter(playerIndex);
+		}
 	}
 }
 
@@ -311,6 +331,7 @@ void movePlayerRight(uint8_t playerIndex){
 		//check if encounter occurs
 		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
 			//enter encounter
+			runEncounter(playerIndex);
 		}
 	}
 }
@@ -333,7 +354,7 @@ void pauseGame(){
 
 pokemon_t generatePokemon(){
     uint8_t r = 5; //TODO: replace with random num gen
-    uint8_t index = binarySearch(pkmnWeights, r, 0, MAX_PKMN);
+    uint8_t index = r;//binarySearch(pkmnWeights, r, 0, MAX_PKMN);
     switch(index){
     case 0:
 	case 1:
@@ -400,8 +421,18 @@ void updateScores(pokePlayer_t player, uint8_t score){
     //TODO
 }
 
-void runEncounter(){
-    //TODO
+void runEncounter(uint8_t playerInd){
+    //stop player movement
+	players[playerInd].mvmt = false;
+
+	//print pokemon
+	pokemon_t pkmn = generatePokemon();
+
+	//change menu
+
+	//wait for player input
+
+	//finish event
 }
 
 void generateItems(){
