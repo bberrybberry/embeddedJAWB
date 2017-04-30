@@ -52,7 +52,10 @@
 #define GRID_Y              (HEIGHT / TILE_Y)
 #define MAP_WIDTH   		12 * TILE_X
 #define MAP_HEIGHT  		20 * TILE_Y
-#define MENU_HEIGHT			3
+#define MENU_HEIGHT			4
+
+#define VERT_PADDING		1
+#define HORI_PADDING		3
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -91,7 +94,7 @@ void drawGrass(grassState gs, uint8_t location);
 void drawMap();
 void drawStatic(const g_pixel_t* tileImg, g_point_t* pos);
 void drawInitMenu(void);
-void printMenu(uint8_t playerID, menuState ms, char* text);
+void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, char* text);
 void printStats(uint8_t time, char* text);
 
 bool isTreeTile(uint8_t locX, uint8_t locY);
