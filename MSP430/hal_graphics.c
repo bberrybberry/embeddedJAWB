@@ -81,7 +81,8 @@ void setFont(const Graphics_Font* font) {
 	g_sContext.font = font;
 }
 
-void drawString(uint32_t color, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque) {
-	Graphics_setForegroundColor(&g_sContext, color);
+void drawString(uint32_t textColor, uint32_t bgColor, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque) {
+	Graphics_setForegroundColor(&g_sContext, textColor);
+	Graphics_setBackgroundColor(&g_sContext, bgColor);
 	Graphics_drawString(&g_sContext, (int8_t*)string, length, x, y, opaque);
 }
