@@ -186,6 +186,7 @@ void selectBall(uint8_t player);
 void lBallOpt(uint8_t player);
 void rBallOpt(uint8_t player);
 void throwBall(uint8_t player);
+void captureEvent(uint8_t player, uint8_t multiplier);
 
 void playGame(void);
 void pauseGame(void);

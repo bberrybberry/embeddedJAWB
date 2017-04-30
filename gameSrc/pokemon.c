@@ -179,7 +179,7 @@ void initPlayers(){
 		players[i].pbCount = 15;
 		players[i].gbCount = 10;
 		players[i].ubCount = 5;
-		players[i].mvmt = false;
+		players[i].mvmt = true;
 		players[i].status = false;
 		players[i].score = 0;
 
