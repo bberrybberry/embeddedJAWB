@@ -97,15 +97,24 @@ void drawInitMenu(void) {
 		p1.y = TILE_Y * (MENU_HEIGHT * (i - 1));
 		p2.x = TILE_X * (GRID_X + TEXT_TILES);
 		p2.y = TILE_Y * (MENU_HEIGHT * (i));
+
 		color[0] = 0x55; color[1] = 0x55; color[2] = 0x55;
 		Graphics_SetForeground(&gCntx, color);
 		Graphics_DrawRectangle(&gCntx, p1, p2);
 
 		color[0] = 0x00; color[1] = 0x00; color[2] = 0x00;
 		Graphics_SetForeground(&gCntx, color);
-		p1.x++; p1.y++;
+		p1.x += 3; p1.y++;
 		Graphics_DrawText(&gCntx, p1, "Player %d: %d", i, 0);
 	}
+	p1.x = TILE_X * GRID_X;
+	p1.y = TILE_Y * (MENU_HEIGHT * 4);
+	p2.y = TILE_Y * GRID_Y;
+
+	color[0] = 0x55; color[1] = 0x55; color[2] = 0x55;
+	Graphics_SetForeground(&gCntx, color);
+	Graphics_DrawRectangle(&gCntx, p1, p2);
+
 }
 void printMenu(uint8_t playerID, menuState ms, char* text){
 
