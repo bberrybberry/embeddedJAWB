@@ -468,13 +468,13 @@ void lBallOpt(uint8_t player){
 			if(players[player].ubCount != 0){
 				players[player].pbCount *= -1; //make curr negative
 				players[player].ubCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
 
 			}
 			else if(players[player].gbCount != 0){
 				players[player].pbCount *= -1; //make curr negative
 				players[player].gbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
 
 			}
 		}
@@ -483,13 +483,13 @@ void lBallOpt(uint8_t player){
 			if(players[player].pbCount != 0){
 				players[player].gbCount *= -1; //make curr negative
 				players[player].pbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
 
 			}
 			else if(players[player].ubCount != 0){
 				players[player].gbCount *= -1; //make curr negative
 				players[player].ubCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
 
 			}
 		}
@@ -498,13 +498,13 @@ void lBallOpt(uint8_t player){
 			if(players[player].gbCount != 0){
 				players[player].ubCount *= -1; //make curr negative
 				players[player].gbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
 
 			}
 			else if(players[player].pbCount != 0){
 				players[player].ubCount *= -1; //make curr negative
 				players[player].pbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
 
 			}
 		}
@@ -520,13 +520,13 @@ void rBallOpt(uint8_t player){
 			if(players[player].gbCount != 0){
 				players[player].pbCount *= -1; //make curr negative
 				players[player].gbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
 
 			}
 			else if(players[player].ubCount != 0){
 				players[player].pbCount *= -1; //make curr negative
 				players[player].ubCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
 
 			}
 		}
@@ -535,13 +535,13 @@ void rBallOpt(uint8_t player){
 			if(players[player].ubCount != 0){
 				players[player].gbCount *= -1; //make curr negative
 				players[player].ubCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
 
 			}
 			else if(players[player].pbCount != 0){
 				players[player].gbCount *= -1; //make curr negative
 				players[player].pbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
 
 			}
 		}
@@ -550,13 +550,13 @@ void rBallOpt(uint8_t player){
 			if(players[player].pbCount != 0){
 				players[player].ubCount *= -1; //make curr negative
 				players[player].pbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
 
 			}
 			else if(players[player].gbCount != 0){
 				players[player].ubCount *= -1; //make curr negative
 				players[player].gbCount *= -1; //make curr not negative, becomes new curr
-				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
 
 			}
 		}
