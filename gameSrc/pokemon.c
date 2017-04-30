@@ -351,7 +351,6 @@ void movePlayerRight(uint8_t playerIndex){
 
 void initTextBox(){
 	drawInitMenu();
-    //TODO is this done? It looks done? NOTE: Please remove "todo" comments when they're complete
 }
 
 //void playGame(){
@@ -379,7 +378,7 @@ pokemon_t generatePokemon(){
     }
 }
 
-bool checkItem(pokePlayer_t player){
+bool checkItem(pokePlayer_t* player){
     //TODO
 }
 
@@ -417,7 +416,7 @@ void updateTime(uint8_t time){
     printStats(time, "");
 }
 
-void updateScores(pokePlayer_t player, uint8_t score){
+void updateScores(pokePlayer_t* player, uint8_t score){
     //TODO
 }
 

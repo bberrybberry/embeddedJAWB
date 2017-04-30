@@ -108,7 +108,8 @@ void initGame(void);
 void initMap(void);
 
 /**
- * TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * @fn initTextBox(void)
+ * @brief Initializes the text boxes on the right of the screen
  */
 void initTextBox(void);
 
@@ -178,25 +179,134 @@ void movePlayerRight(uint8_t playerIndex);
 bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY);
 
 //TODO Docs
+/**
+ * @fn checkShakingGrass(uint8_t locX, uint8_t locY)
+ * @param locX X coordinate of the tile
+ * @param locY Y coordinate of the tile
+ * @brief Checks if the grass at the specified tile is shaking
+ */
 bool checkShakingGrass(uint8_t locX, uint8_t locY);
+
+/**
+ * @fn setShakingGrass(uint8_t locX, uint8_t locY)
+ * @param locX X coordinate of the tile
+ * @param locY Y coordinate of the tile
+ * @brief Sets the specified tile as shaking grass
+ */
 void setShakingGrass(uint8_t locX, uint8_t locY);
 
+/**
+ * @fn selectRun(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player wants to run
+ */
 void selectRun(uint8_t player);
+
+/**
+ * @fn selectBall(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player wants to select a pokeball
+ */
 void selectBall(uint8_t player);
+
+/**
+ * @fn lBallOpt(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player presses left in ball selection menu
+ */
 void lBallOpt(uint8_t player);
+
+/**
+ * @fn rBallOpt(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player presses right in ball selection menu
+ */
 void rBallOpt(uint8_t player);
+
+/**
+ * @fn throwBall(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player throws a ball
+ */
 void throwBall(uint8_t player);
 
+/**
+ * @fn playGame(void)
+ * @brief Initiates the gameplay
+ */
 void playGame(void);
+
+/**
+ * @fn pauseGame(void)
+ * @brief Pauses thte gameplay
+ */
 void pauseGame(void);
+
+/**
+ * @fn generatePokemon(void)
+ * @brief Generates a random pokeball at a random tile
+ */
 pokemon_t generatePokemon(void);
-void updatePlayerLoc(pokePlayer_t player);
-bool checkItem(pokePlayer_t player);
-bool checkGrass(pokePlayer_t player);
+
+/**
+ * @fn updatePlayerLoc(pokePlayer_t player)
+ * @param player Pointer to player struct
+ * @brief Updates the current location of the player in the player struct
+ */
+void updatePlayerLoc(pokePlayer_t* player);
+
+//TODO fill this in right
+/**
+ * @fn checkItem(pokePlayer_t* player)
+ * @param player Pointer to player struct
+ * @brief
+ */
+bool checkItem(pokePlayer_t* player);
+
+//TODO fill this in right
+/**
+ * @fn checkGrass(pokePlayer_t* player)
+ * @param player Pointer to player struct
+ * @brief
+ */
+bool checkGrass(pokePlayer_t* player);
+
+//TODO fill this in right
+/**
+ * @fn updateGrass(uint8_t location)
+ * @param location
+ * @brief
+ */
 void updateGrass(uint8_t location);
+
+/**
+ * @fn updateTime(uint8_t time)
+ * @param time Current remaining time to display
+ * @brief Updates the time on the screen
+ */
 void updateTime(uint8_t time);
-void updateScores(pokePlayer_t player, uint8_t score);
+
+/**
+ * @fn updateScores(pokePlayer_t* player, uint8_t score)
+ * @param player Pointer to the player struct
+ * @param score New score of the player
+ * @brief New score to put into the player struct
+ */
+void updateScores(pokePlayer_t* player, uint8_t score);
+
+//TODO fill this in right
+/**
+ * @fn runEncounter(uint8_t playerInd)
+ * @param playerInd Index of the player in the encounter
+ * @brief Routine that runs when the player has an encounter
+ */
 void runEncounter(uint8_t playerInd);
+
+//TODO fill this in right
+/**
+ * @fn generateItems(void)
+ * @brief
+ */
 void generateItems(void);
 
 /**
