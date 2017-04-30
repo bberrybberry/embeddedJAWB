@@ -23,6 +23,14 @@
 //TODO Docs
 #define MAX_STRING_LENGTH   16
 
+#define PLAYER1_INIT_X	5
+#define PLAYER1_INIT_Y	9
+#define PLAYER2_INIT_X	6
+#define PLAYER2_INIT_Y	10
+#define PLAYER3_INIT_X	6
+#define PLAYER3_INIT_Y	9
+#define PLAYER4_INIT_X	5
+#define PLAYER4_INIT_Y	10
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -104,7 +112,7 @@ void playGame(void);
 void pauseGame(void);
 pokemon_t generatePokemon(void);
 void updatePlayerLoc(pokePlayer_t player);
-char checkAllCollisions(char xLoc, char yLoc);
+bool checkAllCollisions(uint8_t xLoc, uint8_t yLoc);
 bool checkItem(pokePlayer_t player);
 bool checkPlayerLocValid(pokePlayer_t player);
 bool checkGrass(pokePlayer_t player);
