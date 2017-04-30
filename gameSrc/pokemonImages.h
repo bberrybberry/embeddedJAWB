@@ -73,7 +73,7 @@ const g_pixel_t* waltRTilePtr = &waltR[0];
 const g_pixel_t* waltLTilePtr = &waltL[0];
 
 //static ground
-const g_pixel_t* goundTilePtr = &ground[0];
+const g_pixel_t* groundTilePtr = &ground[0];
 const g_pixel_t* treesTilePtr = &trees[0];
 const g_pixel_t* rocksTilePtr = &rocks[0];
 
