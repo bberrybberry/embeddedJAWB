@@ -1,4 +1,5 @@
 /*
+ *
  * pokemonImages.h
  *
  *  Created on: Apr 25, 2017
@@ -7,6 +8,9 @@
  * A lot of this code is based around map.h
  */
 
+/**
+ * @file
+ */
 #ifndef POKEMONIMAGES_H_
 #define POKEMONIMAGES_H_
 
