@@ -357,15 +357,15 @@ void initTextBox(){
 	drawInitMenu();
 }
 
-//void playGame(){
-//    //TODO
-//}
-//
-//void pauseGame(){
-//    //TODO
-//
-//    //TODO: How to access game variable from pokemonGame to set state to pause
-//}
+void playGame(){
+    //TODO
+}
+
+void pauseGame(){
+    //TODO
+
+    //TODO: How to access game variable from pokemonGame to set state to pause
+}
 
 pokemon_t generatePokemon(){
     uint8_t r = 5; //TODO: replace with random num gen

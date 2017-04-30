@@ -69,6 +69,8 @@ void pkmnPlay(void){
     //init pokemon game
     initGame();
 
+    game.currGameState = PAUSE;
+
     g_startTime = TimeNow();
     Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
 }
@@ -157,23 +159,28 @@ void bPressed(uint8_t player){
 }
 
 void startPressed(uint8_t player){
-//	if (game.currGameState == PLAY) {
-//		game.currGameState = PAUSE;
-//		pausedTime = TimeNow();
-//		Task_Remove((task_fn_t)updateTimeRemaining, 0);
-////		Task_Remove((task_fn_t)generatePokemon, 0);
-//		pauseGame();
-//		notPaused = 0;
-//
-//	}
-//	else if (game.currGameState == PAUSE) {
-//		if (pausedTime) {
-//			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((pausedTime - startTime) % 1000), 1000);
-////			Task_Schedule((task_fn_t)generatePokemon, 0, 1000 - ((pausedTime - startTime) % 1000), 1000);
-//			playGame();
-//			notPaused = 1;
-//		}
-//	}
+	static uint8_t initial = 1;
+
+
+	if (game.currGameState == PLAY) {
+		game.currGameState = PAUSE;
+		g_pauseTime = TimeNow();
+		Task_Remove((task_fn_t)updateTimeRemaining, 0);
+		Task_Remove((task_fn_t)generatePokemon, 0);
+		pauseGame();
+	}
+	else if (game.currGameState == PAUSE) {
+		if (initial) {
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
+			Task_Schedule((task_fn_t)generatePokemon, 0, 0, 1000);
+			initial = 0;
+		}
+		if (g_pauseTime) {
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
+			Task_Schedule((task_fn_t)generatePokemon, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
+			playGame();
+		}
+	}
 }
 
 void selectPressed(uint8_t player){
