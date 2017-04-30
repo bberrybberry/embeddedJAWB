@@ -133,14 +133,17 @@ void downPressed(uint8_t player){
 
 void leftPressed(uint8_t player){
 	movePlayerLeft(player);
+	lBallOpt(player);
 }
 
 void rightPressed(uint8_t player){
 	movePlayerRight(player);
+	rBallOpt(player);
 }
 
 void aPressed(uint8_t player){
 	selectBall(player);
+	throwBall(player);
 }
 
 void bPressed(uint8_t player){

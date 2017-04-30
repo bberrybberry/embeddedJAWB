@@ -158,7 +158,7 @@ void initGame(){
     initPokemon();
 
     //pause game
-    pauseGame();
+    //pauseGame();
     //wait for someone to unpause game before starting\
 
     //set up time and first item/pokemon generations
@@ -448,11 +448,107 @@ void selectBall(uint8_t player){
 }
 
 void lBallOpt(uint8_t player){
+	if(players[player].mvmt == false && //player is in menu state
+			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			){
+		if(players[player].pbCount > 0 ){ //has balls and is selected
+			//move selection to ub, if possible, else gb, else nothing
+			if(players[player].ubCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
 
+			}
+			else if(players[player].gbCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+		}
+		else if(players[player].gbCount > 0){
+			//move selection to pb if possible, else ub, else nothing
+			if(players[player].pbCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+			else if(players[player].ubCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+		}
+		else if(players[player].ubCount > 0){
+			//move selection to gb, if possible, else pb, else nothing
+			if(players[player].gbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+			else if(players[player].pbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+		}
+	}
 }
 
 void rBallOpt(uint8_t player){
+	if(players[player].mvmt == false && //player is in menu state
+			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			){
+		if(players[player].pbCount > 0 ){ //has balls and is selected
+			//move selection to gb, if possible, else ub, else nothing
+			if(players[player].gbCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
 
+			}
+			else if(players[player].ubCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+		}
+		else if(players[player].gbCount > 0){
+			//move selection to ub if possible, else pb, else nothing
+			if(players[player].ubCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+			else if(players[player].pbCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+		}
+		else if(players[player].ubCount > 0){
+			//move selection to pb, if possible, else gb, else nothing
+			if(players[player].pbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+			else if(players[player].gbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+
+			}
+		}
+	}
 }
 
 void throwBall(uint8_t player){
@@ -500,12 +596,12 @@ void captureEvent(uint8_t player, uint8_t multiplier){
 	int chance = rand * multiplier / 100;
 	if(chance > thresh){
 		players[player].score += players[player].encountered.points;
-		players[player].encountered = 0;
+		//todo players[player].encountered = *void;
 		printScore(player, players[player].score);
 		//TODO: print pokemon caught
 	}
 	else{
-		players[player].encountered = 0;
+		//todo players[player].encountered = *void;
 		//TODO: print pokemon ran
 	}
 
