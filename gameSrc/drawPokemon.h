@@ -129,6 +129,11 @@
 typedef struct {
     const g_pixel_t* grid[GRID_X * GRID_Y]; /**< Grid containing pointers to all tiles */
 } MapStruct;
+
+/**
+ * @var map
+ * @brief Global map structure
+ */
 MapStruct map;
 
 
@@ -191,7 +196,7 @@ void initDrawGraphics(void);
  * @param ps Player sprite of the player being drawn
  * @param ws Walk state of the player being drawn
  * @param locX X coordinate of the player being drawn in tiles
- * @param loxY Y coordinate of the player being drawn in tiles
+ * @param locY Y coordinate of the player being drawn in tiles
  * @brief Draws a player with the given specs
  */
 void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY);
@@ -200,7 +205,7 @@ void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY);
  * @fn drawGrass(grassState gs, uint8_t locX, uint8_t locY)
  * @param gs State of the grass
  * @param locX X coordinate of the grass in tiles
- * @param loxY Y coordinate of the grass in tiles
+ * @param locY Y coordinate of the grass in tiles
  * @brief Draws grass with the current state at the specified location
  */
 void drawGrass(grassState gs, uint8_t locX, uint8_t locY);
@@ -236,7 +241,7 @@ void printScore(uint8_t playerID, uint16_t score);
 
 /**
  * @fn printPokemon(uint8_t playerID, char* pokemon)
- * @param Prints the pokemon for the given player
+ * @param playerID Player index
  * @param pokemon String of the pokemon
  * @brief Prints the name of the pokemon for the given player
  */

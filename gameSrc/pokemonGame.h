@@ -34,9 +34,9 @@
  * @brief Defines possible global states of the game
  */
 typedef enum{
-    PAUSE,
-    PLAY,
-    GAME_OVER
+    PAUSE,		/**< Game is paused*/
+    PLAY,		/**< Game is being played*/
+    GAME_OVER	/**< Game is over*/
 } gameState;
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +176,7 @@ void startPressed(uint8_t player);
 void selectPressed(uint8_t player);
 
 /**
- * @fn updateTime(void)
+ * @fn updateTimeRemaining(void)
  * @brief Updates the time remaining on the clock
  */
 void updateTimeRemaining(void);

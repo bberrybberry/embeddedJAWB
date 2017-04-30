@@ -139,7 +139,7 @@ pokePlayer_t players[MAX_PLAYERS];
  */
 pokemon_t pkmnList[MAX_PKMN];
 /**
- * @var pkmnWeight[MAX_PKMN]
+ * @var pkmnWeights[MAX_PKMN]
  * @brief Parallel array to pkmnList for weighted generation of pokemon
  */
 uint8_t pkmnWeights[MAX_PKMN];
@@ -180,7 +180,7 @@ void initPlayers(void);
 
 /**
  * @fn initPokemon(void);
- * @breif set up the types of pokemon used throughout the game
+ * @brief set up the types of pokemon used throughout the game
  */
 void initPokemon(void);
 
@@ -314,7 +314,7 @@ void pauseGame(void);
 pokemon_t generatePokemon(void);
 
 /**
- * @fn updatePlayerLoc(pokePlayer_t player)
+ * @fn updatePlayerLoc(pokePlayer_t* player)
  * @param player Pointer to player struct
  * @brief Updates the current location of the player in the player struct
  */
@@ -370,7 +370,7 @@ void runEncounter(uint8_t playerInd);
 //TODO fill this in right
 /**
  * @fn generateItems(void)
- * @brief
+ * @brief Generates the location of randomly placed pokeballs
  */
 void generateItems(void);
 
