@@ -590,10 +590,10 @@ void throwBall(uint8_t player){
 		if(players[player].pbCount < 0 ){
 			players[player].pbCount *= -1;
 		}
-		if(players[player].gbCount > 0){
+		if(players[player].gbCount < 0){
 			players[player].gbCount *= -1;
 		}
-		if(players[player].ubCount > 0){
+		if(players[player].ubCount < 0){
 			players[player].ubCount *= -1;
 		}
 
