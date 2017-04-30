@@ -97,7 +97,9 @@ void SPI_Rx_Handler(uint8_t channel);
 void SPI_Init(spi_settings_t* spi_settings) {
     hal_SPI_Init(spi_settings);
     spi[spi_settings->channel].state = SPI_IDLE;
+#ifdef USE_DMA_BUFFER
     spi[spi_settings->channel].DMABuffer = spi_settings->hal_settings.DMA_buffer;
+#endif
     switch (spi_settings->channel) {
 #ifdef USE_SPI0
     case 0:
@@ -200,7 +202,11 @@ static void CheckTransactions(uint8_t channel) {
             spi[channel].state = SPI_IDLE;
             return;
         }
-
+#ifdef USE_DMA_BUFFER
+        if(hal_SPI_UsingDMA(channel)) {
+        	hal_SPI_ClearDMABuffer(channel);
+        }
+#endif
         // Setup the SPI structure with the required information about the transaction
         spi[channel].bytesToWrite = transaction->writeLength;
         if(transaction->readLength == 0){
@@ -235,7 +241,7 @@ static void CheckTransactions(uint8_t channel) {
         }
 
         hal_SPI_EnableTxInterrupt(channel);
-
+#ifdef USE_DMA_BUFFER
         if (hal_SPI_UsingDMA(channel)) {
         	while(hal_SPI_IsTxIntEnabled(channel));
             // Assuming in between enabling Tx interrupt and here, the DMA interrupt is thrown and data
@@ -246,6 +252,7 @@ static void CheckTransactions(uint8_t channel) {
         		HandleLeftoverDMA(transaction);
         	}
         }
+#endif
     }
 }
 
@@ -283,24 +290,34 @@ static void FinishTransaction(spi_transaction_t* transaction) {
     spi[ch].state = SPI_IDLE;
     CheckTransactions(ch);
 }
-
+#ifdef USE_DMA_BUFFER
 void HandleLeftoverDMA(spi_transaction_t* transaction) {
 	uint8_t ch = transaction->flags.channel;
 	uint8_t size = spi[ch].bytesToReceive % DMA_BUFFER_SIZE;
+	uint8_t maxSize = size;
 	volatile int i;
-	for(i = 0; i < size+1; i++) {
+	// Delay for the DMA to finish moving the data into the buffer
+	// Likely not needed here
+	for(i = 0; i < 5; i++) {
 		__delay_cycles(10);
 	}
 	while(size) {
 		if(transaction->readLength){
 			if(spi[ch].bytesToDelay == 0) {
-				transaction->data[transaction->writeLength + spi[ch].bytesRead++] = spi[ch].DMABuffer[size];
+				// If no delay, begin with the first byte in the
+				transaction->data[transaction->writeLength + spi[ch].bytesRead++] = spi[ch].DMABuffer[maxSize - size];
 				size--;
 			} else if(spi[ch].bytesToDelay < DMA_BUFFER_SIZE) {
+				// Decrementing before because the DMA buffer still doesn't seem to be fully populated yet
 				spi[ch].bytesToDelay--;
 				size--;
 				__delay_cycles(10);
-				transaction->data[transaction->writeLength + spi[ch].bytesRead++] = spi[ch].DMABuffer[DMA_BUFFER_SIZE - hal_SPI_GetDMASize(ch) - 1];
+				__no_operation();
+				__no_operation();
+
+				transaction->data[transaction->writeLength + spi[ch].bytesRead++] = spi[ch].DMABuffer[spi[ch].bytesToDelay + 1];
+				__no_operation();
+				transaction->data[transaction->writeLength + spi[ch].bytesRead] = spi[ch].DMABuffer[spi[ch].bytesToDelay + 1];
 
 			} else {
 				// Should never get into this because bytesToDelay should not be more than the buffer size at this point
@@ -318,18 +335,18 @@ void HandleLeftoverDMA(spi_transaction_t* transaction) {
 		}
 	}
 	hal_SPI_ClearRxIF(ch);
-	hal_SPI_ClearDMABuffer(ch, spi[ch].DMABuffer);
+	hal_SPI_ClearDMABuffer(ch);
 }
-
+#endif
 void SPI_Rx_Handler(uint8_t channel) {
 	uint8_t c;
 
 	// If the interrupt flag is not set, return
 	if(!hal_SPI_RxIntStatus(channel)) return;
-
+#ifdef USE_DMA_BUFFER
 	// If this channel is using the DMA buffer, the buffer has filled up
 	if(!hal_SPI_UsingDMA(channel)) {
-
+#endif
 
 		// For all data in the buffer
 		while(hal_SPI_DataAvailable(channel)) {
@@ -371,7 +388,9 @@ void SPI_Rx_Handler(uint8_t channel) {
 			}
 		}
 		hal_SPI_ClearRxIF(channel);
-	} else {
+	}
+#ifdef USE_DMA_BUFFER
+	else {
 		// For the entire size of the DMA buffer
 		uint8_t size = DMA_BUFFER_SIZE;
 		uint8_t curPos = spi[channel].bytesToDelay;
@@ -423,7 +442,9 @@ void SPI_Rx_Handler(uint8_t channel) {
 		hal_SPI_ClearRxIF(channel);
 	}
 }
+#endif
 
+#ifdef USE_DMA_BUFFER
 void SPI_ISR(uint8_t channel, uint8_t rx){
 	if (rx) {
 		SPI_Rx_Handler(channel);
@@ -431,6 +452,12 @@ void SPI_ISR(uint8_t channel, uint8_t rx){
 		SPI_Tx_Handler(channel);
 	}
 }
+#else
+void SPI_ISR(uint8_t channel) {
+	SPI_Rx_Handler(channel);
+	SPI_Tx_Handler(channel);
+}
+#endif
 
 void SPI_Tx_Handler(uint8_t channel) {
 
