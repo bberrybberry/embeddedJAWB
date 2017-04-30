@@ -50,8 +50,9 @@
 #define TILE_Y              12
 #define GRID_X              ((WIDTH / TILE_X) - TEXT_TILES)
 #define GRID_Y              (HEIGHT / TILE_Y)
-#define MAP_WIDTH   12*TILE_X
-#define MAP_HEIGHT  20*TILE_Y
+#define MAP_WIDTH   		12 * TILE_X
+#define MAP_HEIGHT  		20 * TILE_Y
+#define MENU_HEIGHT			3
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -89,6 +90,7 @@ void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY);
 void drawGrass(grassState gs, uint8_t location);
 void drawMap();
 void drawStatic(const g_pixel_t* tileImg, g_point_t* pos);
+void drawInitMenu(void);
 void printMenu(uint8_t playerID, menuState ms, char* text);
 void printStats(uint8_t time, char* text);
 
