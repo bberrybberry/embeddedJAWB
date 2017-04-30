@@ -94,7 +94,10 @@ void drawGrass(grassState gs, uint8_t locX, uint8_t locY);
 void drawMap();
 void drawStatic(const g_pixel_t* tileImg, g_point_t* pos);
 void drawInitMenu(void);
+void printScore(uint8_t playerID, uint16_t score);
+void printPokemon(uint8_t playerID, char* pokemon);
 void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, char* text);
+
 void printStats(uint8_t time, char* text);
 
 bool isTreeTile(uint8_t locX, uint8_t locY);

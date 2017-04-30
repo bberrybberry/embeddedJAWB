@@ -42,10 +42,11 @@ typedef enum{
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
-// Structs
+// Defines
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
+#define GAME_TIME_LIMIT	120
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -136,5 +137,12 @@ void aPressed(uint8_t player);
  * @brief Response to "b" pressed on a game controller
  */
 void bPressed(uint8_t player);
+
+/**
+ * @fn updateTime(void)
+ * @brief Updates the time remaining on the clock
+ */
+void updateTimeRemaining(void);
+
 
 #endif /* POKEMONGAME_H_ */

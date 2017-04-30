@@ -130,7 +130,6 @@ void drawMap(){
                     grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr
         };
 
-    //BlockInterrupts();
     //adapted from Aaron's code in grTest main::drawMap(void)
     volatile int i, j;
     g_point_t pt;
@@ -141,7 +140,6 @@ void drawMap(){
             Graphics_DrawTile(&gCntx, pt, &map.grid[i + j * GRID_X], TILE_X, TILE_Y);
         }
     }
-    //RestoreInterrupts();
 }
 void drawStatic(const g_pixel_t* tileImg, g_point_t* pos){
 	pos->x = pos->x * TILE_X;
@@ -177,7 +175,7 @@ void drawInitMenu(void) {
 		color[0] = 0x00; color[1] = 0x00; color[2] = 0x00;
 		Graphics_SetForeground(&gCntx, color);
 		p1.x += HORI_PADDING; p1.y += VERT_PADDING;
-		Graphics_DrawText(&gCntx, p1, "Player %d: %d", i, 0);
+		Graphics_DrawText(&gCntx, p1, "Player %d: %d   ", i, 0);
 	}
 	p1.x = TILE_X * GRID_X;
 	p1.y = TILE_Y * (MENU_HEIGHT * 4);
@@ -188,13 +186,43 @@ void drawInitMenu(void) {
 	Graphics_DrawRectangle(&gCntx, p1, p2);
 
 }
+void printScore(uint8_t playerID, uint16_t score) {
+	g_point_t pt;
+	uint8_t color[3];
+	pt.x = TILE_X * GRID_X + HORI_PADDING;
+	pt.y = TILE_Y * (MENU_HEIGHT * playerID) + VERT_PADDING;
+
+	color[0] = 0x00; color[1] = 0x00; color[2] = 0x00;
+	Graphics_SetForeground(&gCntx, color);
+
+	color[0] = 0xFF; color[1] = 0xFF; color[2] = 0xFF;
+	Graphics_SetBackground(&gCntx, color);
+
+	Graphics_DrawText(&gCntx, pt, "Player %d: %d   ", playerID, score);
+}
+
+void printPokemon(uint8_t playerID, char* pokemon) {
+	g_point_t pt;
+	uint8_t color[3];
+	pt.x = TILE_X * GRID_X + HORI_PADDING;
+	pt.y = TILE_Y * (MENU_HEIGHT * playerID + 1) + VERT_PADDING;
+
+	color[0] = 0x00; color[1] = 0x00; color[2] = 0x00;
+	Graphics_SetForeground(&gCntx, color);
+
+	color[0] = 0xFF; color[1] = 0xFF; color[2] = 0xFF;
+	Graphics_SetBackground(&gCntx, color);
+
+	Graphics_DrawText(&gCntx, pt, pokemon);
+}
+
 void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, char* text){
 	g_point_t pt;
 	uint8_t color[3];
 	int8_t numBalls;
 
 	pt.x = TILE_X * GRID_X + HORI_PADDING;
-	pt.y = TILE_Y * (MENU_HEIGHT * (playerID) + 1) + VERT_PADDING;
+	pt.y = TILE_Y * (MENU_HEIGHT * (playerID) + 2) + VERT_PADDING;
 
 	color[0] = 0x00; color[1] = 0x00; color[2] = 0x00;
 	Graphics_SetForeground(&gCntx, color);
@@ -217,7 +245,7 @@ void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, 
 		Graphics_DrawText(&gCntx, pt, "Select Ball: A Run: B");
 		break;
 	case BALL_SELECT:
-		Graphics_DrawText(&gCntx, pt, "%s: %d", text, numBalls);
+		Graphics_DrawText(&gCntx, pt, "%s: %d   ", text, numBalls);
 		break;
 	case NONE:
 		Graphics_DrawText(&gCntx, pt, "                                                     ");
@@ -228,10 +256,11 @@ void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, 
 }
 void printStats(uint8_t time, char* text){
 	g_point_t pt;
+
 	pt.x = TILE_X * GRID_X + HORI_PADDING;
 	pt.y = TILE_Y * (MENU_HEIGHT * 4) + VERT_PADDING;
 
-	Graphics_DrawText(&gCntx, pt, "Time Remaining: %d", time);
+	Graphics_DrawText(&gCntx, pt, "Time Remaining: %d     ", time);
 	//TODO: The other stats
 }
 

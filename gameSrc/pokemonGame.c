@@ -68,6 +68,8 @@ void pkmnPlay(void){
 
     //init pokemon game
     initGame();
+
+    Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
 }
 
 void pkmnHelp(void){
@@ -143,4 +145,11 @@ void aPressed(uint8_t player){
 
 void bPressed(uint8_t player){
 	selectRun(player);
+}
+
+void updateTimeRemaining(void) {
+	static uint8_t timeRemaining = GAME_TIME_LIMIT + 1;
+	timeRemaining--;
+
+	updateTime(timeRemaining);
 }
