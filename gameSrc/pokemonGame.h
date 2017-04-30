@@ -8,6 +8,10 @@
  * pokemon game modules.
  */
 
+#ifndef POKEMONGAME_H_
+#define POKEMONGAME_H_
+
+
 #include "system.h"
 #include "random_int.h"
 #include "stddef.h"
@@ -18,6 +22,7 @@
 #include "terminal.h"
 #include "game_controller.h"
 #include "pokemon.h"
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -37,10 +42,11 @@ typedef enum{
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
-// Structs
+// Defines
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
+#define GAME_TIME_LIMIT	120
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -71,7 +77,7 @@ void pkmnHelp(void);
 
 /**
  * @fn inputCallback(game_network_payload_t * input)
- * @param TODO Docs
+ * @param game_network_payload_t * playload from networ
  *
  * @brief Listen to game controller inputs
  */
@@ -83,3 +89,60 @@ void inputCallback(game_network_payload_t * input);
  * @brief Clear callbacks and set end of a game state
  */
 void pkmnGameOver(void);
+
+/**
+ * @fn upPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "up" pressed on a game controller
+ */
+void upPressed(uint8_t player);
+
+/**
+ * @fn downPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "down" pressed on a game controller
+ */
+void downPressed(uint8_t player);
+
+/**
+ * @fn leftPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "left" pressed on a game controller
+ */
+void leftPressed(uint8_t player);
+
+/**
+ * @fn rightPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "right" pressed on a game controller
+ */
+void rightPressed(uint8_t player);
+
+/**
+ * @fn aPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "a" pressed on a game controller
+ */
+void aPressed(uint8_t player);
+
+/**
+ * @fn bPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "b" pressed on a game controller
+ */
+void bPressed(uint8_t player);
+
+/**
+ * @fn updateTime(void)
+ * @brief Updates the time remaining on the clock
+ */
+void updateTimeRemaining(void);
+
+
+#endif /* POKEMONGAME_H_ */

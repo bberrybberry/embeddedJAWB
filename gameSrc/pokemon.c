@@ -6,110 +6,339 @@
  */
 
 #include "pokemon.h"
-#include "graphics.h"
-//#include "pokemonImages.h"
-pokePlayer_t player[MAX_PLAYERS]; //player[0] corresponds to player 1, player[1] to 2 and so on
-pokemon_t pokeList[MAX_PKMN];
-char pkmnWeight[] = {5, 15, 30, 50, 75, 100};  //http://stackoverflow.com/questions/4511331/randomly-selecting-an-element-from-a-weighted-list
+#include "graphics.h" //needed for types and defines
+//#include "pokemonImages.h" //needed to check contents of map
+#include "timing.h"
+
+///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
+//comment out to leave debug mode
+//#define DEBUG_MODE1 //test movements
+#define DEBUG_MODE2 //test pokemon generation
+
+pokePlayer_t g_DEBUG_player;
+
+void DEBUG_playerMoveTest();
+void DEBUG_movePlayer(uint8_t dir);
+
+/**
+ * set up move player test
+ */
+void DEBUG_playerMoveTest(){
+	//set up default player
+	g_DEBUG_player.sprite = BREANNA;
+	g_DEBUG_player.pbCount = 10;
+	g_DEBUG_player.gbCount = 10;
+	g_DEBUG_player.ubCount = 10;
+	g_DEBUG_player.score = 123;
+	g_DEBUG_player.tileX = 5;
+	g_DEBUG_player.tileY = 9;
+	g_DEBUG_player.status = true;
+	g_DEBUG_player.mvmt = true;
+
+	//draw player at default loc
+	drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, g_DEBUG_player.tileY);
+}
+
+/**
+ * move the player in specified direction
+ *
+ * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
+ */
+void DEBUG_movePlayer(uint8_t dir){
+	g_point_t initPt;
+	initPt.x = g_DEBUG_player.tileX;
+	initPt.y = g_DEBUG_player.tileY;
+	switch(dir){
+	case 0: //up
+		if ((initPt.y - 1) < GRID_Y ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
+
+			drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, --g_DEBUG_player.tileY);
+		}
+		break;
+	case 1: //down
+		if ((initPt.y + 1) < GRID_Y ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
+
+			drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, ++g_DEBUG_player.tileY);
+		}
+		break;
+	case 2: //right
+		if ((initPt.x + 1) < GRID_X ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
+
+			drawPlayer(g_DEBUG_player.sprite, LEFT, ++g_DEBUG_player.tileX, g_DEBUG_player.tileY);
+		}
+		break;
+	case 3: //left
+		if ((initPt.x - 1) < GRID_X ) {
+			if (map.grid[initPt.x + initPt.y * GRID_X]) {
+				//redraw bg tile
+				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+			}
+			else {
+				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+			}
+
+			drawPlayer(g_DEBUG_player.sprite, LEFT, --g_DEBUG_player.tileX, g_DEBUG_player.tileY);
+		}
+		break;
+	}
+}
+
+void DEBUG_pokeGeneration(){
+	//set defined locations to shaking grass
+
+	uint8_t locX1, locX2, locX3, locY1, locY2, locY3;
+	locX1 = 5;
+	locY1 = 0;
+	locX2 = 1;
+	locY2 = 3;
+	locX3 = 7;
+	locY3 = 8;
+
+	setShakingGrass(locX1, locY1);
+	setShakingGrass(locX2, locY2);
+	setShakingGrass(locX3, locY3);
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+
+uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
+	if(high <= low){
+		return (item > arr[low]) ? low + 1 : low;
+	}
+	uint8_t mid = (low + high)/2;
+	if(item == arr[mid]){
+		return ++mid;
+	}
+	if(item > arr[mid]){
+		return binarySearch(arr, item, ++mid, high);
+	}
+
+	return binarySearch(arr, item,low, --mid);
+}
+
 void initGame(){
-
-    //draw initial game
-    initDrawGraphics();
-
     //set up map
     initMap();
 
+#ifdef DEBUG_MODE
+    DEBUG_playerMoveTest();
+
+    return; //exit method immediately while we're debugging things
+#endif
+
     //init players
     initPlayers();
+    //TODO: Find dynamic way to know how many players are playing
+    players[0].status = true;
 
     //set up menus and text
     initTextBox();
 
+    //set up pokemon for generation
+    initPokemon();
+
     //pause game
     pauseGame();
+    //wait for someone to unpause game before starting\
 
     //set up time and first item/pokemon generations
-
-    //wait for someone to unpause game before starting
-
-    pokeList[0].points = 25;
-    pokeList[0].catchRate = 190;
 }
 
 void initMap(){
-    //fill map structure with world map
-//    map = (MapStruct){grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
-//                grassTilePtr, grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
-//                grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr,
-//                grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr,
-//                grassTilePtr, rocksTilePtr, grassTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, grassTilePtr, treesTilePtr, grassTilePtr,
-//                grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr,
-//                grassTilePtr, goundTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
-//                grassTilePtr, goundTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
-//                goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr,
-//                goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr,
-//                goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, rocksTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr,
-//                goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr,
-//                grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
-//                grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr,
-//                grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, goundTilePtr, grassTilePtr, grassTilePtr,
-//                grassTilePtr, treesTilePtr, grassTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, goundTilePtr, grassTilePtr, rocksTilePtr, treesTilePtr,
-//                grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
-//                grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
-//                grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
-//                grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr
-//    };
-
-    //draw map
-    drawMap(map);
+    drawMap();
 }
 //TODO create initPkmn()
 void initPlayers(){
-    //TODO
-    volatile uint8_t i;
-        for(i = 0; i<MAX_PLAYERS; i++){
-            /*if(i==0){
-                player[i].status = false;
-            } else {
-                player[i].status = true;
-            }*/
-            switch(i){
-            case 0:
-                player[i].sprite = AARON;
-                player[i].tileX  = 4;
-                player[i].tileY  = 9;
-                player[i].status = true;
-                break;
-            case 1:
-                player[i].sprite = BREANNA;
-                player[i].tileX  = 5;
-                player[i].tileY  = 10;
-                player[i].status = false;
-                break;
-            case 2:
-                player[i].sprite = JOSH;
-                player[i].tileX  = 5;
-                player[i].tileY  = 9;
-                player[i].status   = true;
-                break;
-            case 3:
-                player[i].sprite = WALT;
-                player[i].tileX  = 4;
-                player[i].tileY  = 10;
-                player[i].status = false;
-                break;
-            }
-            player[i].pbCount = 5;
-            player[i].gbCount = 3;
-            player[i].ubCount = 1;
-            player[i].mvmt    = true;
-        }
     //register players 1-4
+	volatile int i;
+	for(i = 0; i < MAX_PLAYERS; i++){
+		players[i].pbCount = 15;
+		players[i].gbCount = 10;
+		players[i].ubCount = 5;
+		players[i].mvmt = false;
+		players[i].status = false;
+		players[i].score = 0;
 
-    //draw players in init pos
+		//info different to each unique player define here
+		switch(i){
+		case 0:
+			players[i].sprite = AARON;
+			players[i].tileX = PLAYER1_INIT_X;
+			players[i].tileY = PLAYER1_INIT_Y;
+			break;
+		case 1:
+			players[i].sprite = BREANNA;
+			players[i].tileX = PLAYER2_INIT_X;
+			players[i].tileY = PLAYER2_INIT_Y;
+			break;
+		case 2:
+			players[i].sprite = JOSH;
+			players[i].tileX = PLAYER3_INIT_X;
+			players[i].tileY = PLAYER3_INIT_Y;
+			break;
+		case 3:
+			players[i].sprite = WALT;
+			players[i].tileX = PLAYER4_INIT_X;
+			players[i].tileY = PLAYER4_INIT_Y;
+			break;
+		}
+
+		//draw players in init pos
+		drawPlayer(players[i].sprite, STAND, players[i].tileX, players[i].tileY);
+	}
+
+
 }
 
+void initPokemon(){
+	//TODO: fill pkmnList[] and pkmnWeights as desired
+	pkmnList[0].name = "Bulbasaur";
+	pkmnList[0].spawnRate = 50;
+	pkmnList[0].catchRate = 100;
+	pkmnList[0].points = 10;
+
+	//TODO, unhardcode
+	pkmnList[1] = pkmnList[0];
+	pkmnList[2] = pkmnList[0];
+	pkmnList[3] = pkmnList[0];
+	pkmnList[4] = pkmnList[0];
+	pkmnList[5] = pkmnList[0];
+
+	pkmnWeights[0] = 100;
+	pkmnWeights[1] = 100;
+	pkmnWeights[2] = 100;
+	pkmnWeights[3] = 100;
+	pkmnWeights[4] = 100;
+	pkmnWeights[5] = 100;
+}
+
+void movePlayerUp(uint8_t playerIndex){
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.y - 1) < GRID_Y && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y -1) //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, --players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+			runEncounter(playerIndex);
+		}
+	}
+}
+
+void movePlayerDown(uint8_t playerIndex){
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.y + 1) < GRID_Y && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y +1)  //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, ++players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+			runEncounter(playerIndex);
+		}
+	}
+}
+
+void movePlayerLeft(uint8_t playerIndex){
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.x - 1) < GRID_X && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x -1, initPt.y)  //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, --players[playerIndex].tileX, players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+			runEncounter(playerIndex);
+		}
+	}
+}
+
+void movePlayerRight(uint8_t playerIndex){
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.x + 1) < GRID_X && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x +1, initPt.y)  //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, ++players[playerIndex].tileX, players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+			runEncounter(playerIndex);
+		}
+	}
+}
+
+
 void initTextBox(){
+	drawInitMenu();
     //TODO
 }
 
@@ -122,126 +351,170 @@ void pauseGame(){
 
     //TODO: How to access game variable from pokemonGame to set state to pause
 }
-char binarySearch(char a[], char item, char low, char high)
-{
-    if (high <= low)
-        return (item > a[low])?  (low + 1): low;
 
-    int mid = (low + high)/2;
-
-    if(item == a[mid])
-        return mid+1;
-
-    if(item > a[mid])
-        return binarySearch(a, item, mid+1, high);
-    return binarySearch(a, item, low, mid-1);
-}
 pokemon_t generatePokemon(){
-    //TODO
-    char x = random_int(1, 100);
-    char index = binarySearch(pkmnWeight, x, 0, 6);
+    uint8_t r = 5; //TODO: replace with random num gen
+    uint8_t index = r;//binarySearch(pkmnWeights, r, 0, MAX_PKMN);
     switch(index){
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        default:
-            return pokeList[1];
+    case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	default:
+		return pkmnList[0];
     }
 }
 
-void updatePlayerLoc(pokePlayer_t player){
-    //TODO
-}
-
-char checkAllCollisions(char xLoc, char yLoc){
-    volatile uint8_t i;
-    char collide = 0;
-    for(i = 0; i < 3 && collide != 1; i++){
-        if(player[i].tileX == xLoc && player[i].tileY ==yLoc){
-            collide = 1;
-        }
-    }
-    return collide;
-}
+//char checkAllCollisions(char xLoc, char yLoc){
+//    //TODO
+//    volatile uint8_t i;
+//    char collide = 0;
+//    for(i = 0; i < 3 && collide != 1; i++){
+////        if(player[i].x == xLoc && player[i].y ==yLoc){
+////            collide = 1;
+////        }
+//    }
+//    return collide;
+//}
 
 bool checkItem(pokePlayer_t player){
     //TODO
 }
 
-bool checkPlayerLocValid(pokePlayer_t player){
-    //TODO
+bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY){
+    volatile int i;
+
+    //check if about to hit another player
+    for(i = 0; i < MAX_PLAYERS; i++){
+    	if(players[i].sprite == player->sprite) continue; //don't collide with yourself
+
+    	if(players[i].tileX == locX && players[i].tileY == locY){
+    		return false;
+    	}
+    }
+
+    //check if running into tree or rock
+    if(isTreeTile(locX, locY) || isRockTile(locX, locY)){
+    	return false;
+    }
+
+    //if you get here, you're good!
+    return true;
 }
 
-bool checkGrass(pokePlayer_t player){
-    //TODO
+bool checkShakingGrass(uint8_t locX, uint8_t locY){
+	return isShakingGrass(locX, locY);
 }
 
-void updateGrass(uint8_t location){
-    //TODO
+void setShakingGrass(uint8_t locX, uint8_t locY){
+	//TODO: check that grass is drawn in valid location
+	drawGrass(SHAKE, locX, locY);
 }
 
 void updateTime(uint8_t time){
+    printStats(time, "");
+}
+
+void updateScores(pokePlayer_t player, uint8_t score){
     //TODO
 }
 
-void updateScores(pokePlayer_t * player, uint8_t score){
-    //TODO
+void runEncounter(uint8_t playerInd){
+    //stop player movement
+	players[playerInd].mvmt = false;
+
+	//print pokemon
+	pokemon_t pkmn = generatePokemon();
+	//printPokemon(playerInd, pkmn.name);
+
+	//change menu
+	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
+
+	//wait for player input
+		//if run
+		//if ball
+
+	//finish event
 }
 
-void runEncounter(){
-    //TODO
+void selectRun(uint8_t player){
+	if(players[player].mvmt == false){
+		//end encounter
+		players[player].mvmt = true;
+
+		//clear menu TODO
+	}
+}
+
+void selectBall(uint8_t player){
+	if(players[player].mvmt == false){
+		//change menu to ball select
+		//circularly define one as only pos to optionally display them
+		players[playerInd].pbCount *= 1;
+		players[playerInd].gbCount *= -1;
+		players[playerInd].ubCount *= -1;
+		printMenu(player, BALL_SELECT, players[playerInd].pbCount, players[playerInd].gbCount, players[playerInd].ubCount);
+
+	}
+}
+
+void lBallOpt(uint8_t player){
+
+}
+
+void rBallOpt(uint8_t player){
+
+}
+
+void throwBall(uint8_t player){
+	if(players[player].mvmt == false && //player is in menu state
+			(players[playerInd].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			){
+		if(players[player].pbCount > 0 ){ //has balls and is selected
+
+		}
+		else if(players[player].gbCount > 0){
+
+		}
+		else if(players[player].ubCount > 0){
+
+		}
+
+		//change negative values to positive to exit this state
+
+		//resume movement
+
+	}
 }
 
 void generateItems(){
     //TODO
 }
-void encounter(pokePlayer_t * o){
-    pokemon_t pkmn = generatePokemon();
-    //Print Player o Encounters
-    o->mvmt = false;
-    char caught =0;
-    char selection = 'b';
-    while(caught==0 && selection == 'b'){
-    //selection = getSelection();
-    selection  = 'b';
-        if(selection == 'b'){
-            //ball select
-            char ball = 1;
-            if(catchCheck(pkmn.catchRate, ball)){
-                caught =1;
-                updateScores(o, pkmn.points);
-            }
-        }
-    }
-    o->mvmt = true;
-}
-char catchCheck(char catchRate, char mod){
-    char catchValue = catchRate*mod;
-    uint8_t catch = 1048560 / (16711680 / catchValue);
-    char x = random_int(1, 100);
-    return x>catch;
-}
-void upPressed(controller_buttons_t input, void* player) {
-    uint8_t right = 0x01;
-    //TODO Abstract this bullshit idk
-    //player->position
-    /*if ((t1.y - 1) < GRID_Y ) {
-        if(checkAllCollisions(player->tileX, player->tileY-1)==0){
-        if (map.map[t1.x + t1.y * GRID_X]) {
-            Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
-        }
-        else {
-            Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-        }
 
-        t1.y--;
-        p1.y = t1.y * TILE_Y;
-        //Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
-        Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
-        right ^= 0x01;
-    }
-    }*/
-}
+
+
+//void upPressed(controller_buttons_t input, void* player) {
+////    static uint8_t right = 0x01;
+////
+////    if ((t1.y - 1) < GRID_Y ) {
+////        if(checkAllCollisions(player->tileX, player->tileY-1)==0){
+////        if (map.map[t1.x + t1.y * GRID_X]) {
+////            Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
+////        }
+////        else {
+////            Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+////        }
+////
+////        t1.y--;
+////        p1.y = t1.y * TILE_Y;
+////        //Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
+////        Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
+////        right ^= 0x01;
+////    }
+////    }
+//}
+
+
+

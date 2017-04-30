@@ -17,10 +17,46 @@ static struct {
     uint8_t id;                 ///< ID of game
 } game;
 
-////Not sure why this stops compiling when not declared like this :/
-//void pkmnPlay();
-//void pkmnHelp();
-//void inputCallback(game_network_payload_t * input);
+///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
+//#define DEBUG_MODE1 //comment out to leave debug mode
+
+void DEBUG_upPressed(uint8_t player);
+void DEBUG_downPressed(uint8_t player);
+
+/**
+ * move the selected player up
+ *
+ * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
+ * @param player: player number index
+ */
+void DEBUG_upPressed(uint8_t player){
+	DEBUG_movePlayer(0);
+}
+/**
+ * move the selected player down
+ *
+ * @param player: player number index
+ */
+void DEBUG_downPressed(uint8_t player){
+	DEBUG_movePlayer(1);
+}
+/**
+ * move the selected player right
+ *
+ * @param player: player number index
+ */
+void DEBUG_rightPressed(uint8_t player){
+	DEBUG_movePlayer(2);
+}
+/**
+ * move the selected player left
+ *
+ * @param player: player number index
+ */
+void DEBUG_leftPressed(uint8_t player){
+	DEBUG_movePlayer(3);
+}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void pkmnGameInit(void){
     // Register the module with the game system and give it the name "pokemon"
@@ -32,6 +68,8 @@ void pkmnPlay(void){
 
     //init pokemon game
     initGame();
+
+    Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
 }
 
 void pkmnHelp(void){
@@ -52,12 +90,18 @@ void inputCallback(game_network_payload_t * input){
     }
     index = input->index;
     for(i = 0; i < 4; i++) {
-        //TODO
-//        if(input->controller[i].button.up) MoveUp(&player[i]);
-//        if(input->controller[i].button.down) MoveDown(&player[i]);
-//        if(input->controller[i].button.left) MoveLeft(&player[i]);
-//        if(input->controller[i].button.right) MoveRight(&player[i]);
+        if(input->controller[i].button.up) upPressed(i);//MoveUp(&player[i]);
+        if(input->controller[i].button.down) downPressed(i);
+        if(input->controller[i].button.left) leftPressed(i);
+        if(input->controller[i].button.right) rightPressed(i);
     }
+#ifdef DEBUG_MODE1
+    if(input->controller[0].button.up) DEBUG_upPressed(0);
+    if(input->controller[0].button.down) DEBUG_downPressed(0);
+    if(input->controller[0].button.left) DEBUG_leftPressed(0);
+    if(input->controller[0].button.right) DEBUG_rightPressed(0);
+#endif
+
     if(TimeSince(time) > 1000) {
         Game_CharXY('F', 0, MAP_HEIGHT+1);
         Game_Printf("PS: %d  ", fps);
@@ -77,4 +121,35 @@ void pkmnGameOver(void){
     // show cursor (it was hidden at the beginning
     Game_ShowCursor();
     Game_GameOver();
+}
+
+void upPressed(uint8_t player){
+	movePlayerUp(player);
+}
+
+void downPressed(uint8_t player){
+	movePlayerDown(player);
+}
+
+void leftPressed(uint8_t player){
+	movePlayerLeft(player);
+}
+
+void rightPressed(uint8_t player){
+	movePlayerRight(player);
+}
+
+void aPressed(uint8_t player){
+	selectBall(player);
+}
+
+void bPressed(uint8_t player){
+	selectRun(player);
+}
+
+void updateTimeRemaining(void) {
+	static uint8_t timeRemaining = GAME_TIME_LIMIT + 1;
+	timeRemaining--;
+
+	updateTime(timeRemaining);
 }
