@@ -427,8 +427,10 @@ void runEncounter(uint8_t playerInd){
 
 	//print pokemon
 	pokemon_t pkmn = generatePokemon();
+	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
+	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
 
 	//wait for player input
 

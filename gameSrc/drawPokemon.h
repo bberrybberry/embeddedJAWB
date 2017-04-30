@@ -99,5 +99,6 @@ void printStats(uint8_t time, char* text);
 
 bool isTreeTile(uint8_t locX, uint8_t locY);
 bool isRockTile(uint8_t locX, uint8_t locY);
+bool isShakingGrass(uint8_t locX, uint8_t locY);
 
 #endif /* DRAWPOKEMON_H_ */
