@@ -23,7 +23,6 @@
 #include "game_controller.h"
 #include "pokemon.h"
 
-
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Enums
@@ -47,6 +46,15 @@ typedef enum{
 /////////////////////////////////////////////////////////////////////////////////////
 
 #define GAME_TIME_LIMIT	120
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// Global Variables
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+uint32_t g_startTime;
+uint32_t g_pauseTime;
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -137,6 +145,22 @@ void aPressed(uint8_t player);
  * @brief Response to "b" pressed on a game controller
  */
 void bPressed(uint8_t player);
+
+/**
+ * @fn startPressed(uint8_t player)
+ * @param player Index of the player
+ *
+ * @brief Response to when the start button is pressed
+ */
+void startPressed(uint8_t player);
+
+/**
+ * @fn selectPressed(uint8_t player)
+ * @param player Index of the player that pressed
+ *
+ * @brief Response to when the select button is pressed
+ */
+void selectPressed(uint8_t player);
 
 /**
  * @fn updateTime(void)
