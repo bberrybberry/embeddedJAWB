@@ -40,40 +40,168 @@
 */
 #define COMport		"\\\\.\\COM6"
 
+/**
+ * @def P1_U_PRESS
+ * @brief String to send for player 1 pressing up
+ */
 #define P1_U_PRESS	"__SL_P_UKC=P1_UBTN_PRESS"
+ /**
+  * @def P1_D_PRESS
+  * @brief String to send for player 1 pressing down
+  */
 #define P1_D_PRESS	"__SL_P_UKC=P1_DBTN_PRESS"
+ /**
+  * @def P1_L_PRESS
+  * @brief String to send for player 1 pressing left
+  */
 #define P1_L_PRESS	"__SL_P_UKC=P1_LBTN_PRESS"
+ /**
+  * @def P1_R_PRESS
+  * @brief String to send for player 1 pressing right
+  */
 #define P1_R_PRESS	"__SL_P_UKC=P1_RBTN_PRESS"
+ /**
+  * @def P1_A_PRESS
+  * @brief String to send for player 1 pressing A
+  */
 #define P1_A_PRESS	"__SL_P_UKC=P1_ABTN_PRESS"
+ /**
+  * @def P1_B_PRESS
+  * @brief String to send for player 1 pressing B
+  */
 #define P1_B_PRESS	"__SL_P_UKC=P1_BBTN_PRESS"
+ /**
+  * @def P1_S_PRESS
+  * @brief String to send for player 1 pressing start
+  */
 #define P1_S_PRESS	"__SL_P_UKC=P1_SBTN_PRESS"
+ /**
+  * @def P1_E_PRESS
+  * @brief String to send for player 1 pressing select
+  */
 #define P1_E_PRESS	"__SL_P_UKC=P1_EBTN_PRESS"
 
+/**
+ * @def P2_U_PRESS
+ * @brief String to send for player 2 pressing up
+ */
 #define P2_U_PRESS	"__SL_P_UKC=P2_UBTN_PRESS"
+ /**
+  * @def P2_D_PRESS
+  * @brief String to send for player 2 pressing down
+  */
 #define P2_D_PRESS	"__SL_P_UKC=P2_DBTN_PRESS"
+ /**
+  * @def P2_L_PRESS
+  * @brief String to send for player 2 pressing left
+  */
 #define P2_L_PRESS	"__SL_P_UKC=P2_LBTN_PRESS"
+ /**
+  * @def P2_R_PRESS
+  * @brief String to send for player 2 pressing right
+  */
 #define P2_R_PRESS	"__SL_P_UKC=P2_RBTN_PRESS"
+ /**
+  * @def P2_A_PRESS
+  * @brief String to send for player 2 pressing A
+  */
 #define P2_A_PRESS	"__SL_P_UKC=P2_ABTN_PRESS"
+ /**
+  * @def P2_B_PRESS
+  * @brief String to send for player 2 pressing B
+  */
 #define P2_B_PRESS	"__SL_P_UKC=P2_BBTN_PRESS"
+ /**
+  * @def P2_S_PRESS
+  * @brief String to send for player 2 pressing start
+  */
 #define P2_S_PRESS	"__SL_P_UKC=P2_SBTN_PRESS"
+ /**
+  * @def P2_E_PRESS
+  * @brief String to send for player 2 pressing select
+  */
 #define P2_E_PRESS	"__SL_P_UKC=P2_EBTN_PRESS"
 
+/**
+ * @def P3_U_PRESS
+ * @brief String to send for player 3 pressing up
+ */
 #define P3_U_PRESS	"__SL_P_UKC=P3_UBTN_PRESS"
+ /**
+ * @def P3_D_PRESS
+ * @brief String to send for player 3 pressing down
+ */
 #define P3_D_PRESS	"__SL_P_UKC=P3_DBTN_PRESS"
+ /**
+ * @def P3_L_PRESS
+ * @brief String to send for player 3 pressing left
+ */
 #define P3_L_PRESS	"__SL_P_UKC=P3_LBTN_PRESS"
+ /**
+ * @def P3_R_PRESS
+ * @brief String to send for player 3 pressing right
+ */
 #define P3_R_PRESS	"__SL_P_UKC=P3_RBTN_PRESS"
+ /**
+ * @def P3_A_PRESS
+ * @brief String to send for player 3 pressing A
+ */
 #define P3_A_PRESS	"__SL_P_UKC=P3_ABTN_PRESS"
+ /**
+ * @def P3_B_PRESS
+ * @brief String to send for player 3 pressing B
+ */
 #define P3_B_PRESS	"__SL_P_UKC=P3_BBTN_PRESS"
+ /**
+ * @def P3_S_PRESS
+ * @brief String to send for player 3 pressing start
+ */
 #define P3_S_PRESS	"__SL_P_UKC=P3_SBTN_PRESS"
+ /**
+ * @def P3_E_PRESS
+ * @brief String to send for player 3 pressing select
+ */
 #define P3_E_PRESS	"__SL_P_UKC=P3_EBTN_PRESS"
 
+/**
+ * @def P4_U_PRESS 
+ * @brief String to send for player 4 pressing up
+ */
 #define P4_U_PRESS	"__SL_P_UKC=P4_UBTN_PRESS"
+ /**
+ * @def P4_D_PRESS
+ * @brief String to send for player 4 pressing down
+ */
 #define P4_D_PRESS	"__SL_P_UKC=P4_DBTN_PRESS"
+ /**
+ * @def P4_L_PRESS
+ * @brief String to send for player 4 pressing left
+ */
 #define P4_L_PRESS	"__SL_P_UKC=P4_LBTN_PRESS"
+ /**
+ * @def P4_R_PRESS
+ * @brief String to send for player 4 pressing right
+ */
 #define P4_R_PRESS	"__SL_P_UKC=P4_RBTN_PRESS"
+ /**
+ * @def P4_A_PRESS
+ * @brief String to send for player 4 pressing A
+ */
 #define P4_A_PRESS	"__SL_P_UKC=P4_ABTN_PRESS"
+ /**
+ * @def P4_B_PRESS
+ * @brief String to send for player 4 pressing B
+ */
 #define P4_B_PRESS	"__SL_P_UKC=P4_BBTN_PRESS"
+ /**
+ * @def P4_S_PRESS
+ * @brief String to send for player 4 pressing start
+ */
 #define P4_S_PRESS	"__SL_P_UKC=P4_SBTN_PRESS"
+ /**
+ * @def P4_E_PRESS
+ * @brief String to send for player 4 pressing select
+ */
 #define P4_E_PRESS	"__SL_P_UKC=P4_EBTN_PRESS"
 
 
@@ -218,6 +346,10 @@ DCB serialParams;
  */
 UART uart(CBR_115200, 8, ONESTOPBIT, NOPARITY);
 
+/**
+ * @var http
+ * @brief Instantiation of HTTP class
+ */
 HTTP http;
 
 #ifdef USE_KINECT
@@ -229,6 +361,11 @@ HTTP http;
 */
 cv::Point3f jointToPt3f(Joint joint);
 
+/**
+ * @fn pt3fToCSP(cv::Point3f point)
+ * @param point OpenCV Point3f point
+ * @brief Converts an OpenCV Point3f point to a Microsoft CamerSpacePoint
+ */
 CameraSpacePoint pt3fToCSP(cv::Point3f point);
 /**
  * @fn getDistance(Joint joints[25], int j1, int j2)

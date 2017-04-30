@@ -1,11 +1,8 @@
-/**
- * @file
- * @brief C++ for Kinect 2 Controller
- */
+
 
 #include "Main.h"
 #define USE_KEYBOARD
-#define USE_HTTP
+//#define USE_HTTP
 //#define USE_MULTIPLAYER
 
 /**
@@ -19,10 +16,6 @@
  */
 using namespace std;
 
-/**
- * @fn main
- * @brief Executes the program
- */
 #define BUTTON_ENTRY 2
 int main() {
 	char data1[64] = "__SL_P_ULD=LED1_ON";
@@ -535,6 +528,7 @@ bool sendInit() {
 }
 
 bool sendButtonPress(char address, char* presses) {
+#ifndef USE_HTTP
 	char start = 0xFF;
 
 	if (uart.sendData(&start, 1)) {
@@ -546,6 +540,9 @@ bool sendButtonPress(char address, char* presses) {
 	}
 
 	return false;
+#else
+
+#endif
 }
 
 bool receiveHS()
