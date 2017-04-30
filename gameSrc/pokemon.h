@@ -20,18 +20,70 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
-//TODO Docs
+/**
+ * @def MAX_STRING_LENGTH
+ * @brief Max number of characters a pokemon name can be
+ */
 #define MAX_STRING_LENGTH   16
+
+/**
+ * @def MAX_PLAYERS
+ * @brief Max number of players that can play
+ */
 #define MAX_PLAYERS			4
+
+/**
+ * @def MAX_PKMN
+ * @brief Max number of pokemon in the play
+ */
 #define MAX_PKMN			6
 
+/**
+ * @def PLAYER1_INIT_X
+ * @brief Initial X coordinate of tile for player 1
+ */
 #define PLAYER1_INIT_X	5
+
+/**
+ * @def PLAYER1_INIT_Y
+ * @brief Initial Y coordinate of tile for player 1
+ */
 #define PLAYER1_INIT_Y	9
+
+/**
+ * @def PLAYER2_INIT_X
+ * @brief Initial X coordinate of tile for player 2
+ */
 #define PLAYER2_INIT_X	6
+
+/**
+ * @def PLAYER2_INIT_Y
+ * @brief Initial Y coordinate of tile for player 2
+ */
 #define PLAYER2_INIT_Y	10
+
+/**
+ * @def PLAYER3_INIT_X
+ * @brief Initial X coordinate of tile for player 3
+ */
 #define PLAYER3_INIT_X	6
+
+/**
+ * @def PLAYER3_INIT_Y
+ * @brief Initial Y coordinate of tile for player 3
+ */
 #define PLAYER3_INIT_Y	9
+
+/**
+ * @def PLAYER4_INIT_X
+ * @brief Initial X coordinate of tile for player 4
+ */
 #define PLAYER4_INIT_X	5
+
+/**
+ * @def PLAYER4_INIT_Y
+ * @brief Initial Y coordinate of tile for player 4
+ */
 #define PLAYER4_INIT_Y	10
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +93,8 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * TODO Docs
+ * @struct pokemon_t
+ * @brief Structure that defines a pokemon
  */
 typedef struct{
     char* name;            ///< Name of pokemon
@@ -49,6 +102,11 @@ typedef struct{
     uint8_t catchRate;      ///< Catch rate of pokemon (percentage chance of successful ball catch)
     uint8_t points;         ///< Points to award player for successful catch
 } pokemon_t;
+
+/**
+ * @struct pokePlayer_t
+ * @brief Structure that defines a player
+ */
 typedef struct{
     playerSprite sprite;    ///< Sprite of player (relates to graphics)
     int8_t pbCount;        ///< Player inventory of pokeballs
@@ -93,7 +151,6 @@ uint8_t pkmnWeights[MAX_PKMN];
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
-//TODO: Docs
 
 /**
  * @fn initGame(void)
@@ -178,7 +235,6 @@ void movePlayerRight(uint8_t playerIndex);
  */
 bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY);
 
-//TODO Docs
 /**
  * @fn checkShakingGrass(uint8_t locX, uint8_t locY)
  * @param locX X coordinate of the tile
@@ -229,6 +285,14 @@ void rBallOpt(uint8_t player);
  * @brief Routine that runs when the player throws a ball
  */
 void throwBall(uint8_t player);
+
+//TODO Fill this in right
+/**
+ * @fn captureEvent(uint8_t player, uint8_t multiplier)
+ * @param player
+ * @param multiplier
+ * @brief
+ */
 void captureEvent(uint8_t player, uint8_t multiplier);
 
 /**
