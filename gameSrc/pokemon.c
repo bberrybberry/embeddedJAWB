@@ -7,6 +7,7 @@
 
 #include "pokemon.h"
 #include "graphics.h" //needed for types and defines
+//#include "pokemonImages.h" //needed to check contents of map
 
 ///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
 //#define DEBUG_MODE //comment out to leave debug mode
@@ -101,6 +102,20 @@ void DEBUG_movePlayer(uint8_t dir){
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
+uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
+	if(high <= low){
+		return (item > arr[low]) ? low + 1 : low;
+	}
+	uint8_t mid = (low + high)/2;
+	if(item == arr[mid]){
+		return ++mid;
+	}
+	if(item > arr[mid]){
+		return binarySearch(arr, item, ++mid, high);
+	}
+
+	return binarySearch(arr, item,low, --mid);
+}
 
 void initGame(){
     //set up map
@@ -115,17 +130,20 @@ void initGame(){
     //init players
     initPlayers();
     //TODO: Find dynamic way to know how many players are playing
-    players[0]->status = true;
+    players[0].status = true;
 
     //set up menus and text
     initTextBox();
 
+    //set up pokemon for generation
+    initPokemon();
+
     //pause game
     pauseGame();
 
-    //set up time and first item/pokemon generations
+    //wait for someone to unpause game before starting\
 
-    //wait for someone to unpause game before starting
+    //set up time and first item/pokemon generations
 }
 
 void initMap(){
@@ -135,44 +153,133 @@ void initMap(){
 void initPlayers(){
     //register players 1-4
 	volatile int i;
-	for(i = 0; i < 3; i++){
-		players[i]->pbCount = 15;
-		players[i]->gbCount = 10;
-		players[i]->ubCount = 5;
-		players[i]->mvmt = false;
-		players[i]->status = false;
-		players[i]->score = 0;
+	for(i = 0; i < MAX_PLAYERS; i++){
+		players[i].pbCount = 15;
+		players[i].gbCount = 10;
+		players[i].ubCount = 5;
+		players[i].mvmt = false;
+		players[i].status = false;
+		players[i].score = 0;
 
 		//info different to each unique player define here
 		switch(i){
 		case 0:
-			players[i]->sprite = AARON;
-			players[i]->tileX = PLAYER1_INIT_X;
-			players[i]->tileY = PLAYER1_INIT_Y;
+			players[i].sprite = AARON;
+			players[i].tileX = PLAYER1_INIT_X;
+			players[i].tileY = PLAYER1_INIT_Y;
 			break;
 		case 1:
-			players[i]->sprite = BREANNA;
-			players[i]->tileX = PLAYER2_INIT_X;
-			players[i]->tileY = PLAYER2_INIT_Y;
+			players[i].sprite = BREANNA;
+			players[i].tileX = PLAYER2_INIT_X;
+			players[i].tileY = PLAYER2_INIT_Y;
 			break;
 		case 2:
-			players[i]->sprite = JOSH;
-			players[i]->tileX = PLAYER3_INIT_X;
-			players[i]->tileY = PLAYER3_INIT_Y;
+			players[i].sprite = JOSH;
+			players[i].tileX = PLAYER3_INIT_X;
+			players[i].tileY = PLAYER3_INIT_Y;
 			break;
 		case 3:
-			players[i]->sprite = WALT;
-			players[i]->tileX = PLAYER4_INIT_X;
-			players[i]->tileY = PLAYER4_INIT_Y;
+			players[i].sprite = WALT;
+			players[i].tileX = PLAYER4_INIT_X;
+			players[i].tileY = PLAYER4_INIT_Y;
 			break;
 		}
 
 		//draw players in init pos
-		drawPlayer(players[i]->sprite, STAND, players[i]->tileX, players[i]->tileY);
+		drawPlayer(players[i].sprite, STAND, players[i].tileX, players[i].tileY);
 	}
 
 
 }
+
+void initPokemon(){
+	//TODO: fill pkmnList[] and pkmnWeights as desired
+}
+
+void movePlayerUp(uint8_t playerIndex){
+	//TODO: collision checking
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.y - 1) < GRID_Y && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y -1) //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, --players[playerIndex].tileY);
+	}
+}
+
+void movePlayerDown(uint8_t playerIndex){
+	//TODO: collision checking
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.y + 1) < GRID_Y && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y +1)  //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, ++players[playerIndex].tileY);
+	}
+}
+
+void movePlayerLeft(uint8_t playerIndex){
+	//TODO: collision checking
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.x - 1) < GRID_X && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x -1, initPt.y)  //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, --players[playerIndex].tileX, players[playerIndex].tileY);
+	}
+}
+
+void movePlayerRight(uint8_t playerIndex){
+	//TODO: collision checking
+	g_point_t initPt;
+	initPt.x = players[playerIndex].tileX;
+	initPt.y = players[playerIndex].tileY;
+	if ((initPt.x + 1) < GRID_X && //location exists
+			players[playerIndex].status && // player is in game
+			checkPlayerLocValid(&players[playerIndex], initPt.x +1, initPt.y)  //valid location (collision detection)
+	) {
+		if (map.grid[initPt.x + initPt.y * GRID_X]) {
+			//redraw bg tile
+			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
+		}
+		else {
+			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
+		}
+
+		drawPlayer(players[playerIndex].sprite, STAND, ++players[playerIndex].tileX, players[playerIndex].tileY);
+	}
+}
+
 
 void initTextBox(){
 	drawInitMenu();
@@ -190,14 +297,21 @@ void pauseGame(){
 }
 
 pokemon_t generatePokemon(){
-    //TODO
+    uint8_t r = 5; //TODO: replace with random num gen
+    uint8_t index = binarySearch(pkmnWeights, r, 0, MAX_PKMN);
+    switch(index){
+    case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	default:
+		return pkmnList[0];
+    }
 }
 
-void updatePlayerLoc(pokePlayer_t player){
-    //TODO
-}
-
-bool checkAllCollisions(uint8_t xLoc, uint8_t yLoc){
+char checkAllCollisions(char xLoc, char yLoc){
     //TODO
     volatile uint8_t i;
     char collide = 0;
@@ -213,8 +327,25 @@ bool checkItem(pokePlayer_t player){
     //TODO
 }
 
-bool checkPlayerLocValid(pokePlayer_t player){
-    //TODO
+bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY){
+    volatile int i;
+
+    //check if about to hit another player
+    for(i = 0; i < MAX_PLAYERS; i++){
+    	if(players[i].sprite == player->sprite) continue; //don't collide with yourself
+
+    	if(players[i].tileX == locX && players[i].tileY == locY){
+    		return false;
+    	}
+    }
+
+    //check if running into tree or rock
+    if(isTreeTile(locX, locY) || isRockTile(locX, locY)){//map.grid[locX + locY*TILE_Y] == treesTilePtr || map.grid[locX + locY*TILE_Y] ==  rocksTilePtr){
+    	return false;
+    }
+
+    //if you get here, you're good!
+    return true;
 }
 
 bool checkGrass(pokePlayer_t player){
@@ -241,6 +372,8 @@ void generateItems(){
     //TODO
 }
 
+
+
 //void upPressed(controller_buttons_t input, void* player) {
 ////    static uint8_t right = 0x01;
 ////
@@ -261,8 +394,6 @@ void generateItems(){
 ////    }
 ////    }
 //}
-static char checkCollision(char xLoc, char yLoc){
-}
 
 
 
