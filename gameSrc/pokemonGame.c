@@ -1,5 +1,5 @@
 /**
- * @file pokemonGame
+ * @file
  *
  * Pokemon Game Module:
  *
@@ -70,9 +70,6 @@ void pkmnPlay(void){
     initGame();
 
     game.currGameState = PAUSE;
-
-    g_startTime = TimeNow();
-    Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
 }
 
 void pkmnHelp(void){
@@ -172,9 +169,10 @@ void startPressed(uint8_t player){
 		if (initial) {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
 			Task_Schedule((task_fn_t)generatePokemon, 0, 0, 1000);
+			playGame();
 			initial = 0;
 		}
-		if (g_pauseTime) {
+		else {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
 			Task_Schedule((task_fn_t)generatePokemon, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
 			playGame();

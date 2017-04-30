@@ -1,5 +1,5 @@
 /**
- * @file drawPokemon
+ * @file
  * @author Breanna Higgins
  *
  * @brief Utilities for drawing visuals of pokemon game

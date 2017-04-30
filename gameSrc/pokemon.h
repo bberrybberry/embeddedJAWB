@@ -1,5 +1,5 @@
 /**
- * @file pokemon
+ * @file
  *
  * @author Breanna Higgins,
  *
