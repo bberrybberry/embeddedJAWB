@@ -140,7 +140,7 @@ void initGame(){
     //set up map
     initMap();
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_MODE1
     DEBUG_playerMoveTest();
 
     return; //exit method immediately while we're debugging things
@@ -156,6 +156,10 @@ void initGame(){
 
     //set up pokemon for generation
     initPokemon();
+
+#ifdef DEBUG_MODE2
+    DEBUG_pokeGeneration();
+#endif
 
     //pause game
     //pauseGame();
@@ -240,6 +244,8 @@ void movePlayerUp(uint8_t playerIndex){
 			players[playerIndex].status && // player is in game
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y -1) //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY -1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -251,7 +257,7 @@ void movePlayerUp(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, --players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
@@ -266,6 +272,8 @@ void movePlayerDown(uint8_t playerIndex){
 			players[playerIndex].status && // player is in game
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y +1)  //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY +1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -277,7 +285,7 @@ void movePlayerDown(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, ++players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
@@ -292,6 +300,8 @@ void movePlayerLeft(uint8_t playerIndex){
 			players[playerIndex].status && // player is in game
 			checkPlayerLocValid(&players[playerIndex], initPt.x -1, initPt.y)  //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX -1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -303,7 +313,7 @@ void movePlayerLeft(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, --players[playerIndex].tileX, players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
@@ -318,6 +328,8 @@ void movePlayerRight(uint8_t playerIndex){
 			players[playerIndex].status && // player is in game
 			checkPlayerLocValid(&players[playerIndex], initPt.x +1, initPt.y)  //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX +1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -329,7 +341,7 @@ void movePlayerRight(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, ++players[playerIndex].tileX, players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}

@@ -94,6 +94,8 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.down) downPressed(i);
         if(input->controller[i].button.left) leftPressed(i);
         if(input->controller[i].button.right) rightPressed(i);
+        if(input->controller[i].button.A) aPressed(i);
+        if(input->controller[i].button.B) bPressed(i);
     }
 #ifdef DEBUG_MODE1
     if(input->controller[0].button.up) DEBUG_upPressed(0);
