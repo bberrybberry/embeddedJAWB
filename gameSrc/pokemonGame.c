@@ -138,9 +138,9 @@ void rightPressed(uint8_t player){
 }
 
 void aPressed(uint8_t player){
-
+	selectBall(player);
 }
 
 void bPressed(uint8_t player){
-
+	selectRun(player);
 }

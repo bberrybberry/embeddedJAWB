@@ -181,6 +181,12 @@ bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY);
 bool checkShakingGrass(uint8_t locX, uint8_t locY);
 void setShakingGrass(uint8_t locX, uint8_t locY);
 
+void selectRun(uint8_t player);
+void selectBall(uint8_t player);
+void lBallOpt(uint8_t player);
+void rBallOpt(uint8_t player);
+void throwBall(uint8_t player);
+
 void playGame(void);
 void pauseGame(void);
 pokemon_t generatePokemon(void);
