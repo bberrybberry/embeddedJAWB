@@ -14,21 +14,83 @@ void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY){
 	g_point_t pt;
 
 	switch(ps){
-		case AARON: //TODO
+		case AARON:
+			switch(ws){
+				case LEFT:
+					//draw Aaron in left state at given location
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &aaronLTilePtr, TILE_X, TILE_Y);
+					break;
+				case RIGHT:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &aaronRTilePtr, TILE_X, TILE_Y);
+					break;
+				case STAND:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &aaronSTilePtr, TILE_X, TILE_Y);
+					break;
+			}
+			break;
 		case BREANNA:
 			switch(ws){
 				case LEFT:
-					//draw Breanna in left state at given location
 					pt.x = locX * TILE_X;
 					pt.y = locY * TILE_Y;
 					Graphics_DrawTile(&gCntx, pt, &breannaLTilePtr, TILE_X, TILE_Y);
 					break;
-				case RIGHT: //TODO
-				case STAND: //TODO
+				case RIGHT:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &breannaRTilePtr, TILE_X, TILE_Y);
+					break;
+				case STAND:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &breannaSTilePtr, TILE_X, TILE_Y);
+					break;
 			}
 			break;
-		case JOSH: //TODO
-		case WALT: //TODO
+		case JOSH:
+			switch(ws){
+				case LEFT:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &joshLTilePtr, TILE_X, TILE_Y);
+					break;
+				case RIGHT:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &joshRTilePtr, TILE_X, TILE_Y);
+					break;
+				case STAND:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &joshSTilePtr, TILE_X, TILE_Y);
+					break;
+			}
+			break;
+		case WALT:
+			switch(ws){
+				case LEFT:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &waltLTilePtr, TILE_X, TILE_Y);
+					break;
+				case RIGHT:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &waltRTilePtr, TILE_X, TILE_Y);
+					break;
+				case STAND:
+					pt.x = locX * TILE_X;
+					pt.y = locY * TILE_Y;
+					Graphics_DrawTile(&gCntx, pt, &waltSTilePtr, TILE_X, TILE_Y);
+					break;
+			}
+			break;
 	}
 }
 
@@ -81,4 +143,12 @@ void printMenu(uint8_t playerID, menuState ms, char* text){
 }
 void printStats(uint8_t time, char* text){
     //TODO
+}
+
+bool isTreeTile(uint8_t locX, uint8_t locY){
+	return map.grid[locX + locY*TILE_Y] == treesTilePtr;
+}
+
+bool isRockTile(uint8_t locX, uint8_t locY){
+	return map.grid[locX + locY*TILE_Y] == rocksTilePtr;
 }

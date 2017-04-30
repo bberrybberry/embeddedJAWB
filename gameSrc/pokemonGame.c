@@ -122,17 +122,17 @@ void pkmnGameOver(void){
 }
 
 void upPressed(uint8_t player){
-
+	movePlayerUp(player);
 }
 
 void downPressed(uint8_t player){
-
+	movePlayerDown(player);
 }
 
 void leftPressed(uint8_t player){
-
+	movePlayerLeft(player);
 }
 
 void rightPressed(uint8_t player){
-
+	movePlayerRight(player);
 }

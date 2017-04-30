@@ -22,6 +22,8 @@
 
 //TODO Docs
 #define MAX_STRING_LENGTH   16
+#define MAX_PLAYERS			4
+#define MAX_PKMN			6
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +66,17 @@ typedef struct{
  * @var players
  * @brief Container for all players currently in the game
  */
-pokePlayer_t* players[3];
+pokePlayer_t players[MAX_PLAYERS];
+/**
+ * @var pkmnList[]
+ * @brief Container for all types of pokemon contained in the game
+ */
+pokemon_t pkmnList[MAX_PKMN];
+/**
+ * @var pkmnWeight[]
+ * @brief Parallel array to pkmnList for weighted generation of pokemon
+ */
+uint8_t pkmnWeights[MAX_PKMN];
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -100,18 +112,79 @@ void initTextBox(void);
  */
 void initPlayers(void);
 
+/**
+ * @fn initPokemon(void);
+ * @breif set up the types of pokemon used throughout the game
+ */
+void initPokemon(void);
+
+/**
+ * @fn movePlayerUp(uint8_t playerIndex)
+ * @param uint8_t playerIndex index of the player (matches controller number and player
+ * array indexing)
+ *
+ * @brief move the selected player up. Do nothing if the desired location is invalid
+ */
+void movePlayerUp(uint8_t playerIndex);
+
+
+/**
+ * @fn movePlayerDown(uint8_t playerIndex)
+ * @param uint8_t playerIndex index of the player (matches controller number and player
+ * array indexing)
+ *
+ * @brief move the selected player down. Do nothing if the desired location is invalid
+ */
+void movePlayerDown(uint8_t playerIndex);
+
+
+/**
+ * @fn movePlayerLeft(uint8_t playerIndex)
+ * @param uint8_t playerIndex index of the player (matches controller number and player
+ * array indexing)
+ *
+ * @brief move the selected player left. Do nothing if the desired location is invalid
+ */
+void movePlayerLeft(uint8_t playerIndex);
+
+
+/**
+ * @fn movePlayerRight(uint8_t playerIndex)
+ * @param uint8_t playerIndex index of the player (matches controller number and player
+ * array indexing)
+ *
+ * @brief move the selected player right. Do nothing if the desired location is invalid
+ */
+void movePlayerRight(uint8_t playerIndex);
+
+/**
+ * @fn checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY)
+ * @param pokePlayer_t* player
+ * @param uint8_t locX
+ * @param uint8_t locY
+ * @return bool True if location is valid, false otherwise
+ *
+ * @brief Check is the location the player is attempting to move into is a valid
+ * location (ie, is not rocks, trees, or another player)
+ */
+bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY);
+
 void playGame(void);
 void pauseGame(void);
 pokemon_t generatePokemon(void);
-void updatePlayerLoc(pokePlayer_t player);
 char checkAllCollisions(char xLoc, char yLoc);
 bool checkItem(pokePlayer_t player);
-bool checkPlayerLocValid(pokePlayer_t player);
 bool checkGrass(pokePlayer_t player);
 void updateGrass(uint8_t location);
 void updateTime(uint8_t time);
 void updateScores(pokePlayer_t player, uint8_t score);
-void runEncounter(void);
+void runEncounter(void); //TODO: Walt, a bad merge somewhere messed up the encounter code, check your diffs on the commit at April 26, 2017 12:10:28 AM
 void generateItems(void);
+
+/**
+ * TODO: Walt: Docs
+ */
+uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high);
+
 
 #endif /* POKEMON_H_ */
