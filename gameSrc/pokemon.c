@@ -433,8 +433,60 @@ void runEncounter(uint8_t playerInd){
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
 
 	//wait for player input
+		//if run
+		//if ball
 
 	//finish event
+}
+
+void selectRun(uint8_t player){
+	if(players[player].mvmt == false){
+		//end encounter
+		players[player].mvmt = true;
+
+		//clear menu TODO
+	}
+}
+
+void selectBall(uint8_t player){
+	if(players[player].mvmt == false){
+		//change menu to ball select
+		//circularly define one as only pos to optionally display them
+		players[playerInd].pbCount *= 1;
+		players[playerInd].gbCount *= -1;
+		players[playerInd].ubCount *= -1;
+		printMenu(player, BALL_SELECT, players[playerInd].pbCount, players[playerInd].gbCount, players[playerInd].ubCount);
+
+	}
+}
+
+void lBallOpt(uint8_t player){
+
+}
+
+void rBallOpt(uint8_t player){
+
+}
+
+void throwBall(uint8_t player){
+	if(players[player].mvmt == false && //player is in menu state
+			(players[playerInd].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			){
+		if(players[player].pbCount > 0 ){ //has balls and is selected
+
+		}
+		else if(players[player].gbCount > 0){
+
+		}
+		else if(players[player].ubCount > 0){
+
+		}
+
+		//change negative values to positive to exit this state
+
+		//resume movement
+
+	}
 }
 
 void generateItems(){

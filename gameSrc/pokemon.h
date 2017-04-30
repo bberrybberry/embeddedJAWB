@@ -185,7 +185,6 @@ void playGame(void);
 void pauseGame(void);
 pokemon_t generatePokemon(void);
 void updatePlayerLoc(pokePlayer_t player);
-bool checkAllCollisions(uint8_t xLoc, uint8_t yLoc);
 bool checkItem(pokePlayer_t player);
 bool checkGrass(pokePlayer_t player);
 void updateGrass(uint8_t location);

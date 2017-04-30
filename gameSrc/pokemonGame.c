@@ -136,3 +136,11 @@ void leftPressed(uint8_t player){
 void rightPressed(uint8_t player){
 	movePlayerRight(player);
 }
+
+void aPressed(uint8_t player){
+
+}
+
+void bPressed(uint8_t player){
+
+}

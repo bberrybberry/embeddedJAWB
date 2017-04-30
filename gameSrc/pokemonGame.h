@@ -121,4 +121,20 @@ void leftPressed(uint8_t player);
  */
 void rightPressed(uint8_t player);
 
+/**
+ * @fn aPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "a" pressed on a game controller
+ */
+void aPressed(uint8_t player);
+
+/**
+ * @fn bPressed(uint8_t player)
+ * @param uint8_t player index of players that is respond
+ *
+ * @brief Response to "b" pressed on a game controller
+ */
+void bPressed(uint8_t player);
+
 #endif /* POKEMONGAME_H_ */
