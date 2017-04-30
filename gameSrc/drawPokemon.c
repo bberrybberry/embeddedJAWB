@@ -202,7 +202,7 @@ void printScore(uint8_t playerID, uint16_t score) {
 	color[0] = 0xFF; color[1] = 0xFF; color[2] = 0xFF;
 	Graphics_SetBackground(&gCntx, color);
 
-	Graphics_DrawText(&gCntx, pt, "Player %d: %d   ", playerID, score);
+	Graphics_DrawText(&gCntx, pt, "Player %d: %d   ", playerID + 1, score);
 }
 
 void printPokemon(uint8_t playerID, char* pokemon) {
@@ -246,10 +246,10 @@ void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, 
 
 	switch(ms) {
 	case RUN_BALL:
-		Graphics_DrawText(&gCntx, pt, "Select Ball: A Run: B   ");
+		Graphics_DrawText(&gCntx, pt, "Select Ball: A Run: B       ");
 		break;
 	case BALL_SELECT:
-		Graphics_DrawText(&gCntx, pt, "%s: %d     ", text, numBalls);
+		Graphics_DrawText(&gCntx, pt, "%s: %d                    ", text, numBalls);
 		break;
 	case NONE:
 		Graphics_DrawText(&gCntx, pt, "                                                     ");

@@ -457,7 +457,7 @@ void selectBall(uint8_t player){
 		players[player].pbCount *= 1;
 		players[player].gbCount *= -1;
 		players[player].ubCount *= -1;
-		printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "");
+		printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
 
 	}
 }
@@ -587,14 +587,14 @@ void throwBall(uint8_t player){
 		}
 
 		//change negative values to positive to exit this state
-		if(players[player].pbCount < 0 ){ //has balls and is selected
-			captureEvent(player, 0);
+		if(players[player].pbCount < 0 ){
+			players[player].pbCount *= -1;
 		}
-		else if(players[player].gbCount > 0){
-			captureEvent(player, 20);
+		if(players[player].gbCount > 0){
+			players[player].gbCount *= -1;
 		}
-		else if(players[player].ubCount > 0){
-			captureEvent(player, 50);
+		if(players[player].ubCount > 0){
+			players[player].ubCount *= -1;
 		}
 
 		//resume movement
@@ -607,7 +607,7 @@ void captureEvent(uint8_t player, uint8_t multiplier){
 	//try to catch pokemon
 	//throw ball at encountered pokemon
 	int rand = 51; //TODO: Random numbers
-	int thresh = 50;
+	int thresh = 5;
 	int chance = rand * multiplier / 100;
 	if(chance > thresh){
 		players[player].score += players[player].encountered.points;
@@ -625,6 +625,8 @@ void captureEvent(uint8_t player, uint8_t multiplier){
 
 	//remove shaking grass
 	drawGrass(GRASS, players[player].tileX, players[player].tileY);
+
+	//resume player movement
 }
 
 void generateItems(){
