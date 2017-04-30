@@ -191,7 +191,7 @@ bool checkGrass(pokePlayer_t player);
 void updateGrass(uint8_t location);
 void updateTime(uint8_t time);
 void updateScores(pokePlayer_t player, uint8_t score);
-void runEncounter(void); //TODO: Walt, a bad merge somewhere messed up the encounter code, check your diffs on the commit at April 26, 2017 12:10:28 AM
+void runEncounter(void);
 void generateItems(void);
 
 /**

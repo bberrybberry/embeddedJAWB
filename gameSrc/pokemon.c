@@ -346,7 +346,6 @@ pokemon_t generatePokemon(){
     }
 }
 
-<<<<<<< HEAD
 //char checkAllCollisions(char xLoc, char yLoc){
 //    //TODO
 //    volatile uint8_t i;
@@ -358,19 +357,6 @@ pokemon_t generatePokemon(){
 //    }
 //    return collide;
 //}
-=======
-bool checkAllCollisions(uint8_t xLoc, uint8_t yLoc){
-    //TODO
-    volatile uint8_t i;
-    char collide = 0;
-    for(i = 0; i < 3 && collide != 1; i++){
-//        if(player[i].x == xLoc && player[i].y ==yLoc){
-//            collide = 1;
-//        }
-    }
-    return collide;
-}
->>>>>>> 40b9bd027abae784dfba66d48d48504ac7be93fb
 
 bool checkItem(pokePlayer_t player){
     //TODO
