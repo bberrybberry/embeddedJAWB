@@ -18,7 +18,7 @@ static struct {
 } game;
 
 ///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
-//#define DEBUG_MODE //comment out to leave debug mode
+//#define DEBUG_MODE1 //comment out to leave debug mode
 
 void DEBUG_upPressed(uint8_t player);
 void DEBUG_downPressed(uint8_t player);
@@ -93,7 +93,7 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.left) leftPressed(i);
         if(input->controller[i].button.right) rightPressed(i);
     }
-#ifdef DEBUG_MODE
+#ifdef DEBUG_MODE1
     if(input->controller[0].button.up) DEBUG_upPressed(0);
     if(input->controller[0].button.down) DEBUG_downPressed(0);
     if(input->controller[0].button.left) DEBUG_leftPressed(0);

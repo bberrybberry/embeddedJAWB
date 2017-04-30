@@ -94,8 +94,18 @@ void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY){
 	}
 }
 
-void drawGrass(grassState gs, uint8_t location){
-    //TODO
+void drawGrass(grassState gs, uint8_t locX, uint8_t locY){
+	g_point_t pt;
+	pt.x = locX * TILE_X;
+	pt.y = locY * TILE_Y;
+	switch(gs){
+	case GRASS:
+		Graphics_DrawTile(&gCntx, pt, &grassTilePtr, TILE_X, TILE_Y);
+		break;
+	case SHAKE:
+		Graphics_DrawTile(&gCntx, pt, &shakingGrassTilePtr, TILE_X, TILE_Y);
+		break;
+	}
 }
 void drawMap(){
     map = (MapStruct){grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
@@ -183,4 +193,8 @@ bool isTreeTile(uint8_t locX, uint8_t locY){
 
 bool isRockTile(uint8_t locX, uint8_t locY){
 	return map.grid[locX + locY*TILE_Y] == rocksTilePtr;
+}
+
+bool isShakingGrass(uint8_t locX, uint8_t locY){
+	return map.grid[locX + locY*TILE_Y] == shakingGrassTilePtr;
 }

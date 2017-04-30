@@ -10,7 +10,9 @@
 //#include "pokemonImages.h" //needed to check contents of map
 
 ///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
-//#define DEBUG_MODE //comment out to leave debug mode
+//comment out to leave debug mode
+//#define DEBUG_MODE1 //test movements
+#define DEBUG_MODE2 //test pokemon generation
 
 pokePlayer_t g_DEBUG_player;
 
@@ -99,6 +101,20 @@ void DEBUG_movePlayer(uint8_t dir){
 		}
 		break;
 	}
+}
+
+void DEBUG_pokeGeneration(){
+	//set defined locations to shaking grass
+
+	uint8_t locX1, locX2, locX3, locY1, locY2, locY3;
+	locX1 = 5;
+	locY1 = 0;
+	locX2 = 1;
+	locY2 = 3;
+	locX3 = 7;
+	locY3 = 8;
+
+	setShakingGrass(locX1, locY1);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -194,10 +210,27 @@ void initPlayers(){
 
 void initPokemon(){
 	//TODO: fill pkmnList[] and pkmnWeights as desired
+	pkmnList[0].name = "Bulbasaur";
+	pkmnList[0].spawnRate = 50;
+	pkmnList[0].catchRate = 100;
+	pkmnList[0].points = 10;
+
+	//TODO, unhardcode
+	pkmnList[1] = pkmnList[0];
+	pkmnList[2] = pkmnList[0];
+	pkmnList[3] = pkmnList[0];
+	pkmnList[4] = pkmnList[0];
+	pkmnList[5] = pkmnList[0];
+
+	pkmnWeights[0] = 100;
+	pkmnWeights[1] = 100;
+	pkmnWeights[2] = 100;
+	pkmnWeights[3] = 100;
+	pkmnWeights[4] = 100;
+	pkmnWeights[5] = 100;
 }
 
 void movePlayerUp(uint8_t playerIndex){
-	//TODO: collision checking
 	g_point_t initPt;
 	initPt.x = players[playerIndex].tileX;
 	initPt.y = players[playerIndex].tileY;
@@ -218,7 +251,6 @@ void movePlayerUp(uint8_t playerIndex){
 }
 
 void movePlayerDown(uint8_t playerIndex){
-	//TODO: collision checking
 	g_point_t initPt;
 	initPt.x = players[playerIndex].tileX;
 	initPt.y = players[playerIndex].tileY;
@@ -239,7 +271,6 @@ void movePlayerDown(uint8_t playerIndex){
 }
 
 void movePlayerLeft(uint8_t playerIndex){
-	//TODO: collision checking
 	g_point_t initPt;
 	initPt.x = players[playerIndex].tileX;
 	initPt.y = players[playerIndex].tileY;
@@ -260,7 +291,6 @@ void movePlayerLeft(uint8_t playerIndex){
 }
 
 void movePlayerRight(uint8_t playerIndex){
-	//TODO: collision checking
 	g_point_t initPt;
 	initPt.x = players[playerIndex].tileX;
 	initPt.y = players[playerIndex].tileY;
@@ -277,6 +307,11 @@ void movePlayerRight(uint8_t playerIndex){
 		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, ++players[playerIndex].tileX, players[playerIndex].tileY);
+
+		//check if encounter occurs
+		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+			//enter encounter
+		}
 	}
 }
 
@@ -311,17 +346,17 @@ pokemon_t generatePokemon(){
     }
 }
 
-char checkAllCollisions(char xLoc, char yLoc){
-    //TODO
-    volatile uint8_t i;
-    char collide = 0;
-    for(i = 0; i < 3 && collide != 1; i++){
-//        if(player[i].x == xLoc && player[i].y ==yLoc){
-//            collide = 1;
-//        }
-    }
-    return collide;
-}
+//char checkAllCollisions(char xLoc, char yLoc){
+//    //TODO
+//    volatile uint8_t i;
+//    char collide = 0;
+//    for(i = 0; i < 3 && collide != 1; i++){
+////        if(player[i].x == xLoc && player[i].y ==yLoc){
+////            collide = 1;
+////        }
+//    }
+//    return collide;
+//}
 
 bool checkItem(pokePlayer_t player){
     //TODO
@@ -340,7 +375,7 @@ bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY){
     }
 
     //check if running into tree or rock
-    if(isTreeTile(locX, locY) || isRockTile(locX, locY)){//map.grid[locX + locY*TILE_Y] == treesTilePtr || map.grid[locX + locY*TILE_Y] ==  rocksTilePtr){
+    if(isTreeTile(locX, locY) || isRockTile(locX, locY)){
     	return false;
     }
 
@@ -348,12 +383,13 @@ bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY){
     return true;
 }
 
-bool checkGrass(pokePlayer_t player){
-    //TODO
+bool checkShakingGrass(uint8_t locX, uint8_t locY){
+	return isShakingGrass(locX, locY);
 }
 
-void updateGrass(uint8_t location){
-    //TODO
+void setShakingGrass(uint8_t locX, uint8_t locY){
+	//TODO: check that grass is drawn in valid location
+	drawGrass(SHAKE, locX, locY);
 }
 
 void updateTime(uint8_t time){

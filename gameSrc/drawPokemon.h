@@ -76,7 +76,7 @@ typedef enum {AARON, BREANNA, JOSH, WALT} playerSprite;
 
 typedef enum{LEFT, RIGHT, STAND} walkState;
 
-typedef enum{GRASS, SHAKE_UP, SHAKE_DOWN} grassState;
+typedef enum{GRASS, SHAKE} grassState;
 
 typedef enum{RUN_BALL, BALL_SELECT, NONE} menuState;
 
@@ -87,7 +87,7 @@ typedef enum{RUN_BALL, BALL_SELECT, NONE} menuState;
 /////////////////////////////////////////////////////////////////////////////////////
 void initDrawGraphics(void);
 void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY);
-void drawGrass(grassState gs, uint8_t location);
+void drawGrass(grassState gs, uint8_t locX, uint8_t locY);
 void drawMap();
 void drawStatic(const g_pixel_t* tileImg, g_point_t* pos);
 void drawInitMenu(void);

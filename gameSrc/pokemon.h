@@ -55,7 +55,7 @@ typedef struct{
     bool mvmt;              ///< Whether or not the player can move
 } pokePlayer_t;
 typedef struct{
-    char name[MAX_STRING_LENGTH];            ///< Name of pokemon
+    char* name;            ///< Name of pokemon
     uint8_t spawnRate;      ///< Spawn rate for random generation, out of 100
     uint8_t catchRate;      ///< Catch rate of pokemon (percentage chance of successful ball catch)
     uint8_t points;         ///< Points to award player for successful catch
@@ -176,6 +176,10 @@ void movePlayerRight(uint8_t playerIndex);
  * location (ie, is not rocks, trees, or another player)
  */
 bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY);
+
+//TODO Docs
+bool checkShakingGrass(uint8_t locX, uint8_t locY);
+void setShakingGrass(uint8_t locX, uint8_t locY);
 
 void playGame(void);
 void pauseGame(void);
