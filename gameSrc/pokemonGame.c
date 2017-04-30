@@ -113,6 +113,7 @@ void inputCallback(game_network_payload_t * input){
         time = TimeNow();
     }
     Game_CharXY(' ', 0, MAP_HEIGHT+2);
+
 }
 
 void pkmnGameOver(void){
@@ -136,18 +137,18 @@ void downPressed(uint8_t player){
 }
 
 void leftPressed(uint8_t player){
-	movePlayerLeft(player);
 	lBallOpt(player);
+	movePlayerLeft(player);
 }
 
 void rightPressed(uint8_t player){
-	movePlayerRight(player);
 	rBallOpt(player);
+	movePlayerRight(player);
 }
 
 void aPressed(uint8_t player){
-	selectBall(player);
 	throwBall(player);
+	selectBall(player);
 }
 
 void bPressed(uint8_t player){
