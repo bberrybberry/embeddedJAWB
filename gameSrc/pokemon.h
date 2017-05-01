@@ -308,6 +308,12 @@ void playGame(void);
 void pauseGame(void);
 
 /**
+ * @fn generateShakingGrass(void)
+ * @brief Determines which tile the pokemon are spawned on
+ */
+void generateShakingGrass(void);
+
+/**
  * @fn generatePokemon(void)
  * @brief Generates a random pokeball at a random tile
  */

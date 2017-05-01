@@ -9,6 +9,7 @@
 #include "graphics.h" //needed for types and defines
 //#include "pokemonImages.h" //needed to check contents of map
 #include "timing.h"
+#include "random_int.h"
 
 ///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
 //comment out to leave debug mode
@@ -365,6 +366,31 @@ void pauseGame(){
     //TODO
 
     //TODO: How to access game variable from pokemonGame to set state to pause
+}
+
+void generateShakingGrass(void) {
+	uint8_t x, y;
+	volatile int i;
+	bool display = false;
+
+	while(!display) {
+		x = random_int(0, GRID_X - 1);
+		y = random_int(0, GRID_Y - 1);
+		display = true;
+		if (!isGrass(x, y)) {
+			display = false;
+		}
+		if (checkShakingGrass(x, y)) {
+			display = false;
+		}
+		for (i = 0; i < MAX_PLAYERS; i++) {
+			if ((x == players[i].tileX) && (y == players[i].tileY)) {
+				display = false;
+			}
+		}
+	}
+
+	setShakingGrass(x, y);
 }
 
 pokemon_t generatePokemon(){
