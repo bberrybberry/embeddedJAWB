@@ -394,8 +394,6 @@ void playGame(){
 
 void pauseGame(){
     //TODO
-
-    //TODO: How to access game variable from pokemonGame to set state to pause
 }
 
 void generateShakingGrass(void) {
@@ -485,8 +483,8 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	players[playerInd].encountered = generatePokemon();
-	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered.name);
+	players[playerInd].encountered = &generatePokemon();
+	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
 	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
@@ -667,14 +665,14 @@ void captureEvent(uint8_t player, uint8_t multiplier){
 	int thresh = 5;
 	int chance = rand * multiplier / 100;
 	if(chance > thresh){
-		players[player].score += players[player].encountered.points;
-		//todo players[player].encountered = *void;
+		players[player].score += players[player].encountered->points;
+		players[player].encountered = 0;
 		printScore(player, players[player].score);
-		printPokemon(player, CAUGHT_MSG, players[player].encountered.name);
+		printPokemon(player, CAUGHT_MSG, players[player].encountered->name);
 	}
 	else{
-		//todo players[player].encountered = *void;
-		printPokemon(player, RAN_MSG, players[player].encountered.name);
+		players[player].encountered = 0;
+		printPokemon(player, RAN_MSG, players[player].encountered->name);
 	}
 
 	//clear menu

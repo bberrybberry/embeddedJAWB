@@ -117,7 +117,7 @@ typedef struct{
     uint8_t tileY;          ///< Y tile position of the player
     bool status;            ///< Whether or not the player is currently playing true: is playing false: is not playing
     bool mvmt;              ///< Whether or not the player can move
-    pokemon_t encountered;    ///< Player's recently encountered pokemon (usually null);
+    pokemon_t* encountered;    ///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
 //TODO: Define weights for random pokemon generation
 
