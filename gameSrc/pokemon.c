@@ -394,8 +394,6 @@ void playGame(){
 
 void pauseGame(){
     //TODO
-
-    //TODO: How to access game variable from pokemonGame to set state to pause
 }
 
 void generateShakingGrass(void) {
@@ -485,8 +483,8 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	players[playerInd].encountered = generatePokemon();
-	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered.name);
+	players[playerInd].encountered = &generatePokemon();
+	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
 	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
@@ -504,6 +502,9 @@ void selectRun(uint8_t player){
 
 		//remove shaking grass
 		drawGrass(GRASS, players[player].tileX, players[player].tileY);
+
+		//redraw player
+		drawPlayer(players[player].sprite, STAND, players[player].tileX, players[player].tileY);
 	}
 }
 
@@ -670,15 +671,15 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
     uint8_t catchValue = catchRate*multiplier;
     uint8_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
-	if(catch > thresh){
-		players[player].score += players[player].encountered.points;
-		//todo players[player].encountered = *void;
+	if(chance > thresh){
+		players[player].score += players[player].encountered->points;
+		players[player].encountered = 0;
 		printScore(player, players[player].score);
-		printPokemon(player, CAUGHT_MSG, players[player].encountered.name);
+		printPokemon(player, CAUGHT_MSG, players[player].encountered->name);
 	}
 	else{
-		//todo players[player].encountered = *void;
-		printPokemon(player, RAN_MSG, players[player].encountered.name);
+		players[player].encountered = 0;
+		printPokemon(player, RAN_MSG, players[player].encountered->name);
 	}
 
 	//clear menu
