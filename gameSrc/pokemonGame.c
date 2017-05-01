@@ -203,13 +203,16 @@ void startPressed(uint8_t player){
 	}
 	else if (game.currGameState == PAUSE) {
 		if (initial) {
-			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, SECOND);
+			Task_Schedule((task_fn_t)generateShakingGrass, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
 			game.currGameState = PLAY;
 			playGame();
 			initial = 0;
 		}
 		else {
-			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, SECOND - ((g_pauseTime - g_startTime) % SECOND), SECOND);
+			Task_Schedule((task_fn_t)generateShakingGrass, 0,
+					SHAKING_GRASS_PERIOD - ((g_pauseTime - g_startTime) % SHAKING_GRASS_PERIOD), SHAKING_GRASS_PERIOD);
 			game.currGameState = PLAY;
 			playGame();
 		}

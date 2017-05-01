@@ -49,7 +49,10 @@ typedef enum{
  * @def GAME_TIME_LIMIT
  * @brief The number of seconds in a game
  */
-#define GAME_TIME_LIMIT	120
+#define GAME_TIME_LIMIT			120
+
+#define SECOND					1000
+#define SHAKING_GRASS_PERIOD	8000
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
