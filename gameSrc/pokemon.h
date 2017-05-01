@@ -86,6 +86,18 @@
  */
 #define PLAYER4_INIT_Y	10
 
+/**
+ * @def CATCH_CHECK_1
+ * @brief First modifier for capture check
+ */
+#define CATCH_CHECK_1 1048560
+
+/**
+ * @def CATCH_CHECK_2
+ * @brief Second modifier for capture check
+ */
+#define CATCH_CHECK_2 16711680
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Structs
@@ -291,9 +303,10 @@ void throwBall(uint8_t player);
  * @fn captureEvent(uint8_t player, uint8_t multiplier)
  * @param player
  * @param multiplier
+ * @param catchRate
  * @brief
  */
-void captureEvent(uint8_t player, uint8_t multiplier);
+void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate);
 
 /**
  * @fn playGame(void)
@@ -384,6 +397,5 @@ void generateItems(void);
  * TODO: Walt: Docs
  */
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high);
-
 
 #endif /* POKEMON_H_ */

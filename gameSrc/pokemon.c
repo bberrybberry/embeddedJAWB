@@ -622,23 +622,24 @@ void rBallOpt(uint8_t player){
 }
 
 void throwBall(uint8_t player){
+    uint8_t catchRate = players[player].encountered.catchRate;
 	if(players[player].mvmt == false && //player is in menu state
 			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
 			){
 		if(players[player].pbCount > 0 ){ //has balls and is selected
 			--players[player].pbCount;
 			if(players[player].pbCount < 0 ) players[player].pbCount = 0; //don't let count fall below zero
-			captureEvent(player, 0);
+			captureEvent(player, 0, catchRate);
 		}
 		else if(players[player].gbCount > 0){
 			--players[player].gbCount;
 			if(players[player].gbCount < 0 ) players[player].gbCount = 0; //don't let count fall below zero
-			captureEvent(player, 20);
+			captureEvent(player, 20, catchRate);
 		}
 		else if(players[player].ubCount > 0){
 			--players[player].ubCount;
 			if(players[player].ubCount < 0 ) players[player].ubCount = 0; //don't let count fall below zero
-			captureEvent(player, 50);
+			captureEvent(player, 50, catchRate);
 		}
 
 		//change negative values to positive to exit this state
@@ -658,12 +659,15 @@ void throwBall(uint8_t player){
 	}
 }
 
-void captureEvent(uint8_t player, uint8_t multiplier){
+void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//try to catch pokemon
 	//throw ball at encountered pokemon
-	int rand = 51; //TODO: Random numbers
-	int thresh = 5;
-	int chance = rand * multiplier / 100;
+	//int rand = random_int(1, 100); //TODO: Random numbers
+	uint8_t thresh = random_int(1, 100);
+
+    uint8_t catchValue = catchRate*multiplier;
+    uint8_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
+
 	if(chance > thresh){
 		players[player].score += players[player].encountered->points;
 		players[player].encountered = 0;
