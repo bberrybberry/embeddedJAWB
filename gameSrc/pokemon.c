@@ -674,13 +674,13 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 
 	if(catch > thresh){
 		players[player].score += players[player].encountered->points;
-		players[player].encountered = 0;
 		printScore(player, players[player].score);
 		printPokemon(player, CAUGHT_MSG, players[player].encountered->name);
+		players[player].encountered = 0;
 	}
 	else{
-		players[player].encountered = 0;
 		printPokemon(player, RAN_MSG, players[player].encountered->name);
+		players[player].encountered = 0;
 	}
 
 	//clear menu
