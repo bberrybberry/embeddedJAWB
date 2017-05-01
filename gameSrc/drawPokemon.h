@@ -179,6 +179,17 @@ typedef enum {RUN_BALL, 	/**< Selecting to run or throw a pokeball*/
 			  NONE			/**< No menu visible*/
 } menuState;
 
+
+/**
+ * @enum pokeMsgType
+ * @brief Pokemon message type to describe how to show pokemon found in the menu
+ */
+typedef enum {FOUND_MSG, 	/**< Show that the player just found this pokemon*/
+			  RAN_MSG, 		/**< Show that the pokemon has ran away*/
+			  CAUGHT_MSG, 	/**< Show that the pokemon was successfully caught*/
+			  NONE_MSG		/**< No pokemon information to show*/
+} pokeMsgType;
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
@@ -240,12 +251,13 @@ void drawInitMenu(void);
 void printScore(uint8_t playerID, uint16_t score);
 
 /**
- * @fn printPokemon(uint8_t playerID, char* pokemon)
- * @param playerID Player index
+ * @fn printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon)
+ * @param Prints the pokemon for the given player
+ * @param Defines the type of pokemon message to be printed
  * @param pokemon String of the pokemon
  * @brief Prints the name of the pokemon for the given player
  */
-void printPokemon(uint8_t playerID, char* pokemon);
+void printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon);
 
 /**
  * @fn printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, char* text)

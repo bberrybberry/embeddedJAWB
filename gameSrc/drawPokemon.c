@@ -205,7 +205,7 @@ void printScore(uint8_t playerID, uint16_t score) {
 	Graphics_DrawText(&gCntx, pt, "Player %d: %d   ", playerID + 1, score);
 }
 
-void printPokemon(uint8_t playerID, char* pokemon) {
+void printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon) {
 	g_point_t pt;
 	uint8_t color[3];
 	pt.x = TILE_X * GRID_X + HORI_PADDING;
@@ -217,7 +217,20 @@ void printPokemon(uint8_t playerID, char* pokemon) {
 	color[0] = 0xFF; color[1] = 0xFF; color[2] = 0xFF;
 	Graphics_SetBackground(&gCntx, color);
 
-	Graphics_DrawText(&gCntx, pt, pokemon);
+	switch(msgType){
+	case FOUND_MSG:
+		Graphics_DrawText(&gCntx, pt, "Found %s!", pokemon);
+		break;
+	case RAN_MSG:
+		Graphics_DrawText(&gCntx, pt, "%s ran!", pokemon);
+		break;
+	case CAUGHT_MSG:
+		Graphics_DrawText(&gCntx, pt, "Caught %s!", pokemon);
+		break;
+	case NONE_MSG:
+		Graphics_DrawText(&gCntx, pt, "                                                     ");
+		break;
+	}
 }
 
 void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, char* text){
