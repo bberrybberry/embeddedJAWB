@@ -26,7 +26,6 @@ void DEBUG_downPressed(uint8_t player);
 /**
  * move the selected player up
  *
- * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
  * @param player: player number index
  */
 void DEBUG_upPressed(uint8_t player){

@@ -14,7 +14,16 @@
 #pragma comment (lib, "WinInet.lib")
 #pragma comment (lib, "urlmon.lib")
 
+/**
+ * @def POST
+ * @brief Passed into Request funtion as POST method
+ */
 #define POST	1
+
+/**
+ * @def GET
+ * @brief Passed into Request function as GET method
+ */
 #define GET		0
 
 /**

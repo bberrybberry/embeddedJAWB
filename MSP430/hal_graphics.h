@@ -44,7 +44,7 @@ typedef struct rectangle_t {
 	uint16_t minY; /**< Y coordinate of top left*/
 	uint16_t maxX; /**< X coordinate of bottom right*/
 	uint16_t maxY; /**< Y coordinate of bottom right*/
-} rectangle_t;
+} rectangle_t; /**< Definition of rectangle structure*/
 
 /**
  * @struct line_t
@@ -55,7 +55,7 @@ typedef struct line_t {
 	uint16_t y1; /**< Y coordinate of top left*/
 	uint16_t x2; /**< X coordinate of bottom right*/
 	uint16_t y2; /**< Y coordinate of bottom right*/
-} line_t;
+} line_t; /**< Definition of line structure*/
 
 /**
  * @brief Display specific struct, unused
@@ -147,11 +147,11 @@ void drawThickRectangle(uint32_t color, uint8_t thickness, rectangle_t* rect);
 void setFont(const Graphics_Font* font);
 
 /**
- * @fn drawString(uint32_t color, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque)
- * @param textColor Hex color
- * @param bgColor Hex color
+ * @fn drawString(uint32_t color, uint32_t bgColor, char* string, int32_t length, uint16_t x, uint16_t y, uint8_t opaque)
+ * @param textColor Hex color of the text itself
+ * @param bgColor Hex color of the backgroud of the text
  * @param string Pointer to beginning of char array
- * @param lenght Length of the string to be drawn
+ * @param length Length of the string to be drawn
  * @param x X coordinate of the top left corner of the text
  * @param y Y coordinate of the top left corner of the text
  * @param opaque Treated as boolean if the string is transparent

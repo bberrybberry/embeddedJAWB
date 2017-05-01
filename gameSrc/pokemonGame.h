@@ -34,9 +34,9 @@
  * @brief Defines possible global states of the game
  */
 typedef enum{
-    PAUSE,
-    PLAY,
-    GAME_OVER
+    PAUSE,		/**< Game is paused*/
+    PLAY,		/**< Game is being played*/
+    GAME_OVER	/**< Game is over*/
 } gameState;
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ void pkmnHelp(void);
 
 /**
  * @fn inputCallback(game_network_payload_t * input)
- * @param game_network_payload_t * playload from networ
+ * @param input Payload from the network
  *
  * @brief Listen to game controller inputs
  */
@@ -113,7 +113,7 @@ void pkmnGameOver(void);
 
 /**
  * @fn upPressed(uint8_t player)
- * @param uint8_t player index of players that is respond
+ * @param player index of players that is respond
  *
  * @brief Response to "up" pressed on a game controller
  */
@@ -121,7 +121,7 @@ void upPressed(uint8_t player);
 
 /**
  * @fn downPressed(uint8_t player)
- * @param uint8_t player index of players that is respond
+ * @param player index of players that is respond
  *
  * @brief Response to "down" pressed on a game controller
  */
@@ -129,7 +129,7 @@ void downPressed(uint8_t player);
 
 /**
  * @fn leftPressed(uint8_t player)
- * @param uint8_t player index of players that is respond
+ * @param player index of players that is respond
  *
  * @brief Response to "left" pressed on a game controller
  */
@@ -137,7 +137,7 @@ void leftPressed(uint8_t player);
 
 /**
  * @fn rightPressed(uint8_t player)
- * @param uint8_t player index of players that is respond
+ * @param player index of players that is respond
  *
  * @brief Response to "right" pressed on a game controller
  */
@@ -145,7 +145,7 @@ void rightPressed(uint8_t player);
 
 /**
  * @fn aPressed(uint8_t player)
- * @param uint8_t player index of players that is respond
+ * @param player index of players that is respond
  *
  * @brief Response to "a" pressed on a game controller
  */
@@ -153,7 +153,7 @@ void aPressed(uint8_t player);
 
 /**
  * @fn bPressed(uint8_t player)
- * @param uint8_t player index of players that is respond
+ * @param player index of players that is respond
  *
  * @brief Response to "b" pressed on a game controller
  */
@@ -176,7 +176,7 @@ void startPressed(uint8_t player);
 void selectPressed(uint8_t player);
 
 /**
- * @fn updateTime(void)
+ * @fn updateTimeRemaining(void)
  * @brief Updates the time remaining on the clock
  */
 void updateTimeRemaining(void);
