@@ -226,13 +226,13 @@ void initPokemon(){
 	pkmnList[1].catchRate = 45;
 	pkmnList[1].points = 50;
 
-    pkmnList[2].name = "Blastoise";
+    pkmnList[2].name = "Jigglypuff";
     pkmnList[2].spawnRate = 10;
     pkmnList[2].catchRate = 45;
     pkmnList[2].points = 40;
 
-    pkmnList[3].name = "Jiggylpuff";
-    pkmnList[3].spawnRate = 15;
+    pkmnList[3].name = "Growlithe";
+    pkmnList[3].spawnRate = 25;
     pkmnList[3].catchRate = 170;
     pkmnList[3].points = 30;
 
@@ -242,7 +242,7 @@ void initPokemon(){
     pkmnList[4].points = 20;
 
     pkmnList[5].name = "Pidgey";
-    pkmnList[5].spawnRate = 50;
+    pkmnList[5].spawnRate = 35;
     pkmnList[5].catchRate = 255;
     pkmnList[5].points = 10;
 	//TODO, unhardcode
@@ -266,7 +266,11 @@ void initPokemon(){
             pkmnWeights[i] = pkmnList[i].spawnRate+pkmnList[i-1].spawnRate;
     }
 }
-
+void initItems(){
+    itemWeights[0] = 10;
+    itemWeights[1] = 40;
+    itemWeights[2] = 50;
+}
 void movePlayerUp(uint8_t playerIndex){
 	g_point_t initPt;
 	initPt.x = players[playerIndex].tileX;
@@ -670,7 +674,8 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
     uint8_t catchValue = catchRate*multiplier;
     uint8_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
-	if(catch > thresh){
+
+	if(thresh > catch){
 		players[player].score += players[player].encountered->points;
 		printScore(player, players[player].score);
 		printPokemon(player, CAUGHT_MSG, players[player].encountered->name);
