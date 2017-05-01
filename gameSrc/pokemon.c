@@ -483,7 +483,8 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	players[playerInd].encountered = &generatePokemon();
+	pokemon_t pkmn = generatePokemon();
+	players[playerInd].encountered = &pkmn;
 	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
 	//printPokemon(playerInd, pkmn.name);
 
@@ -625,7 +626,7 @@ void rBallOpt(uint8_t player){
 }
 
 void throwBall(uint8_t player){
-    uint8_t catchRate = players[player].encountered.catchRate;
+    uint8_t catchRate = players[player].encountered->catchRate;
 	if(players[player].mvmt == false && //player is in menu state
 			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
 			){
@@ -671,7 +672,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
     uint8_t catchValue = catchRate*multiplier;
     uint8_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
-	if(chance > thresh){
+	if(catch > thresh){
 		players[player].score += players[player].encountered->points;
 		players[player].encountered = 0;
 		printScore(player, players[player].score);
