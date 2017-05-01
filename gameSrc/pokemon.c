@@ -695,7 +695,10 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	drawPlayer(players[player].sprite, STAND, players[player].tileX, players[player].tileY);
 }
 
-void generateItems(){
+void generateItems(uint8_t locX, uint8_t locY){
     //TODO
+    if (locX < GRID_X && locY < GRID_Y) {
+    //    drawGrass(SHAKE, locX, locY);
+    }
 }
 
