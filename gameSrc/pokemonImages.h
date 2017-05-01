@@ -1,4 +1,5 @@
 /*
+ *
  * pokemonImages.h
  *
  *  Created on: Apr 25, 2017
@@ -7,6 +8,9 @@
  * A lot of this code is based around map.h
  */
 
+/**
+ * @file
+ */
 #ifndef POKEMONIMAGES_H_
 #define POKEMONIMAGES_H_
 
@@ -35,8 +39,8 @@
 #include "white16x12.h"
 
 /**
- * @var graphics_t gCntx
- * @brief
+ * @var gCntx
+ * @brief Graphics context for Muhlbaier's graphics functions
  */
 graphics_t gCntx;
 
@@ -53,35 +57,119 @@ graphics_t gCntx;
 // Image pointers
 //
 /////////////////////////////////////////////////////////////////////////////////////
-//g_pixel_t* gPLTilePtr = &genPlayerL[0];
-//g_pixel_t* gPRTilePtr = &genPlayerR[0];
-//g_pixel_t* gPSTilePtr = &genPlayerS[0];
-//g_pixel_t* whiteTilePtr = &white16x12[0];
 
 //players
+/**
+ * @var aaronSTilePtr
+ * @brief Pointer to standing Aaron player tile
+ */
 const g_pixel_t* aaronSTilePtr = &aaronS[0];
+
+/**
+ * @var aaronRTilePtr
+ * @brief Pointer to right Aaron player tile
+ */
 const g_pixel_t* aaronRTilePtr = &aaronR[0];
+
+/**
+ * @var aaronLTilePtr
+ * @brief Pointer to left Aaron player tile
+ */
 const g_pixel_t* aaronLTilePtr = &aaronL[0];
+
+/**
+ * @var breannaSTilePtr
+ * @brief Pointer to standing Breanna player tile
+ */
 const g_pixel_t* breannaSTilePtr = &breannaS[0];
+
+/**
+ * @var breannaRTilePtr
+ * @brief Pointer to right Breanna player tile
+ */
 const g_pixel_t* breannaRTilePtr = &breannaR[0];
+
+/**
+ * @var breannaLTilePtr
+ * @brief Pointer to left Breanna player tile
+ */
 const g_pixel_t* breannaLTilePtr = &breannaL[0];
+/**
+ * @var joshSTilePtr
+ * @brief Pointer to standing Josh player tile
+ */
 const g_pixel_t* joshSTilePtr = &joshS[0];
+
+/**
+ * @var joshRTilePtr
+ * @brief Pointer to right Josh player tile
+ */
 const g_pixel_t* joshRTilePtr = &joshR[0];
+
+/**
+ * @var joshLTilePtr
+ * @brief Pointer to left Josh player tile
+ */
 const g_pixel_t* joshLTilePtr = &joshL[0];
+
+/**
+ * @var waltSTilePtr
+ * @brief Pointer to standing Walt player tile
+ */
 const g_pixel_t* waltSTilePtr = &waltS[0];
+
+/**
+ * @var waltRTilePtr
+ * @brief Pointer to right Walt player tile
+ */
 const g_pixel_t* waltRTilePtr = &waltR[0];
+
+/**
+ * @var waltLTilePtr
+ * @brief Pointer to left Walt player tile
+ */
 const g_pixel_t* waltLTilePtr = &waltL[0];
 
 //static ground
-const g_pixel_t* goundTilePtr = &ground[0];
+
+/**
+ * @var groundTilePtr
+ * @brief Pointer to the ground tile
+ */
+const g_pixel_t* groundTilePtr = &ground[0];
+
+/**
+ * @var treesTilePtr
+ * @brief Pointer to the tree tile
+ */
 const g_pixel_t* treesTilePtr = &trees[0];
+
+/**
+ * @var rocksTilePtr
+ * @brief Pointer to the rocks tile
+ */
 const g_pixel_t* rocksTilePtr = &rocks[0];
 
 //playable ground
+
+/**
+ * @var grassTilePtr
+ * @brief Pointer to normal grass tile
+ */
 const g_pixel_t* grassTilePtr = &grass[0];
+
+/**
+ * @var shakingGrassTilePtr
+ * @brief Pointer to shaking grass tile pointer
+ */
 const g_pixel_t* shakingGrassTilePtr = &shakingGrass[0];
 
 //other
+
+/**
+ * @var blackTilePtr
+ * @brief Pointer to a tile of black pixels
+ */
 const g_pixel_t* blackTilePtr = &black16x12[0];
 
 

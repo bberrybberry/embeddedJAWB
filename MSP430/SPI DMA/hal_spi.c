@@ -528,7 +528,7 @@ uint8_t hal_SPI_UsingDMA(uint8_t channel) {
 	}
 }
 
-void hal_SPI_ClearDMABuffer(uint8_t channel, uint8_t* DMABuffer) {
+void hal_SPI_ClearDMABuffer(uint8_t channel) {
 	switch(channel){
 	case SPI_A0:
 		if (DMACTL0 & DMA0TSEL_16) {
@@ -554,18 +554,21 @@ void hal_SPI_ClearDMABuffer(uint8_t channel, uint8_t* DMABuffer) {
 		}
 	case SPI_A1:
 		if (DMACTL0 & DMA0TSEL_20) {
-			DMA0DA -= (DMA_BUFFER_SIZE - DMA0SZ);
+			DMA0CTL &= ~DMAEN;
 			DMA0SZ = DMA_BUFFER_SIZE;
+			DMA0CTL |= DMAEN;
 			return;
 		}
 		else if (DMACTL0 & DMA1TSEL_20) {
-			DMA1DA -= (DMA_BUFFER_SIZE - DMA1SZ);
+			DMA1CTL &= ~DMAEN;
 			DMA1SZ = DMA_BUFFER_SIZE;
+			DMA1CTL |= DMAEN;
 			return;
 		}
 		else if (DMACTL1 & DMA2TSEL_20) {
-			DMA2DA -= (DMA_BUFFER_SIZE - DMA2SZ);
+			DMA2CTL &= ~DMAEN;
 			DMA2SZ = DMA_BUFFER_SIZE;
+			DMA2CTL |= DMAEN;
 			return;
 		}
 		else {
@@ -724,7 +727,7 @@ uint8_t hal_SPI_GetDMASize(uint8_t channel) {
 		else if (DMACTL0 & DMA1TSEL_20) {
 			return DMA1SZ;
 		}
-		else if (DMACTL1 & DMA2CTL_20) {
+		else if (DMACTL1 & DMA2TSEL_20) {
 			return DMA2SZ;
 		}
 		else {
@@ -813,13 +816,18 @@ void _SPIB0_ISR(void) {
 #pragma vector=USCI_B0_VECTOR
 __interrupt void _SPIB0_ISR(void){
 #endif
+#ifdef USE_DMA_BUFFER
 	if (hal_SPI_UsingDMA(SPI_B0)){
 		SPI_ISR(SPI_B0, 0);
 	} else {
 		SPI_ISR(SPI_B0, 0);
 		SPI_ISR(SPI_B0, 1);
 	}
+#else
+	SPI_ISR(SPI_B0);
+#endif
 }
+#ifdef USE_DMA_BUFFER
 #ifdef MSPGCC
 __attribute__((interrupt(USCI_B0_VECTOR)))
 void DMA_ISR(void) {
@@ -830,6 +838,7 @@ __interrupt void DMA_ISR(void) {
 	uint8_t dmaVec = DMAIV;
 	SPI_ISR(SPI_B0, 1);
 }
+#endif
 #endif
 
 #ifdef USE_SPI3

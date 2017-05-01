@@ -94,7 +94,7 @@ void Graphics_DrawTile(graphics_t * gptr, g_point_t position, g_pixel_t *tile[],
 /**
  * @fn Graphics_SetBackground(graphics_t * gptr, uint8_t color[3])
  * @param gptr Pointer to the graphics context
- * @param color[3] Array of colors in RGB hex format
+ * @param color Array of colors in RGB hex format
  * @brief Sets the background color of the display to the given color
  *
  * @details The color array is set up as color[0] = R, color[1] = G, color[2] = B
@@ -108,7 +108,7 @@ void Graphics_SetBackground(graphics_t * gptr, uint8_t color[3]) {
 /**
  * @fn Graphics_SetForeground(graphics_t * gptr, uint8_t color[3])
  * @param gptr Pointer to the graphics context
- * @param color[3] Array of colors in RGB hex format
+ * @param color Array of colors in RGB hex format
  * @brief Sets the foreground color of the display to the given color
  *
  * @details The color array is set up as color[0] = R, color[1] = G, color[2] = B

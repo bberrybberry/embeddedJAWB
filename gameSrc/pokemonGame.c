@@ -1,5 +1,5 @@
 /**
- * @file pokemonGame
+ * @file
  *
  * Pokemon Game Module:
  *
@@ -26,7 +26,6 @@ void DEBUG_downPressed(uint8_t player);
 /**
  * move the selected player up
  *
- * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
  * @param player: player number index
  */
 void DEBUG_upPressed(uint8_t player){
@@ -68,8 +67,8 @@ void pkmnPlay(void){
 
     //init pokemon game
     initGame();
-
-    Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
+    callbackInit();
+    game.currGameState = PAUSE;
 }
 
 void pkmnHelp(void){
@@ -94,6 +93,10 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.down) downPressed(i);
         if(input->controller[i].button.left) leftPressed(i);
         if(input->controller[i].button.right) rightPressed(i);
+        if(input->controller[i].button.A) aPressed(i);
+        if(input->controller[i].button.B) bPressed(i);
+        if(input->controller[i].button.start) startPressed(i);
+        if(input->controller[i].button.select) selectPressed(i);
     }
 #ifdef DEBUG_MODE1
     if(input->controller[0].button.up) DEBUG_upPressed(0);
@@ -109,6 +112,32 @@ void inputCallback(game_network_payload_t * input){
         time = TimeNow();
     }
     Game_CharXY(' ', 0, MAP_HEIGHT+2);
+
+}
+
+void callbackInit(void) {
+	controller_buttons_t mask;
+	mask.all_buttons = 0x0000;
+	mask.button.A = 1;
+	GameControllerHost_RegisterPressCallback(0, aHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.B = 1;
+	GameControllerHost_RegisterPressCallback(0, bHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.start = 1;
+	GameControllerHost_RegisterPressCallback(0, startHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.up = 1;
+	GameControllerHost_RegisterPressCallback(0, upHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.down = 1;
+	GameControllerHost_RegisterPressCallback(0, downHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.left = 1;
+	GameControllerHost_RegisterPressCallback(0, leftHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.right = 1;
+	GameControllerHost_RegisterPressCallback(0, rightHandler, mask, 0);
 }
 
 void pkmnGameOver(void){
@@ -132,19 +161,84 @@ void downPressed(uint8_t player){
 }
 
 void leftPressed(uint8_t player){
+	lBallOpt(player);
 	movePlayerLeft(player);
 }
 
 void rightPressed(uint8_t player){
+	rBallOpt(player);
 	movePlayerRight(player);
 }
 
 void aPressed(uint8_t player){
+	throwBall(player);
 	selectBall(player);
 }
 
 void bPressed(uint8_t player){
 	selectRun(player);
+}
+
+void startPressed(uint8_t player){
+	static uint8_t initial = 1;
+
+
+	if (game.currGameState == PLAY) {
+		game.currGameState = PAUSE;
+		g_pauseTime = TimeNow();
+		Task_Remove((task_fn_t)updateTimeRemaining, 0);
+		Task_Remove((task_fn_t)generatePokemon, 0);
+		pauseGame();
+	}
+	else if (game.currGameState == PAUSE) {
+		if (initial) {
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
+			Task_Schedule((task_fn_t)generatePokemon, 0, 0, 1000);
+			playGame();
+			initial = 0;
+		}
+		else {
+			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
+			Task_Schedule((task_fn_t)generatePokemon, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
+			playGame();
+		}
+	}
+}
+
+void selectPressed(uint8_t player){
+
+}
+
+void upHandler(controller_buttons_t btn, void* handle) {
+	upPressed(0);
+}
+
+void downHandler(controller_buttons_t btn, void* handle) {
+	downPressed(0);
+}
+
+void leftHandler(controller_buttons_t btn, void* handle) {
+	leftPressed(0);
+}
+
+void rightHandler(controller_buttons_t btn, void* handle) {
+	rightPressed(0);
+}
+
+void aHandler(controller_buttons_t btn, void* handle) {
+	aPressed(0);
+}
+
+void bHandler(controller_buttons_t btn, void* handle) {
+	bPressed(0);
+}
+
+void startHandler(controller_buttons_t btn, void* handle) {
+	startPressed(0);
+}
+
+void selectHandler(controller_buttons_t btn, void* handle) {
+	selectPressed(0);
 }
 
 void updateTimeRemaining(void) {

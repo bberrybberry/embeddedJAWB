@@ -1,5 +1,5 @@
 /**
- * @file pokemon
+ * @file
  *
  * @author Breanna Higgins,
  *
@@ -20,18 +20,70 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
-//TODO Docs
+/**
+ * @def MAX_STRING_LENGTH
+ * @brief Max number of characters a pokemon name can be
+ */
 #define MAX_STRING_LENGTH   16
+
+/**
+ * @def MAX_PLAYERS
+ * @brief Max number of players that can play
+ */
 #define MAX_PLAYERS			4
+
+/**
+ * @def MAX_PKMN
+ * @brief Max number of pokemon in the play
+ */
 #define MAX_PKMN			6
 
+/**
+ * @def PLAYER1_INIT_X
+ * @brief Initial X coordinate of tile for player 1
+ */
 #define PLAYER1_INIT_X	5
+
+/**
+ * @def PLAYER1_INIT_Y
+ * @brief Initial Y coordinate of tile for player 1
+ */
 #define PLAYER1_INIT_Y	9
+
+/**
+ * @def PLAYER2_INIT_X
+ * @brief Initial X coordinate of tile for player 2
+ */
 #define PLAYER2_INIT_X	6
+
+/**
+ * @def PLAYER2_INIT_Y
+ * @brief Initial Y coordinate of tile for player 2
+ */
 #define PLAYER2_INIT_Y	10
+
+/**
+ * @def PLAYER3_INIT_X
+ * @brief Initial X coordinate of tile for player 3
+ */
 #define PLAYER3_INIT_X	6
+
+/**
+ * @def PLAYER3_INIT_Y
+ * @brief Initial Y coordinate of tile for player 3
+ */
 #define PLAYER3_INIT_Y	9
+
+/**
+ * @def PLAYER4_INIT_X
+ * @brief Initial X coordinate of tile for player 4
+ */
 #define PLAYER4_INIT_X	5
+
+/**
+ * @def PLAYER4_INIT_Y
+ * @brief Initial Y coordinate of tile for player 4
+ */
 #define PLAYER4_INIT_Y	10
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -41,19 +93,9 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * TODO Docs
+ * @struct pokemon_t
+ * @brief Structure that defines a pokemon
  */
-typedef struct{
-    playerSprite sprite;    ///< Sprite of player (relates to graphics)
-    uint8_t pbCount;        ///< Player inventory of pokeballs
-    uint8_t gbCount;        ///< Player inventory of great balls
-    uint8_t ubCount;        ///< Player inventory of ultra balls
-    uint16_t score;         ///< Player score
-    uint8_t tileX;          ///< X tile position of the player
-    uint8_t tileY;          ///< Y tile position of the player
-    bool status;            ///< Whether or not the player is currently playing true: is playing false: is not playing
-    bool mvmt;              ///< Whether or not the player can move
-} pokePlayer_t;
 typedef struct{
     char* name;            ///< Name of pokemon
     uint8_t spawnRate;      ///< Spawn rate for random generation, out of 100
@@ -61,6 +103,22 @@ typedef struct{
     uint8_t points;         ///< Points to award player for successful catch
 } pokemon_t;
 
+/**
+ * @struct pokePlayer_t
+ * @brief Structure that defines a player
+ */
+typedef struct{
+    playerSprite sprite;    ///< Sprite of player (relates to graphics)
+    int8_t pbCount;        ///< Player inventory of pokeballs
+    int8_t gbCount;        ///< Player inventory of great balls
+    int8_t ubCount;        ///< Player inventory of ultra balls
+    uint16_t score;         ///< Player score
+    uint8_t tileX;          ///< X tile position of the player
+    uint8_t tileY;          ///< Y tile position of the player
+    bool status;            ///< Whether or not the player is currently playing true: is playing false: is not playing
+    bool mvmt;              ///< Whether or not the player can move
+    pokemon_t encountered;    ///< Player's recently encountered pokemon (usually null);
+} pokePlayer_t;
 //TODO: Define weights for random pokemon generation
 
 
@@ -76,12 +134,12 @@ typedef struct{
  */
 pokePlayer_t players[MAX_PLAYERS];
 /**
- * @var pkmnList[]
+ * @var pkmnList[MAX_PKMN]
  * @brief Container for all types of pokemon contained in the game
  */
 pokemon_t pkmnList[MAX_PKMN];
 /**
- * @var pkmnWeight[]
+ * @var pkmnWeights[MAX_PKMN]
  * @brief Parallel array to pkmnList for weighted generation of pokemon
  */
 uint8_t pkmnWeights[MAX_PKMN];
@@ -93,7 +151,6 @@ uint8_t pkmnWeights[MAX_PKMN];
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
-//TODO: Docs
 
 /**
  * @fn initGame(void)
@@ -108,7 +165,8 @@ void initGame(void);
 void initMap(void);
 
 /**
- * TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * @fn initTextBox(void)
+ * @brief Initializes the text boxes on the right of the screen
  */
 void initTextBox(void);
 
@@ -122,13 +180,13 @@ void initPlayers(void);
 
 /**
  * @fn initPokemon(void);
- * @breif set up the types of pokemon used throughout the game
+ * @brief set up the types of pokemon used throughout the game
  */
 void initPokemon(void);
 
 /**
  * @fn movePlayerUp(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player up. Do nothing if the desired location is invalid
@@ -138,7 +196,7 @@ void movePlayerUp(uint8_t playerIndex);
 
 /**
  * @fn movePlayerDown(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player down. Do nothing if the desired location is invalid
@@ -148,7 +206,7 @@ void movePlayerDown(uint8_t playerIndex);
 
 /**
  * @fn movePlayerLeft(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player left. Do nothing if the desired location is invalid
@@ -158,7 +216,7 @@ void movePlayerLeft(uint8_t playerIndex);
 
 /**
  * @fn movePlayerRight(uint8_t playerIndex)
- * @param uint8_t playerIndex index of the player (matches controller number and player
+ * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
  * @brief move the selected player right. Do nothing if the desired location is invalid
@@ -167,9 +225,9 @@ void movePlayerRight(uint8_t playerIndex);
 
 /**
  * @fn checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY)
- * @param pokePlayer_t* player
- * @param uint8_t locX
- * @param uint8_t locY
+ * @param player
+ * @param locX
+ * @param locY
  * @return bool True if location is valid, false otherwise
  *
  * @brief Check is the location the player is attempting to move into is a valid
@@ -177,26 +235,143 @@ void movePlayerRight(uint8_t playerIndex);
  */
 bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY);
 
-//TODO Docs
+/**
+ * @fn checkShakingGrass(uint8_t locX, uint8_t locY)
+ * @param locX X coordinate of the tile
+ * @param locY Y coordinate of the tile
+ * @brief Checks if the grass at the specified tile is shaking
+ */
 bool checkShakingGrass(uint8_t locX, uint8_t locY);
+
+/**
+ * @fn setShakingGrass(uint8_t locX, uint8_t locY)
+ * @param locX X coordinate of the tile
+ * @param locY Y coordinate of the tile
+ * @brief Sets the specified tile as shaking grass
+ */
 void setShakingGrass(uint8_t locX, uint8_t locY);
 
+/**
+ * @fn selectRun(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player wants to run
+ */
 void selectRun(uint8_t player);
+
+/**
+ * @fn selectBall(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player wants to select a pokeball
+ */
 void selectBall(uint8_t player);
+
+/**
+ * @fn lBallOpt(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player presses left in ball selection menu
+ */
 void lBallOpt(uint8_t player);
+
+/**
+ * @fn rBallOpt(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player presses right in ball selection menu
+ */
 void rBallOpt(uint8_t player);
+
+/**
+ * @fn throwBall(uint8_t player)
+ * @param player Index of the player
+ * @brief Routine that runs when the player throws a ball
+ */
 void throwBall(uint8_t player);
 
+//TODO Fill this in right
+/**
+ * @fn captureEvent(uint8_t player, uint8_t multiplier)
+ * @param player
+ * @param multiplier
+ * @brief
+ */
+void captureEvent(uint8_t player, uint8_t multiplier);
+
+/**
+ * @fn playGame(void)
+ * @brief Initiates the gameplay
+ */
 void playGame(void);
+
+/**
+ * @fn pauseGame(void)
+ * @brief Pauses thte gameplay
+ */
 void pauseGame(void);
+
+/**
+ * @fn generatePokemon(void)
+ * @brief Generates a random pokeball at a random tile
+ */
 pokemon_t generatePokemon(void);
-void updatePlayerLoc(pokePlayer_t player);
-bool checkItem(pokePlayer_t player);
-bool checkGrass(pokePlayer_t player);
+
+/**
+ * @fn updatePlayerLoc(pokePlayer_t* player)
+ * @param player Pointer to player struct
+ * @brief Updates the current location of the player in the player struct
+ */
+void updatePlayerLoc(pokePlayer_t* player);
+
+//TODO fill this in right
+/**
+ * @fn checkItem(pokePlayer_t* player)
+ * @param player Pointer to player struct
+ * @brief
+ */
+bool checkItem(pokePlayer_t* player);
+
+//TODO fill this in right
+/**
+ * @fn checkGrass(pokePlayer_t* player)
+ * @param player Pointer to player struct
+ * @brief
+ */
+bool checkGrass(pokePlayer_t* player);
+
+//TODO fill this in right
+/**
+ * @fn updateGrass(uint8_t location)
+ * @param location
+ * @brief
+ */
 void updateGrass(uint8_t location);
+
+/**
+ * @fn updateTime(uint8_t time)
+ * @param time Current remaining time to display
+ * @brief Updates the time on the screen
+ */
 void updateTime(uint8_t time);
-void updateScores(pokePlayer_t player, uint8_t score);
+
+/**
+ * @fn updateScores(uint8_t playerID, uint8_t score)
+ * @param playerID Index of the player
+ * @param score New score of the player
+ * @brief New score to put into the player struct
+ */
+void updateScores(uint8_t playerID, uint8_t score);
+
+//TODO fill this in right
+/**
+ * @fn runEncounter(uint8_t playerInd)
+ * @param playerInd Index of the player in the encounter
+ * @brief Routine that runs when the player has an encounter
+ */
 void runEncounter(uint8_t playerInd);
+
+//TODO fill this in right
+/**
+ * @fn generateItems(void)
+ * @brief Generates the location of randomly placed pokeballs
+ */
 void generateItems(void);
 
 /**

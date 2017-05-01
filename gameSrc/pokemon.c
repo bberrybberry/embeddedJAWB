@@ -140,7 +140,7 @@ void initGame(){
     //set up map
     initMap();
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_MODE1
     DEBUG_playerMoveTest();
 
     return; //exit method immediately while we're debugging things
@@ -157,8 +157,12 @@ void initGame(){
     //set up pokemon for generation
     initPokemon();
 
+#ifdef DEBUG_MODE2
+    DEBUG_pokeGeneration();
+#endif
+
     //pause game
-    pauseGame();
+    //pauseGame();
     //wait for someone to unpause game before starting\
 
     //set up time and first item/pokemon generations
@@ -175,7 +179,7 @@ void initPlayers(){
 		players[i].pbCount = 15;
 		players[i].gbCount = 10;
 		players[i].ubCount = 5;
-		players[i].mvmt = false;
+		players[i].mvmt = true;
 		players[i].status = false;
 		players[i].score = 0;
 
@@ -238,8 +242,11 @@ void movePlayerUp(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.y - 1) < GRID_Y && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y -1) //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY -1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -251,7 +258,7 @@ void movePlayerUp(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, --players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
@@ -264,8 +271,11 @@ void movePlayerDown(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.y + 1) < GRID_Y && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y +1)  //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY +1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -277,7 +287,7 @@ void movePlayerDown(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, ++players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
@@ -290,8 +300,11 @@ void movePlayerLeft(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.x - 1) < GRID_X && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x -1, initPt.y)  //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX -1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -303,7 +316,7 @@ void movePlayerLeft(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, --players[playerIndex].tileX, players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
@@ -316,8 +329,11 @@ void movePlayerRight(uint8_t playerIndex){
 	initPt.y = players[playerIndex].tileY;
 	if ((initPt.x + 1) < GRID_X && //location exists
 			players[playerIndex].status && // player is in game
+			players[playerIndex].mvmt && //player is in moving state
 			checkPlayerLocValid(&players[playerIndex], initPt.x +1, initPt.y)  //valid location (collision detection)
 	) {
+		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX +1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -329,7 +345,7 @@ void movePlayerRight(uint8_t playerIndex){
 		drawPlayer(players[playerIndex].sprite, STAND, ++players[playerIndex].tileX, players[playerIndex].tileY);
 
 		//check if encounter occurs
-		if(checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY)){
+		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
@@ -339,7 +355,6 @@ void movePlayerRight(uint8_t playerIndex){
 
 void initTextBox(){
 	drawInitMenu();
-    //TODO
 }
 
 void playGame(){
@@ -367,19 +382,7 @@ pokemon_t generatePokemon(){
     }
 }
 
-//char checkAllCollisions(char xLoc, char yLoc){
-//    //TODO
-//    volatile uint8_t i;
-//    char collide = 0;
-//    for(i = 0; i < 3 && collide != 1; i++){
-////        if(player[i].x == xLoc && player[i].y ==yLoc){
-////            collide = 1;
-////        }
-//    }
-//    return collide;
-//}
-
-bool checkItem(pokePlayer_t player){
+bool checkItem(pokePlayer_t* player){
     //TODO
 }
 
@@ -405,20 +408,26 @@ bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY){
 }
 
 bool checkShakingGrass(uint8_t locX, uint8_t locY){
-	return isShakingGrass(locX, locY);
+	if (locX < GRID_X && locY < GRID_Y) {
+		return isShakingGrass(locX, locY);
+	}
+	else {
+		return false;
+	}
 }
 
 void setShakingGrass(uint8_t locX, uint8_t locY){
-	//TODO: check that grass is drawn in valid location
-	drawGrass(SHAKE, locX, locY);
+	if (locX < GRID_X && locY < GRID_Y) {
+		drawGrass(SHAKE, locX, locY);
+	}
 }
 
 void updateTime(uint8_t time){
     printStats(time, "");
 }
 
-void updateScores(pokePlayer_t player, uint8_t score){
-    //TODO
+void updateScores(uint8_t playerID, uint8_t score){
+    printScore(playerID, score);
 }
 
 void runEncounter(uint8_t playerInd){
@@ -426,17 +435,12 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	pokemon_t pkmn = generatePokemon();
+	players[playerInd].encountered = generatePokemon();
+	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered.name);
 	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
-
-	//wait for player input
-		//if run
-		//if ball
-
-	//finish event
 }
 
 void selectRun(uint8_t player){
@@ -444,7 +448,12 @@ void selectRun(uint8_t player){
 		//end encounter
 		players[player].mvmt = true;
 
-		//clear menu TODO
+		//clear menu
+		printPokemon(player, NONE_MSG, "");
+		printMenu(player, NONE, -1, -1, -1, "");
+
+		//remove shaking grass
+		drawGrass(GRASS, players[player].tileX, players[player].tileY);
 	}
 }
 
@@ -452,69 +461,182 @@ void selectBall(uint8_t player){
 	if(players[player].mvmt == false){
 		//change menu to ball select
 		//circularly define one as only pos to optionally display them
-		players[playerInd].pbCount *= 1;
-		players[playerInd].gbCount *= -1;
-		players[playerInd].ubCount *= -1;
-		printMenu(player, BALL_SELECT, players[playerInd].pbCount, players[playerInd].gbCount, players[playerInd].ubCount);
+		players[player].pbCount *= 1;
+		players[player].gbCount *= -1;
+		players[player].ubCount *= -1;
+		printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
 
 	}
 }
 
 void lBallOpt(uint8_t player){
+	if(players[player].mvmt == false && //player is in menu state
+			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			){
+		if(players[player].pbCount > 0 ){ //has balls and is selected
+			//move selection to ub, if possible, else gb, else nothing
+			if(players[player].ubCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
 
+			}
+			else if(players[player].gbCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
+
+			}
+		}
+		else if(players[player].gbCount > 0){
+			//move selection to pb if possible, else ub, else nothing
+			if(players[player].pbCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
+
+			}
+			else if(players[player].ubCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
+
+			}
+		}
+		else if(players[player].ubCount > 0){
+			//move selection to gb, if possible, else pb, else nothing
+			if(players[player].gbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
+
+			}
+			else if(players[player].pbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
+
+			}
+		}
+	}
 }
 
 void rBallOpt(uint8_t player){
+	if(players[player].mvmt == false && //player is in menu state
+			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			){
+		if(players[player].pbCount > 0 ){ //has balls and is selected
+			//move selection to gb, if possible, else ub, else nothing
+			if(players[player].gbCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
 
+			}
+			else if(players[player].ubCount != 0){
+				players[player].pbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
+
+			}
+		}
+		else if(players[player].gbCount > 0){
+			//move selection to ub if possible, else pb, else nothing
+			if(players[player].ubCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].ubCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
+
+			}
+			else if(players[player].pbCount != 0){
+				players[player].gbCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
+
+			}
+		}
+		else if(players[player].ubCount > 0){
+			//move selection to pb, if possible, else gb, else nothing
+			if(players[player].pbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].pbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
+
+			}
+			else if(players[player].gbCount != 0){
+				players[player].ubCount *= -1; //make curr negative
+				players[player].gbCount *= -1; //make curr not negative, becomes new curr
+				printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
+
+			}
+		}
+	}
 }
 
 void throwBall(uint8_t player){
 	if(players[player].mvmt == false && //player is in menu state
-			(players[playerInd].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
+			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
 			){
 		if(players[player].pbCount > 0 ){ //has balls and is selected
-
+			--players[player].pbCount;
+			if(players[player].pbCount < 0 ) players[player].pbCount = 0; //don't let count fall below zero
+			captureEvent(player, 0);
 		}
 		else if(players[player].gbCount > 0){
-
+			--players[player].gbCount;
+			if(players[player].gbCount < 0 ) players[player].gbCount = 0; //don't let count fall below zero
+			captureEvent(player, 20);
 		}
 		else if(players[player].ubCount > 0){
-
+			--players[player].ubCount;
+			if(players[player].ubCount < 0 ) players[player].ubCount = 0; //don't let count fall below zero
+			captureEvent(player, 50);
 		}
 
 		//change negative values to positive to exit this state
+		if(players[player].pbCount < 0 ){
+			players[player].pbCount *= -1;
+		}
+		if(players[player].gbCount < 0){
+			players[player].gbCount *= -1;
+		}
+		if(players[player].ubCount < 0){
+			players[player].ubCount *= -1;
+		}
 
 		//resume movement
+		players[player].mvmt = true;
 
 	}
+}
+
+void captureEvent(uint8_t player, uint8_t multiplier){
+	//try to catch pokemon
+	//throw ball at encountered pokemon
+	int rand = 51; //TODO: Random numbers
+	int thresh = 5;
+	int chance = rand * multiplier / 100;
+	if(chance > thresh){
+		players[player].score += players[player].encountered.points;
+		//todo players[player].encountered = *void;
+		printScore(player, players[player].score);
+		printPokemon(player, CAUGHT_MSG, players[player].encountered.name);
+	}
+	else{
+		//todo players[player].encountered = *void;
+		printPokemon(player, RAN_MSG, players[player].encountered.name);
+	}
+
+	//clear menu
+	printMenu(player, NONE, -1, -1, -1, "");
+
+	//remove shaking grass
+	drawGrass(GRASS, players[player].tileX, players[player].tileY);
+	//redraw player
+	drawPlayer(players[player].sprite, STAND, players[player].tileX, players[player].tileY);
 }
 
 void generateItems(){
     //TODO
 }
-
-
-
-//void upPressed(controller_buttons_t input, void* player) {
-////    static uint8_t right = 0x01;
-////
-////    if ((t1.y - 1) < GRID_Y ) {
-////        if(checkAllCollisions(player->tileX, player->tileY-1)==0){
-////        if (map.map[t1.x + t1.y * GRID_X]) {
-////            Graphics_DrawTile(&gCntx, p1, &map.map[t1.x + t1.y * GRID_X], TILE_X, TILE_Y);
-////        }
-////        else {
-////            Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-////        }
-////
-////        t1.y--;
-////        p1.y = t1.y * TILE_Y;
-////        //Graphics_DrawTile(&gCntx, p1, &gPSTilePtr, TILE_X, TILE_Y);
-////        Graphics_DrawTile(&gCntx, p1, right ? &aaronRTilePtr : &aaronLTilePtr, TILE_X, TILE_Y);
-////        right ^= 0x01;
-////    }
-////    }
-//}
-
-
 
