@@ -226,13 +226,13 @@ void initPokemon(){
 	pkmnList[1].catchRate = 45;
 	pkmnList[1].points = 50;
 
-    pkmnList[2].name = "Blastoise";
+    pkmnList[2].name = "Jigglypuff";
     pkmnList[2].spawnRate = 10;
     pkmnList[2].catchRate = 45;
     pkmnList[2].points = 40;
 
-    pkmnList[3].name = "Jiggylpuff";
-    pkmnList[3].spawnRate = 15;
+    pkmnList[3].name = "Growlithe";
+    pkmnList[3].spawnRate = 25;
     pkmnList[3].catchRate = 170;
     pkmnList[3].points = 30;
 
@@ -242,7 +242,7 @@ void initPokemon(){
     pkmnList[4].points = 20;
 
     pkmnList[5].name = "Pidgey";
-    pkmnList[5].spawnRate = 50;
+    pkmnList[5].spawnRate = 35;
     pkmnList[5].catchRate = 255;
     pkmnList[5].points = 10;
 	//TODO, unhardcode
@@ -266,7 +266,11 @@ void initPokemon(){
             pkmnWeights[i] = pkmnList[i].spawnRate+pkmnList[i-1].spawnRate;
     }
 }
-
+void initItems(){
+    itemWeights[0] = 10;
+    itemWeights[1] = 40;
+    itemWeights[2] = 50;
+}
 void movePlayerUp(uint8_t playerIndex){
 	g_point_t initPt;
 	initPt.x = players[playerIndex].tileX;
@@ -421,13 +425,13 @@ void generateShakingGrass(void) {
 	setShakingGrass(x, y);
 }
 
-pokemon_t generatePokemon(){
+pokemon_t* generatePokemon(){
     uint8_t r = random_int(0, 100); //TODO: replace with random num gen
     uint8_t index = binarySearch(pkmnWeights, r, 0, MAX_PKMN);
     if(index<MAX_PKMN)
-        return pkmnList[index];
+        return &pkmnList[index];
     else
-        return pkmnList[5];
+        return &pkmnList[5];
 }
 
 bool checkItem(pokePlayer_t* player){
@@ -483,10 +487,8 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	pokemon_t pkmn = generatePokemon();
-	players[playerInd].encountered = &pkmn;
+	players[playerInd].encountered = generatePokemon();
 	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
-	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
@@ -633,17 +635,17 @@ void throwBall(uint8_t player){
 		if(players[player].pbCount > 0 ){ //has balls and is selected
 			--players[player].pbCount;
 			if(players[player].pbCount < 0 ) players[player].pbCount = 0; //don't let count fall below zero
-			captureEvent(player, 1, catchRate);
+			captureEvent(player, 0, catchRate);
 		}
 		else if(players[player].gbCount > 0){
 			--players[player].gbCount;
 			if(players[player].gbCount < 0 ) players[player].gbCount = 0; //don't let count fall below zero
-			captureEvent(player, 2, catchRate);
+			captureEvent(player, 20, catchRate);
 		}
 		else if(players[player].ubCount > 0){
 			--players[player].ubCount;
 			if(players[player].ubCount < 0 ) players[player].ubCount = 0; //don't let count fall below zero
-			captureEvent(player, 3, catchRate);
+			captureEvent(player, 50, catchRate);
 		}
 
 		//change negative values to positive to exit this state
@@ -667,12 +669,13 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//try to catch pokemon
 	//throw ball at encountered pokemon
 	//int rand = random_int(1, 100); //TODO: Random numbers
-	uint8_t thresh = random_int(1, 32);
+	uint8_t thresh = random_int(1, 100);
 
     uint8_t catchValue = catchRate*multiplier;
-    uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
+    uint8_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
-	if(catch < thresh){
+
+	if(thresh > catch){
 		players[player].score += players[player].encountered->points;
 		printScore(player, players[player].score);
 		printPokemon(player, CAUGHT_MSG, players[player].encountered->name);

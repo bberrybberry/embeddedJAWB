@@ -198,7 +198,7 @@ void startPressed(uint8_t player){
 		game.currGameState = PAUSE;
 		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
-		//Task_Remove((task_fn_t)generatePokemon, 0);
+		Task_Remove((task_fn_t)generateShakingGrass, 0);
 		pauseGame();
 	}
 	else if (game.currGameState == PAUSE) {

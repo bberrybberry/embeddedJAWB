@@ -98,6 +98,9 @@
  */
 #define CATCH_CHECK_2 16711680
 
+//TODO DOXYGEN THIS SHIT
+#define MAX_ITEMS   3
+#define MAX_SHAKING_GRASS   15
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Structs
@@ -156,7 +159,7 @@ pokemon_t pkmnList[MAX_PKMN];
  */
 uint8_t pkmnWeights[MAX_PKMN];
 
-
+uint8_t itemWeights[MAX_ITEMS];
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
@@ -328,9 +331,9 @@ void generateShakingGrass(void);
 
 /**
  * @fn generatePokemon(void)
- * @brief Generates a random pokeball at a random tile
+ * @brief Generates a random pokemon at a random tile
  */
-pokemon_t generatePokemon(void);
+pokemon_t* generatePokemon(void);
 
 /**
  * @fn updatePlayerLoc(pokePlayer_t* player)
@@ -398,4 +401,5 @@ void generateItems(void);
  */
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high);
 
+void initItems();
 #endif /* POKEMON_H_ */
