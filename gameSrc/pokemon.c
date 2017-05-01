@@ -523,7 +523,7 @@ void selectBall(uint8_t player){
 	}
 }
 
-void lBallOpt(uint8_t player){
+void leftBallOption(uint8_t player){
 	if(players[player].mvmt == false && //player is in menu state
 			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
 			){
@@ -575,7 +575,7 @@ void lBallOpt(uint8_t player){
 	}
 }
 
-void rBallOpt(uint8_t player){
+void rightBallOption(uint8_t player){
 	if(players[player].mvmt == false && //player is in menu state
 			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
 			){
