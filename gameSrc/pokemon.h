@@ -352,7 +352,7 @@ void updateGrass(uint8_t location);
 void updateTime(uint8_t time);
 
 /**
- * @fn updateScores(pokePlayer_t* player, uint8_t score)
+ * @fn updateScores(uint8_t playerID, uint8_t score)
  * @param playerID Index of the player
  * @param score New score of the player
  * @brief New score to put into the player struct
