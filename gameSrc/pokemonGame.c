@@ -88,7 +88,7 @@ void inputCallback(game_network_payload_t * input){
         Game_Printf("index skip");
     }
     index = input->index;
-    for(i = 0; i < 4; i++) {
+    for(i = 1; i < 4; i++) {
         if(input->controller[i].button.up) upPressed(i);//MoveUp(&player[i]);
         if(input->controller[i].button.down) downPressed(i);
         if(input->controller[i].button.left) leftPressed(i);
@@ -182,24 +182,23 @@ void bPressed(uint8_t player){
 void startPressed(uint8_t player){
 	static uint8_t initial = 1;
 
-
 	if (game.currGameState == PLAY) {
 		game.currGameState = PAUSE;
 		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
-		Task_Remove((task_fn_t)generatePokemon, 0);
+		//Task_Remove((task_fn_t)generatePokemon, 0);
 		pauseGame();
 	}
 	else if (game.currGameState == PAUSE) {
 		if (initial) {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, 1000);
-			Task_Schedule((task_fn_t)generatePokemon, 0, 0, 1000);
+			game.currGameState = PLAY;
 			playGame();
 			initial = 0;
 		}
 		else {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
-			Task_Schedule((task_fn_t)generatePokemon, 0, 1000 - ((g_pauseTime - g_startTime) % 1000), 1000);
+			game.currGameState = PLAY;
 			playGame();
 		}
 	}
