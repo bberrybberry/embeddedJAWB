@@ -252,8 +252,8 @@ void printScore(uint8_t playerID, uint16_t score);
 
 /**
  * @fn printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon)
- * @param Prints the pokemon for the given player
- * @param Defines the type of pokemon message to be printed
+ * @param playerID Prints the pokemon for the given player
+ * @param msgType Defines the type of pokemon message to be printed
  * @param pokemon String of the pokemon
  * @brief Prints the name of the pokemon for the given player
  */

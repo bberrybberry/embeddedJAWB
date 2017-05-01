@@ -208,7 +208,7 @@ void leftHandler(controller_buttons_t btn, void* handle);
 
 /**
  * @fn rightHandler(controller_buttons_t btn, void* handle)
- * @param bth Controller button input
+ * @param btn Controller button input
  * @param handle Void pointer to any data
  * @brief Callback function to interface with GameControllerHost
  */
