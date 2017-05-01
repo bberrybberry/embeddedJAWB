@@ -328,9 +328,9 @@ void generateShakingGrass(void);
 
 /**
  * @fn generatePokemon(void)
- * @brief Generates a random pokeball at a random tile
+ * @brief Generates a random pokemon at a random tile
  */
-pokemon_t generatePokemon(void);
+pokemon_t* generatePokemon(void);
 
 /**
  * @fn updatePlayerLoc(pokePlayer_t* player)

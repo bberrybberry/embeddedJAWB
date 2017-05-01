@@ -421,13 +421,13 @@ void generateShakingGrass(void) {
 	setShakingGrass(x, y);
 }
 
-pokemon_t generatePokemon(){
+pokemon_t* generatePokemon(){
     uint8_t r = random_int(0, 100); //TODO: replace with random num gen
     uint8_t index = binarySearch(pkmnWeights, r, 0, MAX_PKMN);
     if(index<MAX_PKMN)
-        return pkmnList[index];
+        return &pkmnList[index];
     else
-        return pkmnList[5];
+        return &pkmnList[5];
 }
 
 bool checkItem(pokePlayer_t* player){
@@ -483,10 +483,8 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	pokemon_t pkmn = generatePokemon();
-	players[playerInd].encountered = &pkmn;
+	players[playerInd].encountered = generatePokemon();
 	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
-	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
