@@ -430,7 +430,7 @@ void runEncounter(uint8_t playerInd){
 
 	//print pokemon
 	players[playerInd].encountered = generatePokemon();
-	printPokemon(playerInd, players[playerInd].encountered.name);
+	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered.name);
 	//printPokemon(playerInd, pkmn.name);
 
 	//change menu
@@ -443,6 +443,7 @@ void selectRun(uint8_t player){
 		players[player].mvmt = true;
 
 		//clear menu
+		printPokemon(player, NONE_MSG, "");
 		printMenu(player, NONE, -1, -1, -1, "");
 
 		//remove shaking grass
@@ -613,11 +614,11 @@ void captureEvent(uint8_t player, uint8_t multiplier){
 		players[player].score += players[player].encountered.points;
 		//todo players[player].encountered = *void;
 		printScore(player, players[player].score);
-		//TODO: print pokemon caught
+		printPokemon(player, CAUGHT_MSG, players[player].encountered.name);
 	}
 	else{
 		//todo players[player].encountered = *void;
-		//TODO: print pokemon ran
+		printPokemon(player, RAN_MSG, players[player].encountered.name);
 	}
 
 	//clear menu
@@ -625,8 +626,8 @@ void captureEvent(uint8_t player, uint8_t multiplier){
 
 	//remove shaking grass
 	drawGrass(GRASS, players[player].tileX, players[player].tileY);
-
-	//resume player movement
+	//redraw player
+	drawPlayer(players[player].sprite, STAND, players[player].tileX, players[player].tileY);
 }
 
 void generateItems(){
