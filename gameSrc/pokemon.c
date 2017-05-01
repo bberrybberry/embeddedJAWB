@@ -633,17 +633,17 @@ void throwBall(uint8_t player){
 		if(players[player].pbCount > 0 ){ //has balls and is selected
 			--players[player].pbCount;
 			if(players[player].pbCount < 0 ) players[player].pbCount = 0; //don't let count fall below zero
-			captureEvent(player, 0, catchRate);
+			captureEvent(player, 1, catchRate);
 		}
 		else if(players[player].gbCount > 0){
 			--players[player].gbCount;
 			if(players[player].gbCount < 0 ) players[player].gbCount = 0; //don't let count fall below zero
-			captureEvent(player, 20, catchRate);
+			captureEvent(player, 2, catchRate);
 		}
 		else if(players[player].ubCount > 0){
 			--players[player].ubCount;
 			if(players[player].ubCount < 0 ) players[player].ubCount = 0; //don't let count fall below zero
-			captureEvent(player, 50, catchRate);
+			captureEvent(player, 3, catchRate);
 		}
 
 		//change negative values to positive to exit this state
@@ -667,12 +667,12 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//try to catch pokemon
 	//throw ball at encountered pokemon
 	//int rand = random_int(1, 100); //TODO: Random numbers
-	uint8_t thresh = random_int(1, 100);
+	uint8_t thresh = random_int(1, 32);
 
     uint8_t catchValue = catchRate*multiplier;
-    uint8_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
+    uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
-	if(catch > thresh){
+	if(catch < thresh){
 		players[player].score += players[player].encountered->points;
 		printScore(player, players[player].score);
 		printPokemon(player, CAUGHT_MSG, players[player].encountered->name);
