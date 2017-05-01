@@ -5,7 +5,7 @@
 *
 */
 /**
-* @mainpage Kinect 2 Controller
+* 
 */
 //#define USE_KINECT
 
