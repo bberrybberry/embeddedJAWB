@@ -218,32 +218,32 @@ void initPokemon(){
 	//TODO: fill pkmnList[] and pkmnWeights as desired
 	pkmnList[0].name = "Chansey";
 	pkmnList[0].spawnRate = 1;
-	pkmnList[0].catchRate = 100;
+	pkmnList[0].catchRate = 30;
 	pkmnList[0].points = 60;
 
 	pkmnList[1].name = "Gyrados";
 	pkmnList[1].spawnRate = 4;
-	pkmnList[1].catchRate = 100;
+	pkmnList[1].catchRate = 45;
 	pkmnList[1].points = 50;
 
     pkmnList[2].name = "Blastoise";
     pkmnList[2].spawnRate = 10;
-    pkmnList[2].catchRate = 100;
+    pkmnList[2].catchRate = 45;
     pkmnList[2].points = 40;
 
-    pkmnList[3].name = "Bulbasaur";
+    pkmnList[3].name = "Jiggylpuff";
     pkmnList[3].spawnRate = 15;
-    pkmnList[3].catchRate = 100;
+    pkmnList[3].catchRate = 170;
     pkmnList[3].points = 30;
 
     pkmnList[4].name = "Pikachu";
     pkmnList[4].spawnRate = 25;
-    pkmnList[4].catchRate = 100;
+    pkmnList[4].catchRate = 190;
     pkmnList[4].points = 20;
 
     pkmnList[5].name = "Pidgey";
     pkmnList[5].spawnRate = 50;
-    pkmnList[5].catchRate = 100;
+    pkmnList[5].catchRate = 255;
     pkmnList[5].points = 10;
 	//TODO, unhardcode
 	/*pkmnList[1] = pkmnList[0];
@@ -424,7 +424,7 @@ void generateShakingGrass(void) {
 }
 
 pokemon_t generatePokemon(){
-    uint8_t r = 5; //TODO: replace with random num gen
+    uint8_t r = random_int(0, 100); //TODO: replace with random num gen
     uint8_t index = binarySearch(pkmnWeights, r, 0, MAX_PKMN);
     if(index<MAX_PKMN)
         return pkmnList[index];
