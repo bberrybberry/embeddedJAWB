@@ -399,17 +399,11 @@ void pauseGame(){
 
 pokemon_t generatePokemon(){
     uint8_t r = 5; //TODO: replace with random num gen
-    uint8_t index = r;//binarySearch(pkmnWeights, r, 0, MAX_PKMN);
-    switch(index){
-    case 0:
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-	default:
-		return pkmnList[0];
-    }
+    uint8_t index = binarySearch(pkmnWeights, r, 0, MAX_PKMN);
+    if(index<MAX_PKMN)
+        return pkmnList[index];
+    else
+        return pkmnList[5];
 }
 
 bool checkItem(pokePlayer_t* player){
