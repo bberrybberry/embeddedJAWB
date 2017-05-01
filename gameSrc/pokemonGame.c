@@ -153,30 +153,42 @@ void pkmnGameOver(void){
 }
 
 void upPressed(uint8_t player){
-	movePlayerUp(player);
+	if(game.currGameState == PLAY) {
+		movePlayerUp(player);
+	}
 }
 
 void downPressed(uint8_t player){
-	movePlayerDown(player);
+	if(game.currGameState == PLAY) {
+		movePlayerDown(player);
+	}
 }
 
 void leftPressed(uint8_t player){
-	lBallOpt(player);
-	movePlayerLeft(player);
+	if(game.currGameState == PLAY) {
+		lBallOpt(player);
+		movePlayerLeft(player);
+	}
 }
 
 void rightPressed(uint8_t player){
-	rBallOpt(player);
-	movePlayerRight(player);
+	if(game.currGameState == PLAY) {
+		rBallOpt(player);
+		movePlayerRight(player);
+	}
 }
 
 void aPressed(uint8_t player){
-	throwBall(player);
-	selectBall(player);
+	if(game.currGameState == PLAY) {
+		throwBall(player);
+		selectBall(player);
+	}
 }
 
 void bPressed(uint8_t player){
-	selectRun(player);
+	if(game.currGameState == PLAY) {
+		selectRun(player);
+	}
 }
 
 void startPressed(uint8_t player){
@@ -205,7 +217,9 @@ void startPressed(uint8_t player){
 }
 
 void selectPressed(uint8_t player){
+	if(game.currGameState == PLAY) {
 
+	}
 }
 
 void upHandler(controller_buttons_t btn, void* handle) {
