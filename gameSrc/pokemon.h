@@ -353,11 +353,11 @@ void updateTime(uint8_t time);
 
 /**
  * @fn updateScores(pokePlayer_t* player, uint8_t score)
- * @param player Pointer to the player struct
+ * @param playerID Index of the player
  * @param score New score of the player
  * @brief New score to put into the player struct
  */
-void updateScores(pokePlayer_t* player, uint8_t score);
+void updateScores(uint8_t playerID, uint8_t score);
 
 //TODO fill this in right
 /**
