@@ -504,6 +504,9 @@ void selectRun(uint8_t player){
 
 		//remove shaking grass
 		drawGrass(GRASS, players[player].tileX, players[player].tileY);
+
+		//redraw player
+		drawPlayer(players[player].sprite, STAND, players[player].tileX, players[player].tileY);
 	}
 }
 
