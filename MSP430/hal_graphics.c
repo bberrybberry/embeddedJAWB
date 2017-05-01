@@ -15,7 +15,7 @@ void initDisplay(void) {
 	Graphics_setFont(&g_sContext, &g_sFontCmss12);
 	Graphics_clearDisplay(&g_sContext);
 
-	touch_initInterface();
+	//touch_initInterface();
 }
 
 unsigned long pixelToHex(uint8_t pixel) {
