@@ -219,13 +219,13 @@ void printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon) {
 
 	switch(msgType){
 	case FOUND_MSG:
-		Graphics_DrawText(&gCntx, pt, "Found %s!", pokemon);
+		Graphics_DrawText(&gCntx, pt, "Found %s!                  ", pokemon);
 		break;
 	case RAN_MSG:
-		Graphics_DrawText(&gCntx, pt, "%s ran!", pokemon);
+		Graphics_DrawText(&gCntx, pt, "%s ran!                  ", pokemon);
 		break;
 	case CAUGHT_MSG:
-		Graphics_DrawText(&gCntx, pt, "Caught %s!", pokemon);
+		Graphics_DrawText(&gCntx, pt, "Caught %s!                  ", pokemon);
 		break;
 	case NONE_MSG:
 		Graphics_DrawText(&gCntx, pt, "                                                     ");
