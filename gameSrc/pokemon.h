@@ -281,18 +281,18 @@ void selectRun(uint8_t player);
 void selectBall(uint8_t player);
 
 /**
- * @fn lBallOpt(uint8_t player)
+ * @fn leftBallOption(uint8_t player)
  * @param player Index of the player
  * @brief Routine that runs when the player presses left in ball selection menu
  */
-void lBallOpt(uint8_t player);
+void leftBallOption(uint8_t player);
 
 /**
- * @fn rBallOpt(uint8_t player)
+ * @fn rightBallOption(uint8_t player)
  * @param player Index of the player
  * @brief Routine that runs when the player presses right in ball selection menu
  */
-void rBallOpt(uint8_t player);
+void rightBallOption(uint8_t player);
 
 /**
  * @fn throwBall(uint8_t player)
