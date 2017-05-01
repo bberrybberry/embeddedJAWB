@@ -67,7 +67,7 @@ void pkmnPlay(void){
 
     //init pokemon game
     initGame();
-
+    callbackInit();
     game.currGameState = PAUSE;
 }
 
@@ -113,6 +113,31 @@ void inputCallback(game_network_payload_t * input){
     }
     Game_CharXY(' ', 0, MAP_HEIGHT+2);
 
+}
+
+void callbackInit(void) {
+	controller_buttons_t mask;
+	mask.all_buttons = 0x0000;
+	mask.button.A = 1;
+	GameControllerHost_RegisterPressCallback(0, aHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.B = 1;
+	GameControllerHost_RegisterPressCallback(0, bHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.start = 1;
+	GameControllerHost_RegisterPressCallback(0, startHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.up = 1;
+	GameControllerHost_RegisterPressCallback(0, upHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.down = 1;
+	GameControllerHost_RegisterPressCallback(0, downHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.left = 1;
+	GameControllerHost_RegisterPressCallback(0, leftHandler, mask, 0);
+	mask.all_buttons = 0x0000;
+	mask.button.right = 1;
+	GameControllerHost_RegisterPressCallback(0, rightHandler, mask, 0);
 }
 
 void pkmnGameOver(void){
@@ -182,6 +207,38 @@ void startPressed(uint8_t player){
 
 void selectPressed(uint8_t player){
 
+}
+
+void upHandler(controller_buttons_t btn, void* handle) {
+	upPressed(0);
+}
+
+void downHandler(controller_buttons_t btn, void* handle) {
+	downPressed(0);
+}
+
+void leftHandler(controller_buttons_t btn, void* handle) {
+	leftPressed(0);
+}
+
+void rightHandler(controller_buttons_t btn, void* handle) {
+	rightPressed(0);
+}
+
+void aHandler(controller_buttons_t btn, void* handle) {
+	aPressed(0);
+}
+
+void bHandler(controller_buttons_t btn, void* handle) {
+	bPressed(0);
+}
+
+void startHandler(controller_buttons_t btn, void* handle) {
+	startPressed(0);
+}
+
+void selectHandler(controller_buttons_t btn, void* handle) {
+	selectPressed(0);
 }
 
 void updateTimeRemaining(void) {

@@ -1,6 +1,6 @@
 /**
  * @file
- *
+ * @mainpage Pokemon
  * @author Breanna Higgins,
  *
  * @brief Top level module of the pokemon game. This modules communicates the low
@@ -105,6 +105,13 @@ void pkmnHelp(void);
 void inputCallback(game_network_payload_t * input);
 
 /**
+ * @fn callbackInit(void)
+ * @brief Initializes all the callbacks for the controller connected
+ * directly to the host
+ */
+void callbackInit(void);
+
+/**
  * @fn pkmnGameOver(void)
  *
  * @brief Clear callbacks and set end of a game state
@@ -174,6 +181,16 @@ void startPressed(uint8_t player);
  * @brief Response to when the select button is pressed
  */
 void selectPressed(uint8_t player);
+
+void upHandler(controller_buttons_t btn, void* handle);
+void downHandler(controller_buttons_t btn, void* handle);
+void leftHandler(controller_buttons_t btn, void* handle);
+void rightHandler(controller_buttons_t btn, void* handle);
+void aHandler(controller_buttons_t btn, void* handle);
+void bHandler(controller_buttons_t btn, void* handle);
+void startHandler(controller_buttons_t btn, void* handle);
+void selectHandler(controller_buttons_t btn, void* handle);
+
 
 /**
  * @fn updateTimeRemaining(void)
