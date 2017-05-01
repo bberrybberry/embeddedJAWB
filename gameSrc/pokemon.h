@@ -394,7 +394,7 @@ void runEncounter(uint8_t playerInd);
  * @fn generateItems(void)
  * @brief Generates the location of randomly placed pokeballs
  */
-void generateItems(void);
+void generateItems(uint8_t locX, uint8_t locY);
 
 /**
  * TODO: Walt: Docs
