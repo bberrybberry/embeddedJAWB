@@ -408,20 +408,26 @@ bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY){
 }
 
 bool checkShakingGrass(uint8_t locX, uint8_t locY){
-	return isShakingGrass(locX, locY);
+	if (locX < GRID_X && locY < GRID_Y) {
+		return isShakingGrass(locX, locY);
+	}
+	else {
+		return false;
+	}
 }
 
 void setShakingGrass(uint8_t locX, uint8_t locY){
-	//TODO: check that grass is drawn in valid location
-	drawGrass(SHAKE, locX, locY);
+	if (locX < GRID_X && locY < GRID_Y) {
+		drawGrass(SHAKE, locX, locY);
+	}
 }
 
 void updateTime(uint8_t time){
     printStats(time, "");
 }
 
-void updateScores(pokePlayer_t* player, uint8_t score){
-    //TODO
+void updateScores(uint8_t playerID, uint8_t score){
+    printScore(playerID, score);
 }
 
 void runEncounter(uint8_t playerInd){

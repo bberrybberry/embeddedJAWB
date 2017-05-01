@@ -47,6 +47,7 @@
 #include "hal_general.h"
 #include "game.h"
 #include "pokemonGame.h"
+#include "game_controller_host.h"
 
 // add the following to system.h:
 // #define USE_SPI2
@@ -86,6 +87,7 @@ int main(void) {
 
     Timing_Init();
     Task_Init();
+	UART_Init(0);
     UART_Init(1);
 
 //    //Setup IRQ, CE, CSN for RF2
@@ -105,8 +107,9 @@ int main(void) {
     spi_settings.hal_settings.msb_first = 1;
     spi_settings.mode = 0;
     SPI_Init(&spi_settings);
-
-
+	
+	GameControllerHost_Init();
+	
     RF1_CSN(1);
 
     RF1.ce = RF1_CE;
