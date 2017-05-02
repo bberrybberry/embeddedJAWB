@@ -9,8 +9,6 @@ void initDrawGraphics(){
 }
 
 void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY){
-    //TODO
-
 	g_point_t pt;
 
 	switch(ps){

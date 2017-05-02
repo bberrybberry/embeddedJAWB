@@ -91,7 +91,6 @@ void initPlayers(){
 }
 
 void initPokemon(){
-	//TODO: fill pkmnList[] and pkmnWeights as desired
 	pkmnList[0].name = "Chansey";
 	pkmnList[0].spawnRate = 1;
 	pkmnList[0].catchRate = 30;
@@ -121,19 +120,7 @@ void initPokemon(){
     pkmnList[5].spawnRate = 35;
     pkmnList[5].catchRate = 255;
     pkmnList[5].points = 10;
-	//TODO, unhardcode
-	/*pkmnList[1] = pkmnList[0];
-	pkmnList[2] = pkmnList[0];
-	pkmnList[3] = pkmnList[0];
-	pkmnList[4] = pkmnList[0];
-	pkmnList[5] = pkmnList[0];
-
-	pkmnWeights[0] = 100;
-	pkmnWeights[1] = 100;
-	pkmnWeights[2] = 100;
-	pkmnWeights[3] = 100;
-	pkmnWeights[4] = 100;
-	pkmnWeights[5] = 100;*/
+    
     volatile uint8_t i;
     for(i = 0; i<MAX_PKMN; i++){
         if(i==0)

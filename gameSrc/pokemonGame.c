@@ -32,8 +32,13 @@ void pkmnPlay(void){
 }
 
 void pkmnHelp(void){
-    //TODO
-    Game_Printf("help text TBD\r\n");
+    Game_Printf("Use up, down, left, and right to move your players, use\r\n"
+    		"the start button to pause/un pause, use A and B\r\n"
+    		"to choose between ball and run respectively, use left\r\n"
+    		"and right to change ball select options and A to select\r\n"
+    		"a ball to throw. Run to a special point in the grass to\r\n"
+    		"look for pokemon and pick up items to replenish your\r\n"
+    		"pokeball counts.");
 }
 
 void inputCallback(game_network_payload_t * input){
