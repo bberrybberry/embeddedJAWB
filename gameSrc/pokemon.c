@@ -608,7 +608,7 @@ void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
     uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
-    if (curr<=MAX_BAG){
+    if (curr<=BAG_MAX){
 		//TODO Output what type of item was collected
 		switch(index) {
 		case 0:
