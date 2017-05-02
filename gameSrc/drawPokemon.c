@@ -111,6 +111,15 @@ void drawGrass(grassState gs, uint8_t locX, uint8_t locY){
 		break;
 	}
 }
+
+void drawItem(uint8_t locX, uint8_t locY){
+	g_point_t pt;
+	pt.x = locX * TILE_X;
+	pt.y = locY * TILE_Y;
+	map.grid[locX + locY * TILE_Y] = itemTilePtr;
+	Graphics_DrawTile(&gCntx, pt, &itemTilePtr, TILE_X, TILE_Y);
+}
+
 void drawMap(){
     map = (MapStruct){grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, rocksTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
                     grassTilePtr, grassTilePtr, treesTilePtr, treesTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr, grassTilePtr,
