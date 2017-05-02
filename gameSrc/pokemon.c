@@ -588,25 +588,35 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 void generateItems(uint8_t locX, uint8_t locY){
     //TODO
     if (locX < GRID_X && locY < GRID_Y) {
-    //    drawGrass(SHAKE, locX, locY);
+        drawItem(locX, locY);
     }
 }
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100); //TODO: replace with random num gen
     uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
+    uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
+    if (curr<=MAX_BAG){
+        //TODO Output what type of item was collected
     switch(index) {
     case 0:
-        players[playerInd].ubCount++;
+        ++players[playerInd].ubCount;
         break;
     case 1:
-        players[playerInd].gbCount++;
+        ++players[playerInd].gbCount;
         break;
     case 2:
-        players[playerInd].pbCount++;
+        ++players[playerInd].pbCount;
         break;
     default:
-        players[playerInd].pbCount++;
+        ++players[playerInd].pbCount;
         break;
+    }
+    //remove item tile
+        drawGrass(GRASS, players[playerInd].tileX, players[playerInd].tileY);
+        //redraw player
+        drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
+    }else{
+        //TODO some sort of you are full msg?
     }
 }
 bool checkItemLoc(uint8_t locX, uint8_t locY){
