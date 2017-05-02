@@ -282,6 +282,7 @@ void movePlayerUp(uint8_t playerIndex){
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
 		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY -1);
+        bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY+1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -297,6 +298,9 @@ void movePlayerUp(uint8_t playerIndex){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
+		if(itemFound){
+		    itemSpawn(playerIndex);
+		}
 	}
 }
 
@@ -311,6 +315,7 @@ void movePlayerDown(uint8_t playerIndex){
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
 		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY +1);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY+1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -326,6 +331,9 @@ void movePlayerDown(uint8_t playerIndex){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
+		if(itemFound){
+		    itemSpawn(playerIndex);
+		}
 	}
 }
 
@@ -340,6 +348,7 @@ void movePlayerLeft(uint8_t playerIndex){
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
 		bool encounterFound = checkShakingGrass(players[playerIndex].tileX -1, players[playerIndex].tileY);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX -1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -355,6 +364,10 @@ void movePlayerLeft(uint8_t playerIndex){
 			//enter encounter
 			runEncounter(playerIndex);
 		}
+		if(itemFound){
+		    itemSpawn(playerIndex);
+
+		}
 	}
 }
 
@@ -369,6 +382,7 @@ void movePlayerRight(uint8_t playerIndex){
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
 		bool encounterFound = checkShakingGrass(players[playerIndex].tileX +1, players[playerIndex].tileY);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX +1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -383,6 +397,9 @@ void movePlayerRight(uint8_t playerIndex){
 		if(encounterFound){
 			//enter encounter
 			runEncounter(playerIndex);
+		}
+		if(itemFound){
+		    itemSpawn(playerIndex);
 		}
 	}
 }
@@ -434,9 +451,6 @@ pokemon_t* generatePokemon(){
         return &pkmnList[5];
 }
 
-bool checkItem(pokePlayer_t* player){
-    //TODO
-}
 
 bool checkPlayerLocValid(pokePlayer_t* player, uint8_t locX, uint8_t locY){
     volatile int i;
@@ -701,17 +715,29 @@ void generateItems(uint8_t locX, uint8_t locY){
     //    drawGrass(SHAKE, locX, locY);
     }
 }
-char itemSpawn(){
+void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100); //TODO: replace with random num gen
     uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
     switch(index) {
     case 0:
-        return 'u';
+        players[playerInd].ubCount++;
+        break;
     case 1:
-        return 'g';
+        players[playerInd].gbCount++;
+        break;
     case 2:
-        return 'p';
+        players[playerInd].pbCount++;
+        break;
     default:
-        return 'p';
+        players[playerInd].pbCount++;
+        break;
+    }
+}
+bool checkItemLoc(uint8_t locX, uint8_t locY){
+    if (locX < GRID_X && locY < GRID_Y) {
+        return true;//isShakingGrass(locX, locY);
+    }
+    else {
+        return false;
     }
 }
