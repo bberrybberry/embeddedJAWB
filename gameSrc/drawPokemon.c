@@ -234,6 +234,15 @@ void printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon) {
 	case CAUGHT_MSG:
 		Graphics_DrawText(&gCntx, pt, "Caught %s!                  ", pokemon);
 		break;
+    case POKEBALL_MSG:
+        Graphics_DrawText(&gCntx, pt, "Picked up Pokeball!");
+        break;
+    case GREATBALL_MSG:
+        Graphics_DrawText(&gCntx, pt, "Picked up Greatball!");
+        break;
+    case ULTRABALL_MSG:
+        Graphics_DrawText(&gCntx, pt, "Picked up Ultraball!");
+        break;
 	case NONE_MSG:
 		Graphics_DrawText(&gCntx, pt, "                                                     ");
 		break;

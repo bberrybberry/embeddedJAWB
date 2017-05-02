@@ -613,12 +613,15 @@ void itemSpawn(uint8_t playerInd){
 		switch(index) {
 		case 0:
 			++players[playerInd].ubCount;
+			printPokemon(playerInd, ULTRABALL_MSG,"");
 			break;
 		case 1:
 			++players[playerInd].gbCount;
+			printPokemon(playerInd, GREATBALL_MSG,"");
 			break;
 		case 2:
 			++players[playerInd].pbCount;
+			printPokemon(playerInd, POKEBALL_MSG,"");
 			break;
 		default:
 			++players[playerInd].pbCount;

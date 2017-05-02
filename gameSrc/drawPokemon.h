@@ -187,6 +187,9 @@ typedef enum {RUN_BALL, 	/**< Selecting to run or throw a pokeball*/
 typedef enum {FOUND_MSG, 	/**< Show that the player just found this pokemon*/
 			  RAN_MSG, 		/**< Show that the pokemon has ran away*/
 			  CAUGHT_MSG, 	/**< Show that the pokemon was successfully caught*/
+			  POKEBALL_MSG, /**< Show that a pokeball was found*/
+			  GREATBALL_MSG,/**< Show that a greatball was found*/
+			  ULTRABALL_MSG,/**< Show that a ultraball was found*/
 			  NONE_MSG		/**< No pokemon information to show*/
 } pokeMsgType;
 
