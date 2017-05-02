@@ -158,12 +158,14 @@ void startPressed(uint8_t player){
 		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
 		Task_Remove((task_fn_t)generateShakingGrass, 0);
+		Task_Remove((task_fn_t)generateItems, 0);
 		pauseGame();
 	}
 	else if (game.currGameState == PAUSE) {
 		if (initial) {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, SECOND);
 			Task_Schedule((task_fn_t)generateShakingGrass, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
+			Task_Schedule((task_fn_t)generateItems, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
 			game.currGameState = PLAY;
 			playGame();
 			initial = 0;
@@ -172,6 +174,8 @@ void startPressed(uint8_t player){
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, SECOND - ((g_pauseTime - g_startTime) % SECOND), SECOND);
 			Task_Schedule((task_fn_t)generateShakingGrass, 0,
 					SHAKING_GRASS_PERIOD - ((g_pauseTime - g_startTime) % SHAKING_GRASS_PERIOD), SHAKING_GRASS_PERIOD);
+			Task_Schedule((task_fn_t)generateItems, 0,
+					ITEM_GENERATION_PERIOD - ((g_pauseTime - g_startTime) % ITEM_GENERATION_PERIOD), ITEM_GENERATION_PERIOD);
 			game.currGameState = PLAY;
 			playGame();
 		}
