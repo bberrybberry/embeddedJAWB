@@ -51,8 +51,23 @@ typedef enum{
  */
 #define GAME_TIME_LIMIT			120
 
+/**
+ * @def SECOND
+ * @brief One second in milliseconds
+ */
 #define SECOND					1000
-#define SHAKING_GRASS_PERIOD	8000
+
+/**
+ * @def SHAKING_GRASS_PERIOD
+ * @brief Period for shaking grass or pokemon generation
+ */
+#define SHAKING_GRASS_PERIOD	8 * SECOND
+
+/**
+ * @def ITEM_GENERATION_PERIOD
+ * @brief Period for generating items
+ */
+#define ITEM_GENERATION_PERIOD	6 * SECOND
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
