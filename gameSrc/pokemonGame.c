@@ -17,46 +17,6 @@ static struct {
     uint8_t id;                 ///< ID of game
 } game;
 
-///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
-//#define DEBUG_MODE1 //comment out to leave debug mode
-
-void DEBUG_upPressed(uint8_t player);
-void DEBUG_downPressed(uint8_t player);
-
-/**
- * move the selected player up
- *
- * @param player: player number index
- */
-void DEBUG_upPressed(uint8_t player){
-	DEBUG_movePlayer(0);
-}
-/**
- * move the selected player down
- *
- * @param player: player number index
- */
-void DEBUG_downPressed(uint8_t player){
-	DEBUG_movePlayer(1);
-}
-/**
- * move the selected player right
- *
- * @param player: player number index
- */
-void DEBUG_rightPressed(uint8_t player){
-	DEBUG_movePlayer(2);
-}
-/**
- * move the selected player left
- *
- * @param player: player number index
- */
-void DEBUG_leftPressed(uint8_t player){
-	DEBUG_movePlayer(3);
-}
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void pkmnGameInit(void){
     // Register the module with the game system and give it the name "pokemon"
     game.id = Game_Register("pokemon", "Play pokemon with friends", pkmnPlay, pkmnHelp);
@@ -98,12 +58,6 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.start) startPressed(i);
         if(input->controller[i].button.select) selectPressed(i);
     }
-#ifdef DEBUG_MODE1
-    if(input->controller[0].button.up) DEBUG_upPressed(0);
-    if(input->controller[0].button.down) DEBUG_downPressed(0);
-    if(input->controller[0].button.left) DEBUG_leftPressed(0);
-    if(input->controller[0].button.right) DEBUG_rightPressed(0);
-#endif
 
     if(TimeSince(time) > 1000) {
         Game_CharXY('F', 0, MAP_HEIGHT+1);
