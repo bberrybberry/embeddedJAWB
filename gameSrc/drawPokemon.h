@@ -222,6 +222,14 @@ void drawPlayer(playerSprite ps, walkState ws, uint8_t locX, uint8_t locY);
 void drawGrass(grassState gs, uint8_t locX, uint8_t locY);
 
 /**
+ * @fn drawItem(uint8_t locX, uint8_t locY)
+ * @param locX X coordinate of the grass in tiles
+ * @param locY Y coordinate of the grass in tiles
+ * @brief Draws item at the specified location
+ */
+void drawItem(uint8_t locX, uint8_t locY);
+
+/**
  * @fn drawMap()
  * @brief Draws the inital map
  */
