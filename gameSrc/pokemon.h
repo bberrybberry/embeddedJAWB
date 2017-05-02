@@ -345,8 +345,6 @@ void updatePlayerLoc(pokePlayer_t* player);
 
 //TODO fill this in right
 /**
-//TODO fill this in right
-/**
  * @fn checkGrass(pokePlayer_t* player)
  * @param player Pointer to player struct
  * @brief
