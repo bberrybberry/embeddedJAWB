@@ -295,6 +295,9 @@ void generateShakingGrass(void) {
 		if (checkShakingGrass(x, y)) {
 			display = false;
 		}
+		if (checkItemLoc(x, y)) {
+			display = false;
+		}
 		for (i = 0; i < MAX_PLAYERS; i++) {
 			if ((x == players[i].tileX) && (y == players[i].tileY)) {
 				display = false;
@@ -572,14 +575,37 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	drawPlayer(players[player].sprite, STAND, players[player].tileX, players[player].tileY);
 }
 
-void generateItems(uint8_t locX, uint8_t locY){
-    //TODO
-    if (locX < GRID_X && locY < GRID_Y) {
-        drawItem(locX, locY);
-    }
+void generateItems(void){
+
+	uint8_t x, y;
+	volatile int i;
+	bool display = false;
+
+	while(!display) {
+		x = random_int(0, GRID_X - 1);
+		y = random_int(0, GRID_Y - 1);
+		display = true;
+		if (!isGrass(x, y)) {
+			display = false;
+		}
+		if (checkItemLoc(x, y)) {
+			display = false;
+		}
+		if (checkShakingGrass(x, y)) {
+			display = false;
+		}
+		for (i = 0; i < MAX_PLAYERS; i++) {
+			if ((x == players[i].tileX) && (y == players[i].tileY)) {
+				display = false;
+			}
+		}
+	}
+
+    drawItem(x, y);
 }
+
 void itemSpawn(uint8_t playerInd){
-    uint8_t r = random_int(0, 100); //TODO: replace with random num gen
+    uint8_t r = random_int(0, 100);
     uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=MAX_BAG){
@@ -606,6 +632,7 @@ void itemSpawn(uint8_t playerInd){
         //TODO some sort of you are full msg?
     }
 }
+
 bool checkItemLoc(uint8_t locX, uint8_t locY){
     if (locX < GRID_X && locY < GRID_Y) {
         return true;//isShakingGrass(locX, locY);
