@@ -321,4 +321,12 @@ bool isGrass(uint8_t locX, uint8_t locY);
  */
 bool isGround(uint8_t locX, uint8_t locY);
 
+/**
+ * @fn isItem(uint8_t locX, uint8_t locY)
+ * @param locX X coordinate of the tile
+ * @param locY Y coordinate of the tile
+ * @brief Returns if the tile has an item
+ */
+bool isItem(uint8_t locX, uint8_t locY);
+
 #endif /* DRAWPOKEMON_H_ */

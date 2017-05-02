@@ -300,3 +300,7 @@ bool isGrass(uint8_t locX, uint8_t locY){
 bool isGround(uint8_t locX, uint8_t locY){
 	return map.grid[locX + locY*TILE_Y] == groundTilePtr;
 }
+
+bool isItem(uint8_t locX, uint8_t locY){
+	return map.grid[locX + locY*TILE_Y] == itemTilePtr;
+}
