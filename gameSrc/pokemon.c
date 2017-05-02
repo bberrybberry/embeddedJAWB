@@ -11,116 +11,6 @@
 #include "timing.h"
 #include "random_int.h"
 
-///////////////////////////////////// DEBUG FUNCTS //////////////////////////////////////
-//comment out to leave debug mode
-//#define DEBUG_MODE1 //test movements
-#define DEBUG_MODE2 //test pokemon generation
-
-pokePlayer_t g_DEBUG_player;
-
-void DEBUG_playerMoveTest();
-void DEBUG_movePlayer(uint8_t dir);
-/**
- * set up move player test
- */
-void DEBUG_playerMoveTest(){
-	//set up default player
-	g_DEBUG_player.sprite = BREANNA;
-	g_DEBUG_player.pbCount = 10;
-	g_DEBUG_player.gbCount = 10;
-	g_DEBUG_player.ubCount = 10;
-	g_DEBUG_player.score = 123;
-	g_DEBUG_player.tileX = 5;
-	g_DEBUG_player.tileY = 9;
-	g_DEBUG_player.status = true;
-	g_DEBUG_player.mvmt = true;
-
-	//draw player at default loc
-	drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, g_DEBUG_player.tileY);
-}
-
-/**
- * move the player in specified direction
- *
- * @param dir: 0 = up, 1 = down, 2 = right, 3 = left
- */
-void DEBUG_movePlayer(uint8_t dir){
-	g_point_t initPt;
-	initPt.x = g_DEBUG_player.tileX;
-	initPt.y = g_DEBUG_player.tileY;
-	switch(dir){
-	case 0: //up
-		if ((initPt.y - 1) < GRID_Y ) {
-			if (map.grid[initPt.x + initPt.y * GRID_X]) {
-				//redraw bg tile
-				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
-			}
-			else {
-				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-			}
-
-			drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, --g_DEBUG_player.tileY);
-		}
-		break;
-	case 1: //down
-		if ((initPt.y + 1) < GRID_Y ) {
-			if (map.grid[initPt.x + initPt.y * GRID_X]) {
-				//redraw bg tile
-				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
-			}
-			else {
-				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-			}
-
-			drawPlayer(g_DEBUG_player.sprite, LEFT, g_DEBUG_player.tileX, ++g_DEBUG_player.tileY);
-		}
-		break;
-	case 2: //right
-		if ((initPt.x + 1) < GRID_X ) {
-			if (map.grid[initPt.x + initPt.y * GRID_X]) {
-				//redraw bg tile
-				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
-			}
-			else {
-				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-			}
-
-			drawPlayer(g_DEBUG_player.sprite, LEFT, ++g_DEBUG_player.tileX, g_DEBUG_player.tileY);
-		}
-		break;
-	case 3: //left
-		if ((initPt.x - 1) < GRID_X ) {
-			if (map.grid[initPt.x + initPt.y * GRID_X]) {
-				//redraw bg tile
-				drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
-			}
-			else {
-				//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-			}
-
-			drawPlayer(g_DEBUG_player.sprite, LEFT, --g_DEBUG_player.tileX, g_DEBUG_player.tileY);
-		}
-		break;
-	}
-}
-
-void DEBUG_pokeGeneration(){
-	//set defined locations to shaking grass
-
-	uint8_t locX1, locX2, locX3, locY1, locY2, locY3;
-	locX1 = 5;
-	locY1 = 0;
-	locX2 = 1;
-	locY2 = 3;
-	locX3 = 7;
-	locY3 = 8;
-
-	setShakingGrass(locX1, locY1);
-	setShakingGrass(locX2, locY2);
-	setShakingGrass(locX3, locY3);
-}
-/////////////////////////////////////////////////////////////////////////////////////////
-
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
 	if(high <= low){
 		return (item > arr[low]) ? low + 1 : low;
@@ -140,12 +30,6 @@ void initGame(){
     //set up map
     initMap();
 
-#ifdef DEBUG_MODE1
-    DEBUG_playerMoveTest();
-
-    return; //exit method immediately while we're debugging things
-#endif
-
     //init players
     initPlayers();
     //TODO: Find dynamic way to know how many players are playing
@@ -156,14 +40,6 @@ void initGame(){
 
     //set up pokemon for generation
     initPokemon();
-
-#ifdef DEBUG_MODE2
-    DEBUG_pokeGeneration();
-#endif
-
-    //pause game
-    //pauseGame();
-    //wait for someone to unpause game before starting\
 
     //set up time and first item/pokemon generations
 }
