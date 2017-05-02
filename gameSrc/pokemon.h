@@ -402,4 +402,6 @@ void generateItems(uint8_t locX, uint8_t locY);
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high);
 
 void initItems();
+
+char itemSpawn();
 #endif /* POKEMON_H_ */
