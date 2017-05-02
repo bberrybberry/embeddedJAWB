@@ -27,6 +27,7 @@
 #include "genPlayerS.h"
 #include "grass.h"
 #include "ground.h"
+#include "item.h"
 #include "joshL.h"
 #include "joshR.h"
 #include "joshS.h"
@@ -94,6 +95,11 @@ const g_pixel_t* breannaRTilePtr = &breannaR[0];
  * @brief Pointer to left Breanna player tile
  */
 const g_pixel_t* breannaLTilePtr = &breannaL[0];
+/**
+ * @var itemTilePtr
+ * @brief Pointer to item on grass tile
+ */
+const g_pixel_t* itemTilePtr = &item[0];
 /**
  * @var joshSTilePtr
  * @brief Pointer to standing Josh player tile

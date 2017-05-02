@@ -166,14 +166,14 @@ void downPressed(uint8_t player){
 
 void leftPressed(uint8_t player){
 	if(game.currGameState == PLAY) {
-		lBallOpt(player);
+		leftBallOption(player);
 		movePlayerLeft(player);
 	}
 }
 
 void rightPressed(uint8_t player){
 	if(game.currGameState == PLAY) {
-		rBallOpt(player);
+		rightBallOption(player);
 		movePlayerRight(player);
 	}
 }
