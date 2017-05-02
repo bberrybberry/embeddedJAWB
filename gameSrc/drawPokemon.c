@@ -243,6 +243,9 @@ void printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon) {
     case ULTRABALL_MSG:
         Graphics_DrawText(&gCntx, pt, "Picked up Ultraball!");
         break;
+    case FULL_MSG:
+        Graphics_DrawText(&gCntx, pt, "Your bag is full!");
+        break;
 	case NONE_MSG:
 		Graphics_DrawText(&gCntx, pt, "                                                     ");
 		break;

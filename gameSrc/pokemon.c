@@ -609,7 +609,7 @@ void itemSpawn(uint8_t playerInd){
     uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=BAG_MAX){
-		//TODO Output what type of item was collected
+
 		switch(index) {
 		case 0:
 			++players[playerInd].ubCount;
@@ -632,7 +632,7 @@ void itemSpawn(uint8_t playerInd){
 		//redraw player
 		drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
     }else{
-        //TODO some sort of you are full msg?
+        printPokemon(playerInd, FULL_MSG,"");
     }
 }
 
