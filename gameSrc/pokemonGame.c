@@ -53,7 +53,7 @@ void inputCallback(game_network_payload_t * input){
         Game_Printf("index skip");
     }
     index = input->index;
-    for(i = 1; i < 4; i++) {
+    for(i = 0; i < 4; i++) {
         if(input->controller[i].button.up) upPressed(i);//MoveUp(&player[i]);
         if(input->controller[i].button.down) downPressed(i);
         if(input->controller[i].button.left) leftPressed(i);
@@ -75,28 +75,28 @@ void inputCallback(game_network_payload_t * input){
 }
 
 void callbackInit(void) {
-	controller_buttons_t mask;
-	mask.all_buttons = 0x0000;
-	mask.button.A = 1;
-	GameControllerHost_RegisterPressCallback(0, aHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.B = 1;
-	GameControllerHost_RegisterPressCallback(0, bHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.start = 1;
-	GameControllerHost_RegisterPressCallback(0, startHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.up = 1;
-	GameControllerHost_RegisterPressCallback(0, upHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.down = 1;
-	GameControllerHost_RegisterPressCallback(0, downHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.left = 1;
-	GameControllerHost_RegisterPressCallback(0, leftHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.right = 1;
-	GameControllerHost_RegisterPressCallback(0, rightHandler, mask, 0);
+//	controller_buttons_t mask;
+//	mask.all_buttons = 0x0000;
+//	mask.button.A = 1;
+//	GameControllerHost_RegisterPressCallback(0, aHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.B = 1;
+//	GameControllerHost_RegisterPressCallback(0, bHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.start = 1;
+//	GameControllerHost_RegisterPressCallback(0, startHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.up = 1;
+//	GameControllerHost_RegisterPressCallback(0, upHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.down = 1;
+//	GameControllerHost_RegisterPressCallback(0, downHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.left = 1;
+//	GameControllerHost_RegisterPressCallback(0, leftHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.right = 1;
+//	GameControllerHost_RegisterPressCallback(0, rightHandler, mask, 0);
 }
 
 void pkmnGameOver(void){
