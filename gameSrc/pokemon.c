@@ -606,7 +606,7 @@ void generateItems(void){
 }
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
-    uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
+    uint8_t index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=BAG_MAX){
 

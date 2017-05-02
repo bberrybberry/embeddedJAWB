@@ -103,7 +103,7 @@
  * @brief Number of unique items each player will hold
  */
 
-#define MAX_ITEMS   3
+#define TOTAL_ITEMS   3
 
 /**
  * @def BAG_MAX 99
@@ -178,9 +178,9 @@ pokemon_t pkmnList[MAX_PKMN];
 uint8_t pkmnWeights[MAX_PKMN];
 /**
  * @var itemWeights[MAX_ITEMS];
- * @brief TODO
+ * @brief
  */
-uint8_t itemWeights[MAX_ITEMS];
+uint8_t itemWeights[TOTAL_ITEMS];
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
