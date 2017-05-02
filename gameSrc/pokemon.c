@@ -636,4 +636,7 @@ bool checkItemLoc(uint8_t locX, uint8_t locY){
     if (locX < GRID_X && locY < GRID_Y) { //check if location is in bounds (in reference to array, not grid)
         return isItem(locX, locY);
     }
+    else{
+    	return false;
+    }
 }

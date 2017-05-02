@@ -23,12 +23,12 @@
  * @def ITEM_TILE_X
  * @brief Number of pixels along x direction
  */
-#define ITEM_TILE_X	8
+#define ITEM_TILE_X	16
 /**
  * @def ITEM_TILE_Y
  * @brief Number of pixels along y direction
  */
-#define ITEM_TILE_Y	8
+#define ITEM_TILE_Y	12
 
 /**
  * @var item[ITEM_TILE_X * ITEM_TILE_Y]
