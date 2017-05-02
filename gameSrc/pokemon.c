@@ -573,8 +573,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 }
 
 void generateItems(uint8_t locX, uint8_t locY){
-    //TODO
-    if (locX < GRID_X && locY < GRID_Y) {
+    if (locX < GRID_X && locY < GRID_Y) {  //check if location is in bounds (in reference to array, not grid)
         drawItem(locX, locY);
     }
 }
@@ -583,34 +582,31 @@ void itemSpawn(uint8_t playerInd){
     uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=MAX_BAG){
-        //TODO Output what type of item was collected
-    switch(index) {
-    case 0:
-        ++players[playerInd].ubCount;
-        break;
-    case 1:
-        ++players[playerInd].gbCount;
-        break;
-    case 2:
-        ++players[playerInd].pbCount;
-        break;
-    default:
-        ++players[playerInd].pbCount;
-        break;
-    }
-    //remove item tile
-        drawGrass(GRASS, players[playerInd].tileX, players[playerInd].tileY);
-        //redraw player
-        drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
+		//TODO Output what type of item was collected
+		switch(index) {
+		case 0:
+			++players[playerInd].ubCount;
+			break;
+		case 1:
+			++players[playerInd].gbCount;
+			break;
+		case 2:
+			++players[playerInd].pbCount;
+			break;
+		default:
+			++players[playerInd].pbCount;
+			break;
+		}
+		//remove item tile
+		drawGrass(GRASS, players[playerInd].tileX, players[playerInd].tileY);
+		//redraw player
+		drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
     }else{
         //TODO some sort of you are full msg?
     }
 }
 bool checkItemLoc(uint8_t locX, uint8_t locY){
-    if (locX < GRID_X && locY < GRID_Y) {
-        return true;//isShakingGrass(locX, locY);
-    }
-    else {
-        return false;
+    if (locX < GRID_X && locY < GRID_Y) { //check if location is in bounds (in reference to array, not grid)
+        return isItem(locX, locY);
     }
 }
