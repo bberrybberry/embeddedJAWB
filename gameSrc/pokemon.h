@@ -101,6 +101,7 @@
 //TODO DOXYGEN THIS SHIT
 #define MAX_ITEMS   3
 #define MAX_SHAKING_GRASS   15
+#define MAX_BAG     99
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Structs
@@ -344,12 +345,6 @@ void updatePlayerLoc(pokePlayer_t* player);
 
 //TODO fill this in right
 /**
- * @fn checkItem(pokePlayer_t* player)
- * @param player Pointer to player struct
- * @brief
- */
-bool checkItem(pokePlayer_t* player);
-
 //TODO fill this in right
 /**
  * @fn checkGrass(pokePlayer_t* player)
@@ -401,7 +396,9 @@ void generateItems(uint8_t locX, uint8_t locY);
  */
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high);
 
-void initItems();
+void initItems(void);
 
-char itemSpawn();
+void itemSpawn(uint8_t playerInd);
+
+bool checkItemLoc(uint8_t locX, uint8_t locY);
 #endif /* POKEMON_H_ */
