@@ -159,7 +159,10 @@ pokemon_t pkmnList[MAX_PKMN];
  * @brief Parallel array to pkmnList for weighted generation of pokemon
  */
 uint8_t pkmnWeights[MAX_PKMN];
-
+/**
+ * @var itemWeights[MAX_ITEMS];
+ * @brief TODO
+ */
 uint8_t itemWeights[MAX_ITEMS];
 /////////////////////////////////////////////////////////////////////////////////////
 //
