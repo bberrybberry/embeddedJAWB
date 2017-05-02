@@ -701,4 +701,17 @@ void generateItems(uint8_t locX, uint8_t locY){
     //    drawGrass(SHAKE, locX, locY);
     }
 }
-
+char itemSpawn(){
+    uint8_t r = random_int(0, 100); //TODO: replace with random num gen
+    uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
+    switch(index) {
+    case 0:
+        return 'u';
+    case 1:
+        return 'g';
+    case 2:
+        return 'p';
+    default:
+        return 'p';
+    }
+}
