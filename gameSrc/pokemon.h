@@ -98,10 +98,27 @@
  */
 #define CATCH_CHECK_2 16711680
 
-//TODO DOXYGEN THIS SHIT
+/**
+ * @def MAX_ITEMS 3
+ * @brief Number of unique items each player will hold
+ */
+
 #define MAX_ITEMS   3
+
+/**
+ * @def BAG_MAX 99
+ * @brief Total number of items one player can hold
+ */
+
+#define BAG_MAX 99
+
+/**
+ * @def MAX_SHAKING_GRASS 15
+ * @brief Total number of items one player can hold
+ */
+
 #define MAX_SHAKING_GRASS   15
-#define MAX_BAG     99
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Structs
