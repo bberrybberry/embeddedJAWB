@@ -34,6 +34,7 @@ void initGame(){
     initPlayers();
     //TODO: Find dynamic way to know how many players are playing
     players[0].status = true;
+    players[1].status = true;
 
     //set up menus and text
     initTextBox();
@@ -605,19 +606,22 @@ void generateItems(void){
 }
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
-    uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
+    uint8_t index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
-    if (curr<=MAX_BAG){
-		//TODO Output what type of item was collected
+    if (curr<=BAG_MAX){
+
 		switch(index) {
 		case 0:
 			++players[playerInd].ubCount;
+			printPokemon(playerInd, ULTRABALL_MSG,"");
 			break;
 		case 1:
 			++players[playerInd].gbCount;
+			printPokemon(playerInd, GREATBALL_MSG,"");
 			break;
 		case 2:
 			++players[playerInd].pbCount;
+			printPokemon(playerInd, POKEBALL_MSG,"");
 			break;
 		default:
 			++players[playerInd].pbCount;
@@ -628,7 +632,7 @@ void itemSpawn(uint8_t playerInd){
 		//redraw player
 		drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
     }else{
-        //TODO some sort of you are full msg?
+        printPokemon(playerInd, FULL_MSG,"");
     }
 }
 

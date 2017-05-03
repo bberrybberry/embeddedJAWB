@@ -98,10 +98,27 @@
  */
 #define CATCH_CHECK_2 16711680
 
-//TODO DOXYGEN THIS SHIT
-#define MAX_ITEMS   3
+/**
+ * @def MAX_ITEMS 3
+ * @brief Number of unique items each player will hold
+ */
+
+#define TOTAL_ITEMS   3
+
+/**
+ * @def BAG_MAX 99
+ * @brief Total number of items one player can hold
+ */
+
+#define BAG_MAX 99
+
+/**
+ * @def MAX_SHAKING_GRASS 15
+ * @brief Total number of items one player can hold
+ */
+
 #define MAX_SHAKING_GRASS   15
-#define MAX_BAG     99
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Structs
@@ -161,9 +178,9 @@ pokemon_t pkmnList[MAX_PKMN];
 uint8_t pkmnWeights[MAX_PKMN];
 /**
  * @var itemWeights[MAX_ITEMS];
- * @brief TODO
+ * @brief
  */
-uint8_t itemWeights[MAX_ITEMS];
+uint8_t itemWeights[TOTAL_ITEMS];
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
