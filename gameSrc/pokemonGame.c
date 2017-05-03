@@ -41,6 +41,17 @@ void pkmnHelp(void){
     		"pokeball counts.");
 }
 
+uint8_t packetizer(uint8_t* buffer) {
+	union64_t test;
+	test = 0;
+	if (game.currGameState == PAUSE) {
+		test.ub[0].bits.b0 = 1;
+	}
+	else {
+		test.ub[0].bits.b0 = 0;
+	}
+}
+
 void inputCallback(game_network_payload_t * input){
     //TODO: Make this ungeneric input code
 

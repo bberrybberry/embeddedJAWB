@@ -115,6 +115,19 @@ void pkmnPlay(void);
 void pkmnHelp(void);
 
 /**
+ * @fn packetizer(uint8_t* buffer)
+ * @param buffer Beginning of buffer in the packet being sent or received
+ * @brief Returns the length of the user data being used
+ * @details
+ *
+ * The packet is filled according to the following format
+ *
+ *		1.0	1.1	1.2	1.3	1.4	1.5	1.6	1.7		1		1		1		1		bytes
+ *		Pa	X	X	X	X	X	Pk	It		Xp		Yp		Xi		Yi
+ */
+uint8_t packetizer(uint8_t* buffer);
+
+/**
  * @fn inputCallback(game_network_payload_t * input)
  * @param input Payload from the network
  *
