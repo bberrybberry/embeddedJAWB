@@ -120,10 +120,19 @@ void pkmnHelp(void);
  * @brief Returns the length of the user data being used
  * @details
  *
- * The packet is filled according to the following format
+ * The packet is filled according to the following format:
  *
  *		1.0	1.1	1.2	1.3	1.4	1.5	1.6	1.7		1		1		1		1		bytes
- *		Pa	X	X	X	X	X	Pk	It		Xp		Yp		Xi		Yi
+ *		Pse	X	X	X	X	X	Pkm	Itm		Xp		Yp		Xi		Yi
+ * 
+ * Pse	-	Pause Indicator bit<br>
+ * X 	-	Don't Care<br>
+ * Pkm	-	Pokemon, e.g. shaking grass, has been added to map<br>
+ * Itm	-	Item has been added to map<br>
+ * Xp	-	X coordinate of the pokemon<br>
+ * Yp 	-	Y coordinate of the pokemon<br>
+ * Xi	-	X coordinate of the item<br>
+ * Yi	-	Y coordinate of the item<br>
  */
 uint8_t packetizer(uint8_t* buffer);
 
