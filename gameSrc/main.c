@@ -1,39 +1,39 @@
 /**
- * @main
  * @file main
+ * @mainpage
  * @author Aaron Guidarelli, Breanna Higgins, Walter Marroquin, Josh Velez
  * @brief Main file for pokemon final multiplayer game
- *
- * TODO: Docs and report
- *
- * Report:
- * --Description of the initial goals and motivation of the project
- * --Picture(s) of your project (and video links)
- * --Other relevant figures, tables, references, etc.
- * --Description of the operation and use of your project.
- * --Discussion of the final results and conclusion about your project.
- * --A subsection with your thoughts on the helpfulness of Slack.
- * --A subsection with your thoughts on the helpfulness of Trello.
- *
- *
- *
- * CCS Project Structure:
- * -project
- * ----driverlib
- * ------MSPF5xx
- * ----GrLib
- * ------fonts
- * ------grlib
- * ----images
- * -------images.h, LPRocket, TI_Logo
- * ----img
- * -------[aaronL.h, aaronR.h, grass.h, etc.]
- * ----LcdDriver
- * -------grlib inlcude things (booster pack driver)
- * --[MSP HAL and embedded lib]
- * --main.c & system.h
- * --[HAL graphics stuff]
- * --[pokemon.h, pokemonGame.h, pokemonImages.h
+ *<br>
+ * TODO: Docs and report<br>
+ *<br>
+ * Report:<br>
+ * --Description of the initial goals and motivation of the project<br>
+ * --Picture(s) of your project (and video links)<br>
+ * --Other relevant figures, tables, references, etc.<br>
+ * --Description of the operation and use of your project.<br>
+ * --Discussion of the final results and conclusion about your project.<br>
+ * --A subsection with your thoughts on the helpfulness of Slack.<br>
+ * --A subsection with your thoughts on the helpfulness of Trello.<br>
+ *<br>
+ *<br>
+ *<br>
+ * CCS Project Structure:<br>
+ * -project<br>
+ * ----driverlib<br>
+ * ------MSPF5xx<br>
+ * ----GrLib<br>
+ * ------fonts<br>
+ * ------grlib<br>
+ * ----images<br>
+ * -------images.h, LPRocket, TI_Logo<br>
+ * ----img<br>
+ * -------[aaronL.h, aaronR.h, grass.h, etc.]<br>
+ * ----LcdDriver<br>
+ * -------grlib inlcude things (booster pack driver)<br>
+ * --[MSP HAL and embedded lib]<br>
+ * --main.c & system.h<br>
+ * --[HAL graphics stuff]<br>
+ * --[pokemon.h, pokemonGame.h, pokemonImages.h<br>
  */
 #include <msp430.h>
 #include <stdint.h>

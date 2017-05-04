@@ -1,6 +1,6 @@
 /**
  * @file
- * @mainpage Pokemon
+ * 
  * @author Breanna Higgins,
  *
  * @brief Top level module of the pokemon game. This modules communicates the low
