@@ -346,9 +346,11 @@ void pauseGame(void);
 
 /**
  * @fn generateShakingGrass(void)
+ * @param x Pointer to x coordinate
+ * @param y Pointer to y coordinate
  * @brief Determines which tile the pokemon are spawned on
  */
-void generateShakingGrass(void);
+void generateShakingGrass(uint8_t* x, uint8_t* y);
 
 /**
  * @fn generatePokemon(void)
@@ -407,7 +409,7 @@ void runEncounter(uint8_t playerInd);
  * @fn generateItems(void)
  * @brief Generates the location of randomly placed pokeballs
  */
-void generateItems(void);
+void generateItems(uint8_t* x, uint8_t* y);
 
 /**
  * TODO: Walt: Docs
