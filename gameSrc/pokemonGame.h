@@ -49,25 +49,37 @@ typedef enum{
  * @def GAME_TIME_LIMIT
  * @brief The number of seconds in a game
  */
-#define GAME_TIME_LIMIT			120
+#define GAME_TIME_LIMIT				120
 
 /**
  * @def SECOND
  * @brief One second in milliseconds
  */
-#define SECOND					1000
+#define SECOND						1000
 
 /**
  * @def SHAKING_GRASS_PERIOD
  * @brief Period for shaking grass or pokemon generation
  */
-#define SHAKING_GRASS_PERIOD	8 * SECOND
+#define SHAKING_GRASS_PERIOD		8 * SECOND
 
 /**
  * @def ITEM_GENERATION_PERIOD
  * @brief Period for generating items
  */
-#define ITEM_GENERATION_PERIOD	6 * SECOND
+#define ITEM_GENERATION_PERIOD		6 * SECOND
+
+/**
+ * @def INITIAL_COORDINATE_VALUE
+ * @brief Value set as initial x and y coordinates
+ */
+#define INITIAL_COORDINATE_VALUE	255
+
+/**
+ * @def PACKET_SIZE
+ * @brief Packet size that is sent to
+ */
+#define PACKET_SIZE					5
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -135,6 +147,18 @@ void pkmnHelp(void);
  * Yi	-	Y coordinate of the item<br>
  */
 uint8_t packetizer(uint8_t* buffer);
+
+/**
+ * @fn shakingGrassUpdate(void)
+ * @brief Adds a new shaking grass tile and alerts the packetizer to the new pokemon
+ */
+void shakingGrassUpdate(void);
+
+/**
+ * @fn itemUpdate(void)
+ * @brief Adds a new item tile and alerts the packetizer to the new item
+ */
+void itemUpdate(void);
 
 /**
  * @fn inputCallback(game_network_payload_t * input)

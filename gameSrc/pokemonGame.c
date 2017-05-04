@@ -17,6 +17,30 @@ static struct {
     uint8_t id;                 ///< ID of game
 } game;
 
+/**
+ * @var g_pokemonX
+ * @brief Global variable for x coordinate of most recent shaking grass tile
+ */
+uint8_t g_pokemonX = INITIAL_COORDINATE_VALUE;
+
+/**
+ * @var g_pokemonY
+ * @brief Global variable for y coordinate of most recent shaking grass tile
+ */
+uint8_t g_pokemonY = INITIAL_COORDINATE_VALUE;
+
+/**
+ * @var g_itemX
+ * @brief Global variable for x coordinate of most recent item tile
+ */
+uint8_t g_itemX = INITIAL_COORDINATE_VALUE;
+
+/**
+ * @var g_itemY
+ * @brief Global variable for y coordinate of most recent item tile
+ */
+uint8_t g_itemY = INITIAL_COORDINATE_VALUE;
+
 void pkmnGameInit(void){
     // Register the module with the game system and give it the name "pokemon"
     game.id = Game_Register("pokemon", "Play pokemon with friends", pkmnPlay, pkmnHelp);
@@ -42,14 +66,53 @@ void pkmnHelp(void){
 }
 
 uint8_t packetizer(uint8_t* buffer) {
+	static uint8_t pokemonX = INITIAL_COORDINATE_VALUE, pokemonY = INITIAL_COORDINATE_VALUE;
+	static uint8_t itemX = INITIAL_COORDINATE_VALUE, itemY = INITIAL_COORDINATE_VALUE;
+	volatile uint8_t i;
 	union64_t test;
-	test = 0;
+	test.quad_word = 0;
+
 	if (game.currGameState == PAUSE) {
 		test.ub[0].bits.b0 = 1;
 	}
 	else {
 		test.ub[0].bits.b0 = 0;
 	}
+
+	if (pokemonX != g_pokemonX && pokemonY != g_pokemonY) {
+		test.ub[0].bits.b6 = 1;
+		test.ub[1].b = g_pokemonX;
+		test.ub[2].b = g_pokemonY;
+	}
+
+	if (itemX != g_itemX && itemY != g_itemY) {
+		test.ub[0].bits.b7 = 1;
+		test.ub[3].b = g_itemX;
+		test.ub[4].b = g_itemY;
+	}
+
+	for(i = 0; i < 5; i++) {
+		*buffer = test.ub[i].b;
+		buffer++;
+	}
+
+	return 5;
+}
+
+void shakingGrassUpdate(void) {
+	uint8_t x, y;
+	generateShakingGrass(&x, &y);
+
+	g_pokemonX = x;
+	g_pokemonY = y;
+}
+
+void itemUpdate(void) {
+	uint8_t x, y;
+	generateItems(&x, &y);
+
+	g_itemX = x;
+	g_itemY = y;
 }
 
 void inputCallback(game_network_payload_t * input){
@@ -175,17 +238,17 @@ void startPressed(uint8_t player){
 	else if (game.currGameState == PAUSE) {
 		if (initial) {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, SECOND);
-			Task_Schedule((task_fn_t)generateShakingGrass, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
-			Task_Schedule((task_fn_t)generateItems, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
+			Task_Schedule((task_fn_t)shakingGrassUpdate, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
+			Task_Schedule((task_fn_t)itemUpdate, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
 			game.currGameState = PLAY;
 			playGame();
 			initial = 0;
 		}
 		else {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, SECOND - ((g_pauseTime - g_startTime) % SECOND), SECOND);
-			Task_Schedule((task_fn_t)generateShakingGrass, 0,
+			Task_Schedule((task_fn_t)shakingGrassUpdate, 0,
 					SHAKING_GRASS_PERIOD - ((g_pauseTime - g_startTime) % SHAKING_GRASS_PERIOD), SHAKING_GRASS_PERIOD);
-			Task_Schedule((task_fn_t)generateItems, 0,
+			Task_Schedule((task_fn_t)itemUpdate, 0,
 					ITEM_GENERATION_PERIOD - ((g_pauseTime - g_startTime) % ITEM_GENERATION_PERIOD), ITEM_GENERATION_PERIOD);
 			game.currGameState = PLAY;
 			playGame();
