@@ -160,6 +160,17 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.select) selectPressed(i);
     }
 
+    if (game.client) {
+    	if (input->user_data[0] &= ~PACKET_POKEMON_BIT) {
+    		g_pokemonX = input->user_data[PACKET_POKEMON_X];
+    		g_pokemonY = input->user_data[PACKET_POKEMON_Y];
+    	}
+    	if (input->user_data[0] &= ~PACKET_ITEM_BIT) {
+    		g_itemX = input->user_data[PACKET_ITEM_X];
+    		g_itemY = input->user_data[PACKET_ITEM_Y];
+    	}
+    }
+
     if(TimeSince(time) > 1000) {
         Game_CharXY('F', 0, MAP_HEIGHT+1);
         Game_Printf("PS: %d  ", fps);

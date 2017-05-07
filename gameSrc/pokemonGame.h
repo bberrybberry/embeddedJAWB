@@ -81,6 +81,48 @@ typedef enum{
  */
 #define PACKET_SIZE					5
 
+/**
+ * @def PACKET_POKEMON_BIT
+ * @brief Bit that the pokemon indicator is in
+ */
+#define PACKET_POKEMON_BIT			0x40
+
+/**
+ * @def PACKET_ITEM_BIT
+ * @brief Bit that the item indicator is in
+ */
+#define PACKET_ITEM_BIT				0x80
+
+/**
+ * @def PACKET_INDICATOR_BYTE
+ * @brief Index of the indicator byte
+ */
+#define PACKET_INDICATOR_BYTE		0
+
+/**
+ * @def PACKET_POKEMON_X
+ * @brief Index of the x coordinate of the pokemon in the packet
+ */
+#define PACKET_POKEMON_X			1
+
+/**
+ * @def PACKET_POKEMON_Y
+ * @brief Index of the y coordinate of the pokemon in the packet
+ */
+#define PACKET_POKEMON_Y			2
+
+/**
+ * @def PACKET_ITEM_X
+ * @brief Index of the x coordinate of the item in the packet
+ */
+#define PACKET_ITEM_X				3
+
+/**
+ * @def PACKET_ITEM_Y
+ * @brief Index of the y coordinate of the item in the packet
+ */
+#define PACKET_ITEM_Y				4
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Global Variables
