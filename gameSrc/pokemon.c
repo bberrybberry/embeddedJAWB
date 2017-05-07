@@ -26,7 +26,10 @@ uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
 	return binarySearch(arr, item,low, --mid);
 }
 
-void initGame(){
+void initGame(uint8_t* totalItemCountPtr, uint8_t* totalPkmnCountPtr){
+	totalPkmnCount = totalPkmnCountPtr;
+	totalItemCount = totalItemCountPtr;
+
     //set up map
     initMap();
 
@@ -362,6 +365,9 @@ void runEncounter(uint8_t playerInd){
 
 	//change menu
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
+
+	//update pokemon count
+	--(*totalPkmnCount);
 }
 
 void selectRun(uint8_t player){
@@ -626,6 +632,9 @@ void itemSpawn(uint8_t playerInd){
 		drawGrass(GRASS, players[playerInd].tileX, players[playerInd].tileY);
 		//redraw player
 		drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
+
+		//update item count
+		--(*totalItemCount);
     }else{
         printPokemon(playerInd, FULL_MSG,"");
     }
