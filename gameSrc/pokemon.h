@@ -175,9 +175,14 @@ pokemon_t pkmnList[MAX_PKMN];
 uint8_t pkmnWeights[MAX_PKMN];
 /**
  * @var itemWeights[MAX_ITEMS];
- * @brief
+ * @brief used for weighted generation of Items
  */
 uint8_t itemWeights[TOTAL_ITEMS];
+
+//TODO DOCS
+uint8_t* totalPkmnCount;
+uint8_t* totalItemCount;
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
@@ -186,10 +191,11 @@ uint8_t itemWeights[TOTAL_ITEMS];
 
 
 /**
- * @fn initGame(void)
+ * @fn initGame(void* gamePtr)
+ * @param TODO DOCS
  * @brief Set up of initial game state
  */
-void initGame(void);
+void initGame(uint8_t* totalItemCountPtr, uint8_t* totalPkmnCountPtr);
 
 /**
  * @fn initMap(void)

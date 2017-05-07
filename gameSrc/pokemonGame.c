@@ -66,11 +66,11 @@ void pkmnPlay(void){
     Game_RegisterHostPacketizer(packetizer);
 
     //init pokemon game
-    initGame();
-    callbackInit();
     game.currGameState = PAUSE;
     game.currNumItems = 0;
     game.currNumPkmn = 0;
+    initGame(&(game.currNumItems), &(game.currNumPkmn));
+    callbackInit();
 }
 
 void pkmnHelp(void){
