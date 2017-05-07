@@ -17,7 +17,7 @@ uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
 	}
 	uint8_t mid = (low + high)/2;
 	if(item == arr[mid]){
-		return ++mid;
+		return mid;
 	}
 	if(item > arr[mid]){
 		return binarySearch(arr, item, ++mid, high);
@@ -541,7 +541,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//int rand = random_int(1, 100); //TODO: Random numbers
 	uint8_t thresh = random_int(1, 32);
 
-    uint8_t catchValue = catchRate*multiplier;
+    uint16_t catchValue = catchRate*multiplier;
     uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
 
