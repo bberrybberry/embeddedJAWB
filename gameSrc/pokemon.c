@@ -284,6 +284,7 @@ void pauseGame(){
 void generateShakingGrass(uint8_t* x, uint8_t* y) {
 	volatile int i;
 	bool display = false;
+	uint8_t count = 0;
 
 	while(!display) {
 		*x = random_int(0, GRID_X - 1);
@@ -303,9 +304,15 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 				display = false;
 			}
 		}
-	}
 
-	setShakingGrass(*x, *y);
+		if (count > 30) {
+			break;
+		}
+		count++;
+	}
+	if (display) {
+		setShakingGrass(*x, *y);
+	}
 }
 
 pokemon_t* generatePokemon(){
@@ -578,7 +585,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 void generateItems(uint8_t* x, uint8_t* y){
 	volatile int i;
 	bool display = false;
-
+	uint8_t count = 0;
 	while(!display) {
 		*x = random_int(0, GRID_X - 1);
 		*y = random_int(0, GRID_Y - 1);
@@ -597,9 +604,16 @@ void generateItems(uint8_t* x, uint8_t* y){
 				display = false;
 			}
 		}
+
+		if (count > 30) {
+			break;
+		}
+		count++;
 	}
 
-    drawItem(*x, *y);
+	if (display) {
+		drawItem(*x, *y);
+	}
 }
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
