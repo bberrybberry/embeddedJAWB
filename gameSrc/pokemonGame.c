@@ -14,8 +14,11 @@
 /// game structure
 static struct {
     gameState currGameState;    ///< Current state of the game
+    bool client;				///< True if this instance is a client, false otherwise
     uint8_t id;                 ///< ID of game
 } game;
+
+nrf24_t* nrf;
 
 /**
  * @var g_pokemonX
@@ -41,13 +44,22 @@ uint8_t g_itemX = INITIAL_COORDINATE_VALUE;
  */
 uint8_t g_itemY = INITIAL_COORDINATE_VALUE;
 
-void pkmnGameInit(void){
+void pkmnGameInit(nrf24_t* nrfPtr){
     // Register the module with the game system and give it the name "pokemon"
     game.id = Game_Register("pokemon", "Play pokemon with friends", pkmnPlay, pkmnHelp);
+    nrf = nrfPtr;
+
 }
 
 void pkmnPlay(void){
     Game_RegisterInputCallback(inputCallback);
+
+    if (nrf->ReceivedPayload) {
+    	game.client = false;
+    }
+    else {
+    	game.client = true;
+    }
 
     //init pokemon game
     initGame();
@@ -100,19 +112,29 @@ uint8_t packetizer(uint8_t* buffer) {
 }
 
 void shakingGrassUpdate(void) {
-	uint8_t x, y;
-	generateShakingGrass(&x, &y);
+	if (game.client) {
+		setShakingGrass(g_pokemonX, g_pokemonY);
+	}
+	else {
+		uint8_t x, y;
+		generateShakingGrass(&x, &y);
 
-	g_pokemonX = x;
-	g_pokemonY = y;
+		g_pokemonX = x;
+		g_pokemonY = y;
+	}
 }
 
 void itemUpdate(void) {
-	uint8_t x, y;
-	generateItems(&x, &y);
+	if (game.client) {
+		drawItem(g_itemX, g_itemY);
+	}
+	else {
+		uint8_t x, y;
+		generateItems(&x, &y);
 
-	g_itemX = x;
-	g_itemY = y;
+		g_itemX = x;
+		g_itemY = y;
+	}
 }
 
 void inputCallback(game_network_payload_t * input){
