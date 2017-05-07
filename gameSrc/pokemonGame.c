@@ -101,12 +101,16 @@ uint8_t packetizer(uint8_t* buffer) {
 		test.ub[0].bits.b6 = 1;
 		test.ub[1].b = g_pokemonX;
 		test.ub[2].b = g_pokemonY;
+		pokemonX = g_pokemonX;
+		pokemonY = g_pokemonY;
 	}
 
 	if (itemX != g_itemX && itemY != g_itemY) {
 		test.ub[0].bits.b7 = 1;
 		test.ub[3].b = g_itemX;
 		test.ub[4].b = g_itemY;
+		itemX = g_itemX;
+		itemY = g_itemY;
 	}
 
 	for(i = 0; i < 5; i++) {
