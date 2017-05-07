@@ -26,7 +26,10 @@ uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
 	return binarySearch(arr, item,low, --mid);
 }
 
-void initGame(){
+void initGame(uint8_t* totalItemCountPtr, uint8_t* totalPkmnCountPtr){
+	totalPkmnCount = totalPkmnCountPtr;
+	totalItemCount = totalItemCountPtr;
+
     //set up map
     initMap();
 
@@ -148,7 +151,7 @@ void movePlayerUp(uint8_t playerIndex){
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
 		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY -1);
-        bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY+1);
+        bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY - 1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -178,8 +181,8 @@ void movePlayerDown(uint8_t playerIndex){
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y +1)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
-		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY +1);
-		bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY+1);
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY + 1);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY + 1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -208,8 +211,8 @@ void movePlayerLeft(uint8_t playerIndex){
 			checkPlayerLocValid(&players[playerIndex], initPt.x -1, initPt.y)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
-		bool encounterFound = checkShakingGrass(players[playerIndex].tileX -1, players[playerIndex].tileY);
-		bool itemFound = checkItemLoc(players[playerIndex].tileX -1, players[playerIndex].tileY);
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX - 1, players[playerIndex].tileY);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX - 1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -239,8 +242,8 @@ void movePlayerRight(uint8_t playerIndex){
 			checkPlayerLocValid(&players[playerIndex], initPt.x +1, initPt.y)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
-		bool encounterFound = checkShakingGrass(players[playerIndex].tileX +1, players[playerIndex].tileY);
-		bool itemFound = checkItemLoc(players[playerIndex].tileX +1, players[playerIndex].tileY);
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX + 1, players[playerIndex].tileY);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX + 1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -362,6 +365,9 @@ void runEncounter(uint8_t playerInd){
 
 	//change menu
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
+
+	//update pokemon count
+	--(*totalPkmnCount);
 }
 
 void selectRun(uint8_t player){
@@ -626,6 +632,9 @@ void itemSpawn(uint8_t playerInd){
 		drawGrass(GRASS, players[playerInd].tileX, players[playerInd].tileY);
 		//redraw player
 		drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
+
+		//update item count
+		--(*totalItemCount);
     }else{
         printPokemon(playerInd, FULL_MSG,"");
     }
