@@ -13,7 +13,7 @@
 
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
 	if(high <= low){
-		return (item > arr[low]) ? low + 1 : low;
+		return low;//(item > arr[low]) ? low + 1 : low;
 	}
 	uint8_t mid = (low + high)/2;
 	if(item == arr[mid]){
@@ -41,6 +41,8 @@ void initGame(){
 
     //set up pokemon for generation
     initPokemon();
+
+    initItems();
 
     //set up time and first item/pokemon generations
 }
@@ -617,7 +619,7 @@ void generateItems(uint8_t* x, uint8_t* y){
 }
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
-    uint8_t index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS);
+    uint8_t index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=BAG_MAX){
 
