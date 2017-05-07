@@ -148,7 +148,7 @@ void movePlayerUp(uint8_t playerIndex){
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
 		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY -1);
-        bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY+1);
+        bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY - 1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -178,8 +178,8 @@ void movePlayerDown(uint8_t playerIndex){
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y +1)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
-		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY +1);
-		bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY+1);
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY + 1);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY + 1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -208,8 +208,8 @@ void movePlayerLeft(uint8_t playerIndex){
 			checkPlayerLocValid(&players[playerIndex], initPt.x -1, initPt.y)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
-		bool encounterFound = checkShakingGrass(players[playerIndex].tileX -1, players[playerIndex].tileY);
-		bool itemFound = checkItemLoc(players[playerIndex].tileX -1, players[playerIndex].tileY);
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX - 1, players[playerIndex].tileY);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX - 1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
@@ -239,8 +239,8 @@ void movePlayerRight(uint8_t playerIndex){
 			checkPlayerLocValid(&players[playerIndex], initPt.x +1, initPt.y)  //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
-		bool encounterFound = checkShakingGrass(players[playerIndex].tileX +1, players[playerIndex].tileY);
-		bool itemFound = checkItemLoc(players[playerIndex].tileX +1, players[playerIndex].tileY);
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX + 1, players[playerIndex].tileY);
+		bool itemFound = checkItemLoc(players[playerIndex].tileX + 1, players[playerIndex].tileY);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
