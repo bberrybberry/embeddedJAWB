@@ -166,10 +166,12 @@ void inputCallback(game_network_payload_t * input){
     	if (input->user_data[0] & PACKET_POKEMON_BIT) {
     		g_pokemonX = input->user_data[PACKET_POKEMON_X];
     		g_pokemonY = input->user_data[PACKET_POKEMON_Y];
+    		setShakingGrass(g_pokemonX, g_pokemonY);
     	}
     	if (input->user_data[0] & PACKET_ITEM_BIT) {
     		g_itemX = input->user_data[PACKET_ITEM_X];
     		g_itemY = input->user_data[PACKET_ITEM_Y];
+    		drawItem(g_itemX, g_itemY);
     	}
     }
 
@@ -266,25 +268,31 @@ void startPressed(uint8_t player){
 		game.currGameState = PAUSE;
 		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
-		Task_Remove((task_fn_t)generateShakingGrass, 0);
-		Task_Remove((task_fn_t)generateItems, 0);
+		if (!game.client) {
+			Task_Remove((task_fn_t)generateShakingGrass, 0);
+			Task_Remove((task_fn_t)generateItems, 0);
+		}
 		pauseGame();
 	}
 	else if (game.currGameState == PAUSE) {
 		if (initial) {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, SECOND);
-			Task_Schedule((task_fn_t)shakingGrassUpdate, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
-			Task_Schedule((task_fn_t)itemUpdate, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
+			if (!game.client) {
+				Task_Schedule((task_fn_t)shakingGrassUpdate, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
+				Task_Schedule((task_fn_t)itemUpdate, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
+			}
 			game.currGameState = PLAY;
 			playGame();
 			initial = 0;
 		}
 		else {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, SECOND - ((g_pauseTime - g_startTime) % SECOND), SECOND);
-			Task_Schedule((task_fn_t)shakingGrassUpdate, 0,
-					SHAKING_GRASS_PERIOD - ((g_pauseTime - g_startTime) % SHAKING_GRASS_PERIOD), SHAKING_GRASS_PERIOD);
-			Task_Schedule((task_fn_t)itemUpdate, 0,
-					ITEM_GENERATION_PERIOD - ((g_pauseTime - g_startTime) % ITEM_GENERATION_PERIOD), ITEM_GENERATION_PERIOD);
+			if (!game.client) {
+				Task_Schedule((task_fn_t)shakingGrassUpdate, 0,
+						SHAKING_GRASS_PERIOD - ((g_pauseTime - g_startTime) % SHAKING_GRASS_PERIOD), SHAKING_GRASS_PERIOD);
+				Task_Schedule((task_fn_t)itemUpdate, 0,
+						ITEM_GENERATION_PERIOD - ((g_pauseTime - g_startTime) % ITEM_GENERATION_PERIOD), ITEM_GENERATION_PERIOD);
+			}
 			game.currGameState = PLAY;
 			playGame();
 		}
