@@ -396,7 +396,7 @@ void runEncounter(uint8_t playerInd);
  */
 void generateItems(uint8_t* x, uint8_t* y);
 
-//TODO 
+//TODO Walt comment ur code!!!!!!!!
 /**
  *  @fn binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high)
  *  @param item 
