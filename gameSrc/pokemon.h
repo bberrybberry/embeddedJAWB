@@ -99,24 +99,21 @@
 #define CATCH_CHECK_2 16711680
 
 /**
- * @def MAX_ITEMS 3
+ * @def TOTAL_ITEMS
  * @brief Number of unique items each player will hold
  */
-
 #define TOTAL_ITEMS   3
 
 /**
- * @def BAG_MAX 99
+ * @def BAG_MAX 
  * @brief Total number of items one player can hold
  */
-
 #define BAG_MAX 99
 
 /**
- * @def MAX_SHAKING_GRASS 15
+ * @def MAX_SHAKING_GRASS
  * @brief Total number of items one player can hold
  */
-
 #define MAX_SHAKING_GRASS   15
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -345,7 +342,7 @@ void playGame(void);
 void pauseGame(void);
 
 /**
- * @fn generateShakingGrass(void)
+ * @fn generateShakingGrass(uint8_t* x, uint8_t* y)
  * @param x Pointer to x coordinate
  * @param y Pointer to y coordinate
  * @brief Determines which tile the pokemon are spawned on
@@ -406,19 +403,39 @@ void runEncounter(uint8_t playerInd);
 
 //TODO fill this in right
 /**
- * @fn generateItems(void)
+ * @fn generateItems(uint8_t* x, uint8_t* y)
  * @brief Generates the location of randomly placed pokeballs
  */
 void generateItems(uint8_t* x, uint8_t* y);
 
+//TODO 
 /**
- * TODO: Walt: Docs
+ *  @fn binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high)
+ *  @param item 
+ *  @param low 
+ *  @param high 
+ *  @brief
  */
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high);
 
+/**
+ *  @fn initItems(void)
+ *  @brief Initializes the pokeball, greatball, and ultraball items
+ */
 void initItems(void);
 
+/**
+ *  @fn itemSpawn(uint8_t playerInd)
+ *  @param playerInd Index of the player in the encounter
+ *  @brief
+ */
 void itemSpawn(uint8_t playerInd);
 
+/**
+ *  @fn checkItemLoc(uint8_t locX, uint8_t locY)
+ *  @param locX X coordinate of the tile
+ *  @param locY Y coordinate of the tile
+ *  @brief Returns if the tile has an item on it
+ */
 bool checkItemLoc(uint8_t locX, uint8_t locY);
 #endif /* POKEMON_H_ */
