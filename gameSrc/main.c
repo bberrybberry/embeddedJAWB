@@ -117,7 +117,7 @@ int main(void) {
     RF1.spi_channel = RF_SPI_CH;
 
     Game_nRF_Test_Init();
-    pkmnGameInit();
+    pkmnGameInit(&RF1);
     Game_NetworkInit(&RF1);
     Log_EchoOn();
     UART_Printf(UART1, "System Initialized\r\n");
