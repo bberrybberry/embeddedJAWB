@@ -288,7 +288,6 @@ void startPressed(uint8_t player){
 			Task_Remove((task_fn_t)generateShakingGrass, 0);
 			Task_Remove((task_fn_t)generateItems, 0);
 		}
-		pauseGame();
 	}
 	else if (game.currGameState == PAUSE) {
 		if (initial) {
@@ -298,7 +297,6 @@ void startPressed(uint8_t player){
 				Task_Schedule((task_fn_t)itemUpdate, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
 			}
 			game.currGameState = PLAY;
-			playGame();
 			initial = 0;
 		}
 		else {
@@ -310,7 +308,6 @@ void startPressed(uint8_t player){
 						ITEM_GENERATION_PERIOD - ((g_pauseTime - g_startTime) % ITEM_GENERATION_PERIOD), ITEM_GENERATION_PERIOD);
 			}
 			game.currGameState = PLAY;
-			playGame();
 		}
 	}
 }

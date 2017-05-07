@@ -50,7 +50,7 @@ void initGame(){
 void initMap(){
     drawMap();
 }
-//TODO create initPkmn()
+
 void initPlayers(){
     //register players 1-4
 	volatile int i;
@@ -153,9 +153,7 @@ void movePlayerUp(uint8_t playerIndex){
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
 		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-		}
+
 
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, --players[playerIndex].tileY);
 
@@ -186,9 +184,6 @@ void movePlayerDown(uint8_t playerIndex){
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
 		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, ++players[playerIndex].tileY);
 
@@ -218,9 +213,6 @@ void movePlayerLeft(uint8_t playerIndex){
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
-		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
 		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, --players[playerIndex].tileX, players[playerIndex].tileY);
@@ -253,9 +245,6 @@ void movePlayerRight(uint8_t playerIndex){
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
 		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, ++players[playerIndex].tileX, players[playerIndex].tileY);
 
@@ -273,14 +262,6 @@ void movePlayerRight(uint8_t playerIndex){
 
 void initTextBox(){
 	drawInitMenu();
-}
-
-void playGame(){
-    //TODO
-}
-
-void pauseGame(){
-    //TODO
 }
 
 void generateShakingGrass(uint8_t* x, uint8_t* y) {
@@ -617,6 +598,7 @@ void generateItems(uint8_t* x, uint8_t* y){
 		drawItem(*x, *y);
 	}
 }
+
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
     uint8_t index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);

@@ -330,18 +330,6 @@ void throwBall(uint8_t player);
 void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate);
 
 /**
- * @fn playGame(void)
- * @brief Initiates the gameplay
- */
-void playGame(void);
-
-/**
- * @fn pauseGame(void)
- * @brief Pauses thte gameplay
- */
-void pauseGame(void);
-
-/**
  * @fn generateShakingGrass(uint8_t* x, uint8_t* y)
  * @param x Pointer to x coordinate
  * @param y Pointer to y coordinate
