@@ -61,6 +61,8 @@ void pkmnPlay(void){
     	game.client = true;
     }
 
+    Game_RegisterHostPacketizer(packetizer);
+
     //init pokemon game
     initGame();
     callbackInit();
