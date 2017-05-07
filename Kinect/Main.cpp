@@ -1,9 +1,7 @@
 
 
 #include "Main.h"
-#define USE_KEYBOARD
-//#define USE_HTTP
-//#define USE_MULTIPLAYER
+
 
 /**
  * @namespace cv
@@ -18,15 +16,6 @@ using namespace std;
 
 #define BUTTON_ENTRY 2
 int main() {
-	char data1[64] = "__SL_P_ULD=LED1_ON";
-	char data2[64] = "__SL_P_ULD=LED1_OFF";
-	//while (1) {
-	//	http.Request(POST, "mysimplelink.net", "No_content", "Content-Type: application/x-www-form-urlencoded", data1);
-	//	Sleep(500);
-	//	http.Request(POST, "mysimplelink.net", "No_content", "Content-Type: application/x-www-form-urlencoded", data2);
-	//	Sleep(500);
-	//}
-
 #ifndef USE_HTTP
 	char data[3] = { 0xFF, 0x00, 0x00 };
 	char rxData[1];

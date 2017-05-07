@@ -13,7 +13,7 @@
 
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
 	if(high <= low){
-		return (item > arr[low]) ? low + 1 : low;
+		return low;//(item > arr[low]) ? low + 1 : low;
 	}
 	uint8_t mid = (low + high)/2;
 	if(item == arr[mid]){
@@ -34,6 +34,7 @@ void initGame(){
     initPlayers();
     //TODO: Find dynamic way to know how many players are playing
     players[0].status = true;
+    players[1].status = true;
 
     //set up menus and text
     initTextBox();
@@ -41,13 +42,15 @@ void initGame(){
     //set up pokemon for generation
     initPokemon();
 
+    initItems();
+
     //set up time and first item/pokemon generations
 }
 
 void initMap(){
     drawMap();
 }
-//TODO create initPkmn()
+
 void initPlayers(){
     //register players 1-4
 	volatile int i;
@@ -150,9 +153,7 @@ void movePlayerUp(uint8_t playerIndex){
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
 		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-		}
+
 
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, --players[playerIndex].tileY);
 
@@ -183,9 +184,6 @@ void movePlayerDown(uint8_t playerIndex){
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
 		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, players[playerIndex].tileX, ++players[playerIndex].tileY);
 
@@ -215,9 +213,6 @@ void movePlayerLeft(uint8_t playerIndex){
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
-		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
 		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, --players[playerIndex].tileX, players[playerIndex].tileY);
@@ -250,9 +245,6 @@ void movePlayerRight(uint8_t playerIndex){
 			//redraw bg tile
 			drawStatic(map.grid[initPt.x + initPt.y * GRID_X], &initPt);
 		}
-		else {
-			//TODO: Error state handling: Graphics_DrawTile(&gCntx, p1, &blackTilePtr, TILE_X, TILE_Y);
-		}
 
 		drawPlayer(players[playerIndex].sprite, STAND, ++players[playerIndex].tileX, players[playerIndex].tileY);
 
@@ -272,40 +264,38 @@ void initTextBox(){
 	drawInitMenu();
 }
 
-void playGame(){
-    //TODO
-}
-
-void pauseGame(){
-    //TODO
-}
-
-void generateShakingGrass(void) {
-	uint8_t x, y;
+void generateShakingGrass(uint8_t* x, uint8_t* y) {
 	volatile int i;
 	bool display = false;
+	uint8_t count = 0;
 
 	while(!display) {
-		x = random_int(0, GRID_X - 1);
-		y = random_int(0, GRID_Y - 1);
+		*x = random_int(0, GRID_X - 1);
+		*y = random_int(0, GRID_Y - 1);
 		display = true;
-		if (!isGrass(x, y)) {
+		if (!isGrass(*x, *y)) {
 			display = false;
 		}
-		if (checkShakingGrass(x, y)) {
+		if (checkShakingGrass(*x, *y)) {
 			display = false;
 		}
-		if (checkItemLoc(x, y)) {
+		if (checkItemLoc(*x, *y)) {
 			display = false;
 		}
 		for (i = 0; i < MAX_PLAYERS; i++) {
-			if ((x == players[i].tileX) && (y == players[i].tileY)) {
+			if ((*x == players[i].tileX) && (*y == players[i].tileY)) {
 				display = false;
 			}
 		}
-	}
 
-	setShakingGrass(x, y);
+		if (count > 30) {
+			break;
+		}
+		count++;
+	}
+	if (display) {
+		setShakingGrass(*x, *y);
+	}
 }
 
 pokemon_t* generatePokemon(){
@@ -575,49 +565,58 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	drawPlayer(players[player].sprite, STAND, players[player].tileX, players[player].tileY);
 }
 
-void generateItems(void){
-
-	uint8_t x, y;
+void generateItems(uint8_t* x, uint8_t* y){
 	volatile int i;
 	bool display = false;
-
+	uint8_t count = 0;
 	while(!display) {
-		x = random_int(0, GRID_X - 1);
-		y = random_int(0, GRID_Y - 1);
+		*x = random_int(0, GRID_X - 1);
+		*y = random_int(0, GRID_Y - 1);
 		display = true;
-		if (!isGrass(x, y)) {
+		if (!isGrass(*x, *y)) {
 			display = false;
 		}
-		if (checkItemLoc(x, y)) {
+		if (checkItemLoc(*x, *y)) {
 			display = false;
 		}
-		if (checkShakingGrass(x, y)) {
+		if (checkShakingGrass(*x, *y)) {
 			display = false;
 		}
 		for (i = 0; i < MAX_PLAYERS; i++) {
-			if ((x == players[i].tileX) && (y == players[i].tileY)) {
+			if ((*x == players[i].tileX) && (*y == players[i].tileY)) {
 				display = false;
 			}
 		}
+
+		if (count > 30) {
+			break;
+		}
+		count++;
 	}
 
-    drawItem(x, y);
+	if (display) {
+		drawItem(*x, *y);
+	}
 }
+
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
-    uint8_t index = binarySearch(itemWeights, r, 0, MAX_ITEMS);
+    uint8_t index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
-    if (curr<=MAX_BAG){
-		//TODO Output what type of item was collected
+    if (curr<=BAG_MAX){
+
 		switch(index) {
 		case 0:
 			++players[playerInd].ubCount;
+			printPokemon(playerInd, ULTRABALL_MSG,"");
 			break;
 		case 1:
 			++players[playerInd].gbCount;
+			printPokemon(playerInd, GREATBALL_MSG,"");
 			break;
 		case 2:
 			++players[playerInd].pbCount;
+			printPokemon(playerInd, POKEBALL_MSG,"");
 			break;
 		default:
 			++players[playerInd].pbCount;
@@ -628,7 +627,7 @@ void itemSpawn(uint8_t playerInd){
 		//redraw player
 		drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
     }else{
-        //TODO some sort of you are full msg?
+        printPokemon(playerInd, FULL_MSG,"");
     }
 }
 

@@ -14,21 +14,63 @@
 /// game structure
 static struct {
     gameState currGameState;    ///< Current state of the game
+    bool client;				///< True if this instance is a client, false otherwise
     uint8_t id;                 ///< ID of game
+    uint8_t currNumItems;		///< Current number of items generated
+    uint8_t currNumPkmn;		///< Current number of pokemon generated
 } game;
 
-void pkmnGameInit(void){
+nrf24_t* nrf;
+
+/**
+ * @var g_pokemonX
+ * @brief Global variable for x coordinate of most recent shaking grass tile
+ */
+uint8_t g_pokemonX = INITIAL_COORDINATE_VALUE;
+
+/**
+ * @var g_pokemonY
+ * @brief Global variable for y coordinate of most recent shaking grass tile
+ */
+uint8_t g_pokemonY = INITIAL_COORDINATE_VALUE;
+
+/**
+ * @var g_itemX
+ * @brief Global variable for x coordinate of most recent item tile
+ */
+uint8_t g_itemX = INITIAL_COORDINATE_VALUE;
+
+/**
+ * @var g_itemY
+ * @brief Global variable for y coordinate of most recent item tile
+ */
+uint8_t g_itemY = INITIAL_COORDINATE_VALUE;
+
+void pkmnGameInit(nrf24_t* nrfPtr){
     // Register the module with the game system and give it the name "pokemon"
     game.id = Game_Register("pokemon", "Play pokemon with friends", pkmnPlay, pkmnHelp);
+    nrf = nrfPtr;
+
 }
 
 void pkmnPlay(void){
     Game_RegisterInputCallback(inputCallback);
 
+    if (nrf->ReceivedPayload) {
+    	game.client = false;
+    }
+    else {
+    	game.client = true;
+    }
+
+    Game_RegisterHostPacketizer(packetizer);
+
     //init pokemon game
     initGame();
     callbackInit();
     game.currGameState = PAUSE;
+    game.currNumItems = 0;
+    game.currNumPkmn = 0;
 }
 
 void pkmnHelp(void){
@@ -39,6 +81,78 @@ void pkmnHelp(void){
     		"a ball to throw. Run to a special point in the grass to\r\n"
     		"look for pokemon and pick up items to replenish your\r\n"
     		"pokeball counts.");
+}
+
+uint8_t packetizer(uint8_t* buffer) {
+	static uint8_t pokemonX = INITIAL_COORDINATE_VALUE, pokemonY = INITIAL_COORDINATE_VALUE;
+	static uint8_t itemX = INITIAL_COORDINATE_VALUE, itemY = INITIAL_COORDINATE_VALUE;
+	volatile uint8_t i;
+	union64_t test;
+	test.quad_word = 0;
+
+	if (game.currGameState == PAUSE) {
+		test.ub[0].bits.b0 = 1;
+	}
+	else {
+		test.ub[0].bits.b0 = 0;
+	}
+
+	if (pokemonX != g_pokemonX && pokemonY != g_pokemonY) {
+		test.ub[0].bits.b6 = 1;
+		test.ub[1].b = g_pokemonX;
+		test.ub[2].b = g_pokemonY;
+		pokemonX = g_pokemonX;
+		pokemonY = g_pokemonY;
+	}
+
+	if (itemX != g_itemX && itemY != g_itemY) {
+		test.ub[0].bits.b7 = 1;
+		test.ub[3].b = g_itemX;
+		test.ub[4].b = g_itemY;
+		itemX = g_itemX;
+		itemY = g_itemY;
+	}
+
+	for(i = 0; i < 5; i++) {
+		*buffer = test.ub[i].b;
+		buffer++;
+	}
+
+	return 5;
+}
+
+void shakingGrassUpdate(void) {
+	if(game.currNumPkmn < MAX_PKMN_ONSCREEN){
+		if (game.client) {
+			setShakingGrass(g_pokemonX, g_pokemonY);
+		}
+		else {
+			uint8_t x, y;
+			generateShakingGrass(&x, &y);
+
+			g_pokemonX = x;
+			g_pokemonY = y;
+		}
+
+		++game.currNumPkmn;
+	}
+}
+
+void itemUpdate(void) {
+	if(game.currNumItems < MAX_ITEMS_ONSCREEN){
+		if (game.client) {
+			drawItem(g_itemX, g_itemY);
+		}
+		else {
+			uint8_t x, y;
+			generateItems(&x, &y);
+
+			g_itemX = x;
+			g_itemY = y;
+		}
+
+		++game.currNumItems;
+	}
 }
 
 void inputCallback(game_network_payload_t * input){
@@ -53,7 +167,7 @@ void inputCallback(game_network_payload_t * input){
         Game_Printf("index skip");
     }
     index = input->index;
-    for(i = 1; i < 4; i++) {
+    for(i = 0; i < 4; i++) {
         if(input->controller[i].button.up) upPressed(i);//MoveUp(&player[i]);
         if(input->controller[i].button.down) downPressed(i);
         if(input->controller[i].button.left) leftPressed(i);
@@ -62,6 +176,19 @@ void inputCallback(game_network_payload_t * input){
         if(input->controller[i].button.B) bPressed(i);
         if(input->controller[i].button.start) startPressed(i);
         if(input->controller[i].button.select) selectPressed(i);
+    }
+
+    if (game.client) {
+    	if (input->user_data[0] & PACKET_POKEMON_BIT) {
+    		g_pokemonX = input->user_data[PACKET_POKEMON_X];
+    		g_pokemonY = input->user_data[PACKET_POKEMON_Y];
+    		setShakingGrass(g_pokemonX, g_pokemonY);
+    	}
+    	if (input->user_data[0] & PACKET_ITEM_BIT) {
+    		g_itemX = input->user_data[PACKET_ITEM_X];
+    		g_itemY = input->user_data[PACKET_ITEM_Y];
+    		drawItem(g_itemX, g_itemY);
+    	}
     }
 
     if(TimeSince(time) > 1000) {
@@ -75,28 +202,28 @@ void inputCallback(game_network_payload_t * input){
 }
 
 void callbackInit(void) {
-	controller_buttons_t mask;
-	mask.all_buttons = 0x0000;
-	mask.button.A = 1;
-	GameControllerHost_RegisterPressCallback(0, aHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.B = 1;
-	GameControllerHost_RegisterPressCallback(0, bHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.start = 1;
-	GameControllerHost_RegisterPressCallback(0, startHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.up = 1;
-	GameControllerHost_RegisterPressCallback(0, upHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.down = 1;
-	GameControllerHost_RegisterPressCallback(0, downHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.left = 1;
-	GameControllerHost_RegisterPressCallback(0, leftHandler, mask, 0);
-	mask.all_buttons = 0x0000;
-	mask.button.right = 1;
-	GameControllerHost_RegisterPressCallback(0, rightHandler, mask, 0);
+//	controller_buttons_t mask;
+//	mask.all_buttons = 0x0000;
+//	mask.button.A = 1;
+//	GameControllerHost_RegisterPressCallback(0, aHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.B = 1;
+//	GameControllerHost_RegisterPressCallback(0, bHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.start = 1;
+//	GameControllerHost_RegisterPressCallback(0, startHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.up = 1;
+//	GameControllerHost_RegisterPressCallback(0, upHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.down = 1;
+//	GameControllerHost_RegisterPressCallback(0, downHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.left = 1;
+//	GameControllerHost_RegisterPressCallback(0, leftHandler, mask, 0);
+//	mask.all_buttons = 0x0000;
+//	mask.button.right = 1;
+//	GameControllerHost_RegisterPressCallback(0, rightHandler, mask, 0);
 }
 
 void pkmnGameOver(void){
@@ -157,27 +284,30 @@ void startPressed(uint8_t player){
 		game.currGameState = PAUSE;
 		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
-		Task_Remove((task_fn_t)generateShakingGrass, 0);
-		Task_Remove((task_fn_t)generateItems, 0);
-		pauseGame();
+		if (!game.client) {
+			Task_Remove((task_fn_t)generateShakingGrass, 0);
+			Task_Remove((task_fn_t)generateItems, 0);
+		}
 	}
 	else if (game.currGameState == PAUSE) {
 		if (initial) {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, 0, SECOND);
-			Task_Schedule((task_fn_t)generateShakingGrass, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
-			Task_Schedule((task_fn_t)generateItems, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
+			if (!game.client) {
+				Task_Schedule((task_fn_t)shakingGrassUpdate, 0, SHAKING_GRASS_PERIOD, SHAKING_GRASS_PERIOD);
+				Task_Schedule((task_fn_t)itemUpdate, 0, ITEM_GENERATION_PERIOD, ITEM_GENERATION_PERIOD);
+			}
 			game.currGameState = PLAY;
-			playGame();
 			initial = 0;
 		}
 		else {
 			Task_Schedule((task_fn_t)updateTimeRemaining, 0, SECOND - ((g_pauseTime - g_startTime) % SECOND), SECOND);
-			Task_Schedule((task_fn_t)generateShakingGrass, 0,
-					SHAKING_GRASS_PERIOD - ((g_pauseTime - g_startTime) % SHAKING_GRASS_PERIOD), SHAKING_GRASS_PERIOD);
-			Task_Schedule((task_fn_t)generateItems, 0,
-					ITEM_GENERATION_PERIOD - ((g_pauseTime - g_startTime) % ITEM_GENERATION_PERIOD), ITEM_GENERATION_PERIOD);
+			if (!game.client) {
+				Task_Schedule((task_fn_t)shakingGrassUpdate, 0,
+						SHAKING_GRASS_PERIOD - ((g_pauseTime - g_startTime) % SHAKING_GRASS_PERIOD), SHAKING_GRASS_PERIOD);
+				Task_Schedule((task_fn_t)itemUpdate, 0,
+						ITEM_GENERATION_PERIOD - ((g_pauseTime - g_startTime) % ITEM_GENERATION_PERIOD), ITEM_GENERATION_PERIOD);
+			}
 			game.currGameState = PLAY;
-			playGame();
 		}
 	}
 }

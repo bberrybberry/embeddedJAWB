@@ -1,6 +1,6 @@
 /**
  * @file
- * @mainpage Pokemon
+ * 
  * @author Breanna Higgins,
  *
  * @brief Top level module of the pokemon game. This modules communicates the low
@@ -49,25 +49,91 @@ typedef enum{
  * @def GAME_TIME_LIMIT
  * @brief The number of seconds in a game
  */
-#define GAME_TIME_LIMIT			120
+#define GAME_TIME_LIMIT				120
 
 /**
  * @def SECOND
  * @brief One second in milliseconds
  */
-#define SECOND					1000
+#define SECOND						1000
 
 /**
  * @def SHAKING_GRASS_PERIOD
  * @brief Period for shaking grass or pokemon generation
  */
-#define SHAKING_GRASS_PERIOD	8 * SECOND
+#define SHAKING_GRASS_PERIOD		8 * SECOND
 
 /**
  * @def ITEM_GENERATION_PERIOD
  * @brief Period for generating items
  */
-#define ITEM_GENERATION_PERIOD	6 * SECOND
+#define ITEM_GENERATION_PERIOD		6 * SECOND
+
+/**
+ * @def INITIAL_COORDINATE_VALUE
+ * @brief Value set as initial x and y coordinates
+ */
+#define INITIAL_COORDINATE_VALUE	255
+
+/**
+ * @def PACKET_SIZE
+ * @brief Packet size that is sent to
+ */
+#define PACKET_SIZE					5
+
+/**
+ * @def PACKET_POKEMON_BIT
+ * @brief Bit that the pokemon indicator is in
+ */
+#define PACKET_POKEMON_BIT			0x40
+
+/**
+ * @def PACKET_ITEM_BIT
+ * @brief Bit that the item indicator is in
+ */
+#define PACKET_ITEM_BIT				0x80
+
+/**
+ * @def PACKET_INDICATOR_BYTE
+ * @brief Index of the indicator byte
+ */
+#define PACKET_INDICATOR_BYTE		0
+
+/**
+ * @def PACKET_POKEMON_X
+ * @brief Index of the x coordinate of the pokemon in the packet
+ */
+#define PACKET_POKEMON_X			1
+
+/**
+ * @def PACKET_POKEMON_Y
+ * @brief Index of the y coordinate of the pokemon in the packet
+ */
+#define PACKET_POKEMON_Y			2
+
+/**
+ * @def PACKET_ITEM_X
+ * @brief Index of the x coordinate of the item in the packet
+ */
+#define PACKET_ITEM_X				3
+
+/**
+ * @def PACKET_ITEM_Y
+ * @brief Index of the y coordinate of the item in the packet
+ */
+#define PACKET_ITEM_Y				4
+
+/**
+ * @def MAX_ITEMS_ONSCREEN
+ * @brief Maximum number of generated items to have onscreen at once
+ */
+#define MAX_ITEMS_ONSCREEN			8
+
+/**
+ * @def MAX_PKMN_ONSCREEN
+ * @brief Maximum number of generated pokemon to have onscreen at once
+ */
+#define MAX_PKMN_ONSCREEN			12
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -95,10 +161,10 @@ uint32_t g_pauseTime;
 
 /**
  * @fn pkmnGameInit(void)
- *
- * @brief Register game within game mangement module
+ * @param ptr Pointer to the nrf24 configuration structure
+ * @brief Register game within game management module
  */
-void pkmnGameInit(void);
+void pkmnGameInit(nrf24_t* ptr);
 
 /**
  * @fn pkmnPlay(void)
@@ -113,6 +179,40 @@ void pkmnPlay(void);
  * @brief Configure help text
  */
 void pkmnHelp(void);
+
+/**
+ * @fn packetizer(uint8_t* buffer)
+ * @param buffer Beginning of buffer in the packet being sent or received
+ * @brief Returns the length of the user data being used
+ * @details
+ *
+ * The packet is filled according to the following format:
+ *
+ *		1.0	1.1	1.2	1.3	1.4	1.5	1.6	1.7		1		1		1		1		bytes
+ *		Pse	X	X	X	X	X	Pkm	Itm		Xp		Yp		Xi		Yi
+ * 
+ * Pse	-	Pause Indicator bit<br>
+ * X 	-	Don't Care<br>
+ * Pkm	-	Pokemon, e.g. shaking grass, has been added to map<br>
+ * Itm	-	Item has been added to map<br>
+ * Xp	-	X coordinate of the pokemon<br>
+ * Yp 	-	Y coordinate of the pokemon<br>
+ * Xi	-	X coordinate of the item<br>
+ * Yi	-	Y coordinate of the item<br>
+ */
+uint8_t packetizer(uint8_t* buffer);
+
+/**
+ * @fn shakingGrassUpdate(void)
+ * @brief Adds a new shaking grass tile and alerts the packetizer to the new pokemon
+ */
+void shakingGrassUpdate(void);
+
+/**
+ * @fn itemUpdate(void)
+ * @brief Adds a new item tile and alerts the packetizer to the new item
+ */
+void itemUpdate(void);
 
 /**
  * @fn inputCallback(game_network_payload_t * input)

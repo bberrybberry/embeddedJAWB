@@ -7,7 +7,10 @@
 /**
 * 
 */
-//#define USE_KINECT
+#define USE_KINECT
+//#define USE_KEYBOARD
+//#define USE_HTTP
+//#define USE_MULTIPLAYER
 
 #ifdef USE_KINECT
 #include <Kinect.h>
