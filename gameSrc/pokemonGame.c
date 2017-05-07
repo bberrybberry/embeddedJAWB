@@ -147,7 +147,7 @@ void itemUpdate(void) {
 			g_itemY = y;
 		}
 
-		++game.currNumItem;
+		++game.currNumItems;
 	}
 }
 
