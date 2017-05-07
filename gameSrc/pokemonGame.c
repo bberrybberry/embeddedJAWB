@@ -16,6 +16,8 @@ static struct {
     gameState currGameState;    ///< Current state of the game
     bool client;				///< True if this instance is a client, false otherwise
     uint8_t id;                 ///< ID of game
+    uint8_t currNumItems;		///< Current number of items generated
+    uint8_t currNumPkmn;		///< Current number of pokemon generated
 } game;
 
 nrf24_t* nrf;
@@ -67,6 +69,8 @@ void pkmnPlay(void){
     initGame();
     callbackInit();
     game.currGameState = PAUSE;
+    game.currNumItems = 0;
+    game.currNumPkmn = 0;
 }
 
 void pkmnHelp(void){
@@ -114,28 +118,32 @@ uint8_t packetizer(uint8_t* buffer) {
 }
 
 void shakingGrassUpdate(void) {
-	if (game.client) {
-		setShakingGrass(g_pokemonX, g_pokemonY);
-	}
-	else {
-		uint8_t x, y;
-		generateShakingGrass(&x, &y);
+	if(game.currNumPkmn < MAX_PKMN_ONSCREEN){
+		if (game.client) {
+			setShakingGrass(g_pokemonX, g_pokemonY);
+		}
+		else {
+			uint8_t x, y;
+			generateShakingGrass(&x, &y);
 
-		g_pokemonX = x;
-		g_pokemonY = y;
+			g_pokemonX = x;
+			g_pokemonY = y;
+		}
 	}
 }
 
 void itemUpdate(void) {
-	if (game.client) {
-		drawItem(g_itemX, g_itemY);
-	}
-	else {
-		uint8_t x, y;
-		generateItems(&x, &y);
+	if(game.currNumItems < MAX_ITEMS_ONSCREEN){
+		if (game.client) {
+			drawItem(g_itemX, g_itemY);
+		}
+		else {
+			uint8_t x, y;
+			generateItems(&x, &y);
 
-		g_itemX = x;
-		g_itemY = y;
+			g_itemX = x;
+			g_itemY = y;
+		}
 	}
 }
 

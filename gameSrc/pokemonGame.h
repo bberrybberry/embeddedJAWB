@@ -123,6 +123,18 @@ typedef enum{
  */
 #define PACKET_ITEM_Y				4
 
+/**
+ * @def MAX_ITEMS_ONSCREEN
+ * @brief Maximum number of generated items to have onscreen at once
+ */
+#define MAX_ITEMS_ONSCREEN			8
+
+/**
+ * @def MAX_PKMN_ONSCREEN
+ * @brief Maximum number of generated pokemon to have onscreen at once
+ */
+#define MAX_PKMN_ONSCREEN			12
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Global Variables
