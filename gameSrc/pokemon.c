@@ -339,7 +339,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 		thisEncounter.locY = *y;
 		thisEncounter.pokemon = generatePokemon();
 		allPkmn[validIndex] = thisEncounter;
-		game.pkmn = thisEncounter.pokemon->index;
+		game.pkmn = thisEncounter.pokemon;
 
 		//draw
 		setShakingGrass(*x, *y);
