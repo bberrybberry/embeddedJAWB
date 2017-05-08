@@ -1,10 +1,8 @@
 /**
  * @file
- * @author Breanna Higgins
+ * @author Breanna Higgins, Aaron Guidarelli, Walter Marroquin, Josh Velez
  *
  * @brief Utilities for drawing visuals of pokemon game
- *
- * TODO: Docs
  */
 
 #ifndef DRAWPOKEMON_H_

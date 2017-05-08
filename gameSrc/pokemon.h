@@ -1,7 +1,7 @@
 /**
  * @file
  *
- * @author Breanna Higgins,
+ * @author Breanna Higgins, Aaron Guidarelli, Walter Marroquin, Josh Velez
  *
  * @brief Business logic of pokemon game. This is a four player time-based game where
  * each player runs around to catch the most pokemon in a fixed amount of time.
@@ -322,7 +322,8 @@ void initPlayers(void);
 
 /**
  * @fn initPokemon(void);
- * @brief set up the types of pokemon used throughout the game
+ * @brief set up the types of pokemon used throughout the game and their spawn
+ * rates.
  */
 void initPokemon(void);
 
@@ -331,7 +332,9 @@ void initPokemon(void);
  * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
- * @brief move the selected player up. Do nothing if the desired location is invalid
+ * @brief move the selected player up. Do nothing if the desired location is
+ * invalid. After each movement, checks are performed to see if the user should
+ * enter an item found event or encounter found event.
  */
 void movePlayerUp(uint8_t playerIndex);
 
@@ -341,7 +344,9 @@ void movePlayerUp(uint8_t playerIndex);
  * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
- * @brief move the selected player down. Do nothing if the desired location is invalid
+ * @brief move the selected player down. Do nothing if the desired location is
+ * invalid. After each movement, checks are performed to see if the user should
+ * enter an item found event or encounter found event.
  */
 void movePlayerDown(uint8_t playerIndex);
 
@@ -351,7 +356,9 @@ void movePlayerDown(uint8_t playerIndex);
  * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
- * @brief move the selected player left. Do nothing if the desired location is invalid
+ * @brief move the selected player left. Do nothing if the desired location is
+ * invalid. After each movement, checks are performed to see if the user should
+ * enter an item found event or encounter found event.
  */
 void movePlayerLeft(uint8_t playerIndex);
 
@@ -361,7 +368,9 @@ void movePlayerLeft(uint8_t playerIndex);
  * @param playerIndex index of the player (matches controller number and player
  * array indexing)
  *
- * @brief move the selected player right. Do nothing if the desired location is invalid
+ * @brief move the selected player right. Do nothing if the desired location is
+ * invalid. After each movement, checks are performed to see if the user should
+ * enter an item found event or encounter found event.
  */
 void movePlayerRight(uint8_t playerIndex);
 
@@ -429,11 +438,11 @@ void rightBallOption(uint8_t player);
 void throwBall(uint8_t player);
 
 /**
- * @fn captureEvent(uint8_t player, uint8_t multiplier)
- * @param player
- * @param multiplier
- * @param catchRate
- * @brief does the calculations to check if the pokemon is caught
+ * @fn captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate)
+ * @param player Index of player (0-3 for players 1-4)
+ * @param multiplier Catch rate multiplier based on pokeball type used
+ * @param catchRate Randomly determined value of pokemon catchability
+ * @brief Does the calculations to check if the pokemon is caught
  */
 void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate);
 
@@ -441,13 +450,16 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate);
  * @fn generateShakingGrass(uint8_t* x, uint8_t* y)
  * @param x Pointer to x coordinate
  * @param y Pointer to y coordinate
- * @brief Determines which tile the pokemon are spawned on
+ * @brief Determines which tile the pokemon are spawned on, what pokemon
+ * is spawned there, and random threshold to determine catchability of
+ * this pokemon. This is stored in the game structure to be parsed by the
+ * packetizer.
  */
 void generateShakingGrass(uint8_t* x, uint8_t* y);
 
 /**
  * @fn generatePokemon(void)
- * @return pokemon_t reference
+ * @return pokemon_t Reference to ranomly generated pokemon
  * @brief Generates a random pokemon at a random tile
  */
 pokemon_t* generatePokemon(void);
@@ -470,13 +482,16 @@ void updateScores(uint8_t playerID, uint8_t score);
 /**
  * @fn runEncounter(uint8_t playerInd)
  * @param playerInd Index of the player in the encounter
- * @brief Routine that runs when the player has an encounter
+ * @brief Routine that runs when the player has an encounter. The stored
+ * encounter is located for this player and is reset upon a succesful
+ * encounter.
  */
 void runEncounter(uint8_t playerInd);
 
 /**
  * @fn generateItems(uint8_t* x, uint8_t* y)
- * @brief Generates the location of randomly placed pokeballs
+ * @brief Generates the location of randomly placed pokeballs. This is stored
+ * in the collection of all items currently in game.
  */
 void generateItems(uint8_t* x, uint8_t* y);
 
@@ -499,7 +514,10 @@ void initItems(void);
 /**
  *  @fn itemSpawn(uint8_t playerInd)
  *  @param playerInd Index of the player in the encounter
- *  @brief
+ *  @brief Parse through all items in game to find the item the specified player
+ *  has stepped into. The item is collected by the player (if player has room in
+ *  the bag) and the grass is reset to normal grass upon collection. If not
+ *  collected, nothing happens.
  */
 void itemSpawn(uint8_t playerInd);
 

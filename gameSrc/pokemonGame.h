@@ -1,7 +1,7 @@
 /**
  * @file
  * 
- * @author Breanna Higgins,
+ * @author Breanna Higgins, Aaron Guidarelli, Walter Marroquin, Josh Velez
  *
  * @brief Top level module of the pokemon game. This modules communicates the low
  * level logic of the game management module with the actual business logic of the
