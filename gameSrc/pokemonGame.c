@@ -467,4 +467,13 @@ void updateTimeRemaining(void) {
 	timeRemaining--;
 
 	updateTime(timeRemaining);
+
+	//check game over: timeout
+	if(timeRemaining == 0){
+		//end game
+		//TODO
+
+		//print final stats
+
+	}
 }

@@ -459,4 +459,12 @@ void itemSpawn(uint8_t playerInd);
  *  @brief Returns if the tile has an item on it
  */
 bool checkItemLoc(uint8_t locX, uint8_t locY);
+
+/**
+ * @fn printGameOverStats(void)
+ * @brief Print final stats when game is over
+ */
+
+void printGameOverStats(void);
+
 #endif /* POKEMON_H_ */

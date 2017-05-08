@@ -293,14 +293,27 @@ void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, 
 		break;
 	}
 }
-void printStats(uint8_t time, char* text){
+void printEndStats(uint8_t playerInd, uint8_t playerStat){
+	g_point_t pt;
+
+	pt.x = TILE_X * GRID_X + HORI_PADDING + 1;
+	pt.y = TILE_Y * (MENU_HEIGHT * 4) + VERT_PADDING;
+
+	Graphics_DrawText(&gCntx, pt, "Game over!                            ");
+
+	pt.x = TILE_X * GRID_X + HORI_PADDING + 2;
+	pt.y = TILE_Y * (MENU_HEIGHT * 4) + VERT_PADDING;
+
+	Graphics_DrawText(&gCntx, pt, "Player %d won with %d points!                       ", playerInd+1, playerStat);
+}
+
+void printTime(uint8_t time){
 	g_point_t pt;
 
 	pt.x = TILE_X * GRID_X + HORI_PADDING;
 	pt.y = TILE_Y * (MENU_HEIGHT * 4) + VERT_PADDING;
 
 	Graphics_DrawText(&gCntx, pt, "Time Remaining: %d     ", time);
-	//TODO: The other stats
 }
 
 bool isTreeTile(uint8_t locX, uint8_t locY){

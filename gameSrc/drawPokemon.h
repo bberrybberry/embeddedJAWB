@@ -286,12 +286,19 @@ void printPokemon(uint8_t playerID, pokeMsgType msgType, char* pokemon);
 void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, char* text);
 
 /**
- * @fn printStats(uint8_t time, char* text)
- * @param time Updated time
- * @param text Text to draw
- * @brief Prints the updated time
+ * @fn printStats(uint8_t playerInd, uint8_t playerStat)
+ * @param playerInd Index of player for specified stat
+ * @param playerStat Status of player to specify (recommended stat: final score)
+ * @brief Prints the specified stats at the end of the game
  */
-void printStats(uint8_t time, char* text);
+void printEndStats(uint8_t playerInd, uint8_t playerStat);
+
+/**
+ * @fn printTime(uint8_t time)
+ * @param Given time
+ * @brief Print current time
+ */
+void printTime(uint8_t time);
 
 /**
  * @fn isTreeTile(uint8_t locX, uint8_t locY)

@@ -353,8 +353,25 @@ void setShakingGrass(uint8_t locX, uint8_t locY){
 	}
 }
 
+void printGameOverStats(){
+	//find winning player
+	uint8_t winScore = 0;
+	uint8_t winPlayer = 0;
+
+	volatile int i;
+	for(i = 0; i < MAX_PLAYERS; i++){
+		if(players[i].score > winScore){
+			winScore = players[i].score;
+			winPlayer = i;
+		}
+	}
+
+	//print stats
+	printEndStats(winPlayer, winScore);
+}
+
 void updateTime(uint8_t time){
-    printStats(time, "");
+    printTime(time);
 }
 
 void updateScores(uint8_t playerID, uint8_t score){
