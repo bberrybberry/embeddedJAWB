@@ -20,10 +20,16 @@
  * --A subsection with your thoughts on the helpfulness of Slack.<br>
  * --Slack was a very useful tool to keep each other up to date as well as a
  *   great communication tool. General is great to get class updates and
- *   individual channels are great fortalking about specifics for our project.
+ *   individual channels are great for talking about specifics for our project.
  *   We also added a github bot to our slack channel. This allowed us, at a
  *   glance to look at what commits have been pushed to our code.
  * --A subsection with your thoughts on the helpfulness of Trello.<br>
+ *   As a group, we did not think Trello was very effectively used this semester.
+ *   In the beginning it was good to see when the Zybook assignments
+ *   and when the UART and blink functions were due, but after that Trello
+ *   seemed to be pushed away and not really used or even helpful. Slack took
+ *   over and kept us a lot more organized and up tp date on when things needed
+ *   to be completed.
  *<br>
  *<br>
  *<br>
