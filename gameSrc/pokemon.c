@@ -440,7 +440,7 @@ void runEncounter(uint8_t playerInd){
 		game.pkmn = players[playerInd].encountered;
 	}
 	else {
-		players[playerInd].encountered = game.pkmn;
+		players[playerInd].encountered = encounterPkmn;//game.pkmn;
 	}
 
 	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
