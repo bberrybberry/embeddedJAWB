@@ -113,13 +113,14 @@ uint8_t packetizer(uint8_t* buffer) {
 	// Send if any of the players have picked up an item or pokemon
 	for (i = 0; i < MAX_PLAYERS; i++) {
 		if (game.items[i]) {
-			packet1.ub[1].b = (0x01) << (i * 2);
+			packet1.ub[1].b |= (0x01) << (i * 2);
 			packet2.ub[3].b |= game.items[i] << (i * 2);
 			game.items[i] = 0;
 		}
 
 		if (game.pkmn[i]) {
-			packet1.ub[1].b = (0x01) << (1 + (i * 2));
+			packet1.ub[1].b |= (0x01) << (1 + (i * 2));
+
 			if (i) {
 				packet2.ub[i - 1].b = game.pkmn[i]->index;
 			}
