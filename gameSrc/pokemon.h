@@ -138,6 +138,7 @@ typedef enum{
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
+
 /**
  * @struct pokemon_t
  * @brief Structure that defines a pokemon
@@ -147,6 +148,7 @@ typedef struct{
     uint8_t spawnRate;      ///< Spawn rate for random generation, out of 100
     uint8_t catchRate;      ///< Catch rate of pokemon (percentage chance of successful ball catch)
     uint8_t points;         ///< Points to award player for successful catch
+    uint8_t index;			///< Index of the pokemon in the array of pokemon
 } pokemon_t;
 
 /**
@@ -209,10 +211,6 @@ uint8_t pkmnWeights[MAX_PKMN];
  */
 uint8_t itemWeights[TOTAL_ITEMS];
 
-//TODO DOCS
-uint8_t* totalPkmnCount;
-uint8_t* totalItemCount;
-
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
@@ -221,11 +219,10 @@ uint8_t* totalItemCount;
 
 
 /**
- * @fn initGame(void* gamePtr)
- * @param TODO DOCS
+ * @fn initGame()
  * @brief Set up of initial game state
  */
-void initGame(uint8_t* totalItemCountPtr, uint8_t* totalPkmnCountPtr);
+void initGame();
 
 /**
  * @fn initMap(void)
