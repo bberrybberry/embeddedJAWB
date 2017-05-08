@@ -6,15 +6,6 @@
  * @brief Collection of strctures that define the tile pictures used
  * throughout the game.
  */
-/*
- *
- * pokemonImages.h
- *
- *  Created on: Apr 25, 2017
- *      Author: bbhig
- *
- * A lot of this code is based around map.h
- */
 #ifndef POKEMONIMAGES_H_
 #define POKEMONIMAGES_H_
 

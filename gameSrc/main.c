@@ -39,24 +39,6 @@
  *   to be completed.
  *<br>
  *<br>
- *<br>
- * CCS Project Structure:<br>
- * -project<br>
- * ----driverlib<br>
- * ------MSPF5xx<br>
- * ----GrLib<br>
- * ------fonts<br>
- * ------grlib<br>
- * ----images<br>
- * -------images.h, LPRocket, TI_Logo<br>
- * ----img<br>
- * -------[aaronL.h, aaronR.h, grass.h, etc.]<br>
- * ----LcdDriver<br>
- * -------grlib inlcude things (booster pack driver)<br>
- * --[MSP HAL and embedded lib]<br>
- * --main.c & system.h<br>
- * --[HAL graphics stuff]<br>
- * --[pokemon.h, pokemonGame.h, pokemonImages.h<br>
  */
 #include <msp430.h>
 #include <stdint.h>
