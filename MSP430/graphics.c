@@ -10,6 +10,9 @@
  *
  * This is the source code for running the TI Launchpad LCD Boosterpack
  * for the MSP430F5529.
+ * @defgroup graphics Graphics
+ * @addtogroup graphics
+ * @{
  */
 #include "graphics.h"
 #include "hal_graphics.h"
@@ -274,5 +277,5 @@ void Graphics_UpdateScreen(graphics_t * gptr) {
 
 }
 
-
+/** @}*/
 

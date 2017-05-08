@@ -6,6 +6,9 @@
  * @brief Top level module of the pokemon game. This modules communicates the low
  * level logic of the game management module with the actual business logic of the
  * pokemon game modules.
+ * @defgroup logic Game Logic
+ * @addtogroup logic
+ * @{
  */
 
 #ifndef POKEMONGAME_H_
@@ -339,3 +342,4 @@ void updateTimeRemaining(void);
 
 
 #endif /* POKEMONGAME_H_ */
+/**@}*/

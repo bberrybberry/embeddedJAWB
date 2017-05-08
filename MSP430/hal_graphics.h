@@ -9,6 +9,8 @@
 /**
  * @file
  * @brief Header file for hal_graphics
+ * @addtogroup graphics
+ * @{
  */
 #ifndef HAL_GRAPHICS_H_
 #define HAL_GRAPHICS_H_
@@ -161,3 +163,4 @@ void drawString(uint32_t color, uint32_t bgColor, char* string, int32_t length, 
 
 
 #endif /* HAL_GRAPHICS_H_ */
+/** @}*/
