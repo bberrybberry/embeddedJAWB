@@ -41,7 +41,14 @@ void initGame(){
 
     initItems();
 
-    //set up time and first item/pokemon generations
+    //set up time and first item/pokemon generations (clear collections)
+    volatile int i;
+    for(i = 0; i < MAX_ITEMS_ONSCREEN; i++){
+    	allItemsValidEntries[i] = true;
+    }
+    for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
+    	allPkmnValidEntries[i] = true;
+    }
 }
 
 void initMap(){
@@ -711,6 +718,7 @@ void itemSpawn(uint8_t playerInd){
 
 		//update item count
 		game.currNumItems--;
+
     }else{
         printPokemon(playerInd, FULL_MSG,"");
     }
