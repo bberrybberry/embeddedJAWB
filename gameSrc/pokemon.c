@@ -423,7 +423,7 @@ void runEncounter(uint8_t playerInd){
 
 	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
 	volatile int i;
-	uint8_t encounterInd = -1;
+	int8_t encounterInd = -1;
 	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
 		if(allPkmn[i].locX == players[playerInd].tileX && allPkmn[i].locY == players[playerInd].tileY){
 			encounterInd = i;
@@ -680,7 +680,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 
 	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
 	volatile int i;
-	uint8_t encounterInd = -1;
+	int8_t encounterInd = -1;
 	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
 		if(allPkmn[i].locX == players[player].tileX && allPkmn[i].locY == players[player].tileY){
 			encounterInd = i;
