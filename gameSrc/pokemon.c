@@ -391,10 +391,46 @@ void selectBall(uint8_t player){
 	if(players[player].mvmt == false){
 		//change menu to ball select
 		//circularly define one as only pos to optionally display them
-		players[player].pbCount *= 1;
-		players[player].gbCount *= -1;
-		players[player].ubCount *= -1;
-		printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
+		if(players[player].pbCount == 0){ //if first option is empty, select second option
+			players[player].pbCount *= -1;
+			players[player].gbCount *= 1;
+			players[player].ubCount *= -1;
+
+			printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
+		}
+		else if(players[player].gbCount == 0){ //if second option is empty, select third option
+			players[player].pbCount *= -1;
+			players[player].gbCount *= -1;
+			players[player].ubCount *= 1;
+
+			printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Ultra balls");
+
+		}
+		else if(players[player].ubCount == 0){ //if everything is empty, end encounter
+			//undo ball select encoding
+			players[player].pbCount *= 1;
+			players[player].gbCount *= -1;
+			players[player].ubCount *= -1;
+
+			//resume movement
+			players[player].mvmt = true;
+
+			//clear menu
+			//TODO: Have a message to let player know they ran out of balls
+			printMenu(player, NONE, 0, 0, 0, "");
+			printPokemon(player, NONE_MSG, "");
+
+			//early exit
+			return;
+		}
+		else{ //you have pokeballs, pick first option
+			players[player].pbCount *= 1;
+			players[player].gbCount *= -1;
+			players[player].ubCount *= -1;
+
+			printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Poke balls");
+
+		}
 
 	}
 }
@@ -508,6 +544,7 @@ void throwBall(uint8_t player){
 	if(players[player].mvmt == false && //player is in menu state
 			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
 			){
+
 		if(players[player].pbCount > 0 ){ //has balls and is selected
 			--players[player].pbCount;
 			if(players[player].pbCount < 0 ) players[player].pbCount = 0; //don't let count fall below zero
