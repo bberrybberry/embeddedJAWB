@@ -37,6 +37,11 @@
  *   seemed to be pushed away and not really used or even helpful. Slack took <br>
  *   over and kept us a lot more organized and up tp date on when things needed <br>
  *   to be completed.
+ *--A subsection with our thoughts on github.<br>
+ *<br>
+ *  We utilized github extensively in our project. From the beginning we knew we <br>
+ *  needed some sort of version control. This allowed us to work on the same code<br>
+ *  while not always together. It also keeps track of changes which is very useful.<br>
  *<br>
  *<br>
  *<br>
