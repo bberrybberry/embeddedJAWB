@@ -3,9 +3,10 @@
  *
  * Pokemon Game Module:
  *
- * TODO: Write better docs
  *
  * Author: Breanna Higgins,
+ * @addtogroup logic
+ * @{
  */
 
 
@@ -466,3 +467,4 @@ void updateTimeRemaining(void) {
 		printGameOverStats();
 	}
 }
+/** @}*/

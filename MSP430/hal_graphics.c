@@ -1,8 +1,11 @@
-/*
+/**
+ * @file
  * booster_graphics.c
  *
  *  Created on: Mar 27, 2017
- *      Author: Aaron
+ * @author Aaron Guidarelli
+ * @addtogroup graphics
+ * @{
  */
 
 #include "hal_graphics.h"
@@ -86,3 +89,4 @@ void drawString(uint32_t textColor, uint32_t bgColor, char* string, int32_t leng
 	Graphics_setBackgroundColor(&g_sContext, bgColor);
 	Graphics_drawString(&g_sContext, (int8_t*)string, length, x, y, opaque);
 }
+/** @}*/

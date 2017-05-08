@@ -5,6 +5,8 @@
  *
  * @brief Collection of strctures that define the tile pictures used
  * throughout the game.
+ * @addtogroup graphics
+ * @{
  */
 #ifndef POKEMONIMAGES_H_
 #define POKEMONIMAGES_H_
@@ -176,3 +178,4 @@ const g_pixel_t* blackTilePtr = &black16x12[0];
 
 
 #endif /* POKEMONIMAGES_H_ */
+/** @}*/

@@ -5,6 +5,8 @@
  *
  * @brief Business logic of pokemon game. This is a four player time-based game where
  * each player runs around to catch the most pokemon in a fixed amount of time.
+ * @addtogroup logic
+ * @{
  */
 
 #ifndef POKEMON_H_
@@ -538,3 +540,4 @@ bool checkItemLoc(uint8_t locX, uint8_t locY);
 void printGameOverStats(void);
 
 #endif /* POKEMON_H_ */
+/** @}*/
