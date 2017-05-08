@@ -7,25 +7,26 @@
 
 #include "pokemon.h"
 #include "graphics.h" //needed for types and defines
+//#include "pokemonImages.h" //needed to check contents of map
 #include "timing.h"
 #include "random_int.h"
 
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
-	if(high <= low){
-		return low;//(item > arr[low]) ? low + 1 : low;
-	}
-	uint8_t mid = (low + high)/2;
-	if(item == arr[mid]){
-		return ++mid;
-	}
-	if(item > arr[mid]){
-		return binarySearch(arr, item, ++mid, high);
-	}
-
-	return binarySearch(arr, item,low, --mid);
+    if(low>=high)
+        return low;
+    uint8_t mid = (high+low)/2;
+    if(item>arr[mid])
+        return binarySearch(arr, item, ++mid, high);
+    else if(item<arr[mid])
+        return binarySearch(arr, item, low, --mid);
+    else
+        return mid;
 }
 
-void initGame(){
+void initGame(uint8_t* totalItemCountPtr, uint8_t* totalPkmnCountPtr){
+	totalPkmnCount = totalPkmnCountPtr;
+	totalItemCount = totalItemCountPtr;
+
     //set up map
     initMap();
 
@@ -97,60 +98,44 @@ void initPokemon(){
 	pkmnList[0].spawnRate = 1;
 	pkmnList[0].catchRate = 30;
 	pkmnList[0].points = 60;
-	pkmnList[0].index = 0;
 
 	pkmnList[1].name = "Gyrados";
 	pkmnList[1].spawnRate = 4;
 	pkmnList[1].catchRate = 45;
 	pkmnList[1].points = 50;
-	pkmnList[1].index = 1;
 
     pkmnList[2].name = "Jigglypuff";
     pkmnList[2].spawnRate = 10;
     pkmnList[2].catchRate = 45;
     pkmnList[2].points = 40;
-    pkmnList[2].index = 3;
 
     pkmnList[3].name = "Growlithe";
     pkmnList[3].spawnRate = 25;
     pkmnList[3].catchRate = 170;
     pkmnList[3].points = 30;
-    pkmnList[3].index = 3;
 
     pkmnList[4].name = "Pikachu";
     pkmnList[4].spawnRate = 25;
     pkmnList[4].catchRate = 190;
     pkmnList[4].points = 20;
-    pkmnList[4].index = 4;
 
     pkmnList[5].name = "Pidgey";
     pkmnList[5].spawnRate = 35;
     pkmnList[5].catchRate = 255;
     pkmnList[5].points = 10;
-    pkmnList[5].index = 5;
     
     volatile uint8_t i;
     for(i = 0; i<MAX_PKMN; i++){
         if(i==0)
         pkmnWeights[i] = pkmnList[i].spawnRate;
         else
-            pkmnWeights[i] = pkmnList[i].spawnRate+pkmnList[i-1].spawnRate;
+            pkmnWeights[i] = pkmnList[i].spawnRate+pkmnWeights[i-1];
     }
-
-    game.pkmn[0] = 0;
-    game.pkmn[1] = 0;
-    game.pkmn[2] = 0;
-    game.pkmn[3] = 0;
 }
 void initItems(){
     itemWeights[0] = 10;
     itemWeights[1] = 40;
-    itemWeights[2] = 50;
-
-    game.items[0] = 255;
-    game.items[0] = 255;
-    game.items[0] = 255;
-    game.items[0] = 255;
+    itemWeights[2] = 100;
 }
 void movePlayerUp(uint8_t playerIndex){
 	g_point_t initPt;
@@ -162,7 +147,7 @@ void movePlayerUp(uint8_t playerIndex){
 			checkPlayerLocValid(&players[playerIndex], initPt.x, initPt.y -1) //valid location (collision detection)
 	) {
 		//need to check for encounter before drawing otherwise you may walk over and redraw plain grass
-		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY - 1);
+		bool encounterFound = checkShakingGrass(players[playerIndex].tileX, players[playerIndex].tileY -1);
         bool itemFound = checkItemLoc(players[playerIndex].tileX, players[playerIndex].tileY - 1);
 		if (map.grid[initPt.x + initPt.y * GRID_X]) {
 			//redraw bg tile
@@ -372,18 +357,14 @@ void runEncounter(uint8_t playerInd){
 	players[playerInd].mvmt = false;
 
 	//print pokemon
-	if (!game.client) {
-		players[playerInd].encountered = generatePokemon();
-	} else {
-		players[playerInd].encountered = game.pkmn[playerInd];
-	}
-
+	players[playerInd].encountered = generatePokemon();
 	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
 
 	//change menu
 	printMenu(playerInd, RUN_BALL, -1, -1, -1, "");
 
-	game.currNumPkmn--;
+	//update pokemon count
+	--(*totalPkmnCount);
 }
 
 void selectRun(uint8_t player){
@@ -563,7 +544,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//int rand = random_int(1, 100); //TODO: Random numbers
 	uint8_t thresh = random_int(1, 32);
 
-    uint8_t catchValue = catchRate*multiplier;
+    uint16_t catchValue = (uint16_t)catchRate*(uint16_t)multiplier;
     uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
 
@@ -623,15 +604,7 @@ void generateItems(uint8_t* x, uint8_t* y){
 
 void itemSpawn(uint8_t playerInd){
     uint8_t r = random_int(0, 100);
-    uint8_t index;
-
-    if (!game.client) {
-    	index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);
-    }
-    else {
-    	index = game.items[playerInd];
-    }
-
+    uint8_t index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=BAG_MAX){
 
@@ -657,7 +630,8 @@ void itemSpawn(uint8_t playerInd){
 		//redraw player
 		drawPlayer(players[playerInd].sprite, STAND, players[playerInd].tileX, players[playerInd].tileY);
 
-		game.currNumItems--; // Decrement the current number of items on the map
+		//update item count
+		--(*totalItemCount);
     }else{
         printPokemon(playerInd, FULL_MSG,"");
     }
