@@ -166,8 +166,6 @@ void itemUpdate(void) {
 }
 
 void inputCallback(game_network_payload_t * input){
-    //TODO: Make this ungeneric input code
-
     static uint8_t index = 0;
     static uint8_t fps = 0;
     static uint32_t time = 0;
@@ -458,6 +456,6 @@ void updateTimeRemaining(void) {
 		//TODO
 
 		//print final stats
-
+		printGameOverStats();
 	}
 }
