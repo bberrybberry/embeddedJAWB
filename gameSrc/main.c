@@ -4,7 +4,6 @@
  * @author Aaron Guidarelli, Breanna Higgins, Walter Marroquin, Josh Velez
  * @brief Main file for Pokemon final multiplayer game
  *<br>
- * TODO: Docs and report<br>
  *<br>
  * Report:<br>
  * --Description of the initial goals and motivation of the project<br>
