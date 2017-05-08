@@ -167,7 +167,6 @@ typedef struct{
     bool mvmt;              ///< Whether or not the player can move
     pokemon_t* encountered;    ///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
-//TODO: Define weights for random pokemon generation
 
 /**
  * @struct game
