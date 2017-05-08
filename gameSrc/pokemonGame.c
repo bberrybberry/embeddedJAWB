@@ -449,7 +449,18 @@ void updateTimeRemaining(void) {
 	//check game over: timeout
 	if(timeRemaining == 0){
 		//end game
-		//TODO
+		if(1){ //gross "debug" method for if you want to continue playing after game over or not
+			//remove all player status enabling
+			volatile int i;
+			for(i = 0; i < MAX_PLAYERS; i++){
+				players[i].status = false;
+			}
+
+			//remove tasks
+			Task_Remove((task_fn_t)shakingGrassUpdate, 0);
+			Task_Remove((task_fn_t)itemUpdate, 0);
+			Task_Remove((task_fn_t)updateTimeRemaining, 0);
+		}
 
 		//print final stats
 		printGameOverStats();
