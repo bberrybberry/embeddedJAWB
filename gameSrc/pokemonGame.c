@@ -132,7 +132,6 @@ uint8_t packetizer(uint8_t* buffer) {
 }
 
 void shakingGrassUpdate(void) {
-	if(game.currNumPkmn < MAX_PKMN_ONSCREEN){
 		if (game.client) {
 			setShakingGrass(g_pokemonX, g_pokemonY);
 		}
@@ -145,11 +144,9 @@ void shakingGrassUpdate(void) {
 		}
 
 		++game.currNumPkmn;
-	}
 }
 
 void itemUpdate(void) {
-	if(game.currNumItems < MAX_ITEMS_ONSCREEN){
 		if (game.client) {
 			drawItem(g_itemX, g_itemY);
 		}
@@ -162,7 +159,6 @@ void itemUpdate(void) {
 		}
 
 		++game.currNumItems;
-	}
 }
 
 void inputCallback(game_network_payload_t * input){
