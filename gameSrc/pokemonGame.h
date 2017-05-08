@@ -1,7 +1,7 @@
 /**
  * @file
  * 
- * @author Breanna Higgins,
+ * @author Breanna Higgins, Aaron Guidarelli, Walter Marroquin, Josh Velez
  *
  * @brief Top level module of the pokemon game. This modules communicates the low
  * level logic of the game management module with the actual business logic of the
@@ -195,9 +195,9 @@ void pkmnHelp(void);
  * Yp 	-	Y coordinate of the pokemon<br>
  * Xi	-	X coordinate of the item<br>
  * Yi	-	Y coordinate of the item<br>
- * PkID	-	Index of the pokemon added to the map
- * ItID	-	Index of the item added to the map
- * PkTh	-	Threshold of the most recently generate pokemon
+ * PkID	-	Index of the pokemon added to the map<br>
+ * ItID	-	Index of the item added to the map<br>
+ * PkTh	-	Threshold of the most recently generate pokemon<br>
  */
 uint8_t packetizer(uint8_t* buffer);
 
