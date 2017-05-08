@@ -1,8 +1,7 @@
 /**
  * @file pokemon
  * @author Breanna Higgins
- * @brief TODO
- * TODO: Everything
+ * @brief The logic for most of the pokemon game
  */
 
 #include "pokemon.h"
@@ -11,14 +10,15 @@
 #include "random_int.h"
 
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
+    //if the subarray is length of 1 return that index
     if(low>=high)
         return low;
     uint8_t mid = (high+low)/2;
-    if(item>arr[mid])
+    if(item>arr[mid]) //if item is larger then mid elements check larger half
         return binarySearch(arr, item, ++mid, high);
-    else if(item<arr[mid])
+    else if(item<arr[mid]) //if item is smaller then mid element check smaller half
         return binarySearch(arr, item, low, --mid);
-    else
+    else //if item is not found or if item = mid element return mid
         return mid;
 }
 
@@ -99,6 +99,7 @@ void initPlayers(){
 }
 
 void initPokemon(){
+    // populate pokemon
 	pkmnList[0].name = "Chansey";
 	pkmnList[0].spawnRate = 1;
 	pkmnList[0].catchRate = 30;
@@ -136,7 +137,7 @@ void initPokemon(){
     pkmnList[5].index = 5;
     
     game.pkmn = 0;
-
+    // populate weights array
     volatile uint8_t i;
     for(i = 0; i<MAX_PKMN; i++){
         if(i==0)
@@ -348,7 +349,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 }
 
 pokemon_t* generatePokemon(){
-    uint8_t r = random_int(0, 100); //TODO: replace with random num gen
+    uint8_t r = random_int(0, 100);
     uint8_t index = binarySearch(pkmnWeights, r, 0, MAX_PKMN);
     if(index<MAX_PKMN)
         return &pkmnList[index];
@@ -494,7 +495,6 @@ void selectBall(uint8_t player){
 			players[player].mvmt = true;
 
 			//clear menu
-			//TODO: Have a message to let player know they ran out of balls
 			printMenu(player, NONE, 0, 0, 0, "");
 			printPokemon(player, NONE_MSG, "");
 
