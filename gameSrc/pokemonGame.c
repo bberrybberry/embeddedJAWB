@@ -298,8 +298,8 @@ void startPressed(uint8_t player){
 		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
 		if (!game.client) {
-			Task_Remove((task_fn_t)generateShakingGrass, 0);
-			Task_Remove((task_fn_t)generateItems, 0);
+			Task_Remove((task_fn_t)shakingGrassUpdate, 0);
+			Task_Remove((task_fn_t)itemUpdate, 0);
 		}
 	}
 	else if (game.currGameState == PAUSE) {
