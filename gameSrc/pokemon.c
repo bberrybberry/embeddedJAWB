@@ -341,6 +341,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 		thisEncounter.catchThreshold = random_int(1, 50);
 		allPkmn[validIndex] = thisEncounter;
 		game.pkmn = thisEncounter.pokemon;
+		game.thresh = thisEncounter.catchThreshold;
 
 		//draw
 		setShakingGrass(*x, *y);
