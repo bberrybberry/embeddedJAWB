@@ -143,6 +143,7 @@ void initPokemon(){
             pkmnWeights[i] = pkmnList[i].spawnRate+pkmnWeights[i-1];
     }
 }
+
 void initItems(){
     itemWeights[0] = 10;
     itemWeights[1] = 40;
@@ -153,6 +154,7 @@ void initItems(){
     game.items[2] = 255;
     game.items[3] = 255;
 }
+
 void movePlayerUp(uint8_t playerIndex){
 	g_point_t initPt;
 	initPt.x = players[playerIndex].tileX;
