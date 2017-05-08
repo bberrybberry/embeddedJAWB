@@ -70,12 +70,12 @@ void initPlayers(){
 		//info different to each unique player define here
 		switch(i){
 		case 0:
-			players[i].sprite = AARON;
+			players[i].sprite = BREANNA;
 			players[i].tileX = PLAYER1_INIT_X;
 			players[i].tileY = PLAYER1_INIT_Y;
 			break;
 		case 1:
-			players[i].sprite = BREANNA;
+			players[i].sprite = AARON;
 			players[i].tileX = PLAYER2_INIT_X;
 			players[i].tileY = PLAYER2_INIT_Y;
 			break;
