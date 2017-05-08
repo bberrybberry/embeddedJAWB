@@ -111,14 +111,14 @@ uint8_t packetizer(uint8_t* buffer) {
 
 	// Send if any of the players have picked up an item or pokemon
 	for (i = 0; i < MAX_PLAYERS; i++) {
-		if (game.items[i]) {
-			packet.ub[PACKET_ITEM_ID].b = game.items[i];
-			game.items[i] = 0;
+		if (game.item != DEFAULT_ITEM_VALUE) {
+			packet.ub[PACKET_ITEM_ID].b = game.item;
+			game.item = DEFAULT_ITEM_VALUE;
 		}
 
-		if (game.pkmn[i]) {
-			packet.ub[PACKET_POKEMON_ID].b = game.pkmn[i]->index;
-			game.pkmn[i] = 0;
+		if (game.pkmn) {
+			packet.ub[PACKET_POKEMON_ID].b = game.pkmn->index;
+			game.pkmn = 0;
 		}
 	}
 
