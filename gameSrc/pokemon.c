@@ -542,13 +542,13 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//try to catch pokemon
 	//throw ball at encountered pokemon
 	//int rand = random_int(1, 100); //TODO: Random numbers
-	uint8_t thresh = random_int(1, 32);
+	uint8_t thresh = random_int(1, 50);
 
     uint16_t catchValue = (uint16_t)catchRate*(uint16_t)multiplier;
     uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
 
-	if(catch < thresh){
+	if(thresh < catch){
 		players[player].score += players[player].encountered->points;
 		printScore(player, players[player].score);
 		printPokemon(player, CAUGHT_MSG, players[player].encountered->name);
