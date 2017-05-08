@@ -758,7 +758,7 @@ void itemSpawn(uint8_t playerInd){
 	volatile uint8_t i;
 	uint8_t index = 255;
 	for (i = 0; i < MAX_ITEMS_ONSCREEN; i++) {
-		if (allItemsValidEntries[i]) {
+		if (!allItemsValidEntries[i]) {
 			if (allItems[i].locX == players[playerInd].tileX && allItems[i].locY == players[playerInd].tileY) {
 				index = allItems[i].itemID;
 				break;

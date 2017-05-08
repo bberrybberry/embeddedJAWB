@@ -122,7 +122,7 @@ uint8_t packetizer(uint8_t* buffer) {
 		}
 	}
 
-	for (i = 0; i < 7; i++) {
+	for (i = 0; i < PACKET_SIZE; i++) {
 		*buffer = packet.ub[i].b;
 		size++;
 		buffer++;
