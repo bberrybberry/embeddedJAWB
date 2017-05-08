@@ -2,7 +2,7 @@
  * @file main
  * @mainpage
  * @author Aaron Guidarelli, Breanna Higgins, Walter Marroquin, Josh Velez
- * @brief Main file for pokemon final multiplayer game
+ * @brief Main file for Pokemon final multiplayer game
  *<br>
  * TODO: Docs and report<br>
  *<br>
@@ -13,7 +13,7 @@
  *   using an external controller. The game has to be multi-player as well <br>
  *   as capable to play on a network using an NRF chip. The motivation was <br>
  *   to make a game that each member of the group would enjoy and have fun <br>
- *   playing, so we decided to make a fun Pokemon minigame. We all loved/still <br>
+ *   playing, so we decided to make a fun Pokemon minigame. We all loved and still <br>
  *   love Pokemon and we thought we would try to recreate the Pokemon Safari <br>
  *   Zone and turn into a multi-player competition. <br>
  *   <br>
@@ -24,18 +24,18 @@
  * <br>
  * --Description of the operation and use of your project.<br>
  * <br>
- *   Our project is a replication/modification of the the Pokemon Safari Zone. <br>
+ *   Our project is a replication/modification of the Pokemon Safari Zone. <br>
  *   You walk around in grass patches and Pokemon will randomly appear in which you <br>
  *   will have the chance to catch them. The "catch" is that you will be competing <br>
  *   with 1 to 3 other players to score as many points as you can in each timed round.
- *   Each round will be 2 minutes and every pokemon you catch will grant you <br>
- *   a certain amount of points depending on how rare the pokemon is. Also the rarer <br>
- *   the pokemon the harder they are to catch. To catch the pokemon you will be using <br>
+ *   Each round will be 2 minutes and every Pokemon you catch will grant you <br>
+ *   a certain amount of points depending on how rare the Pokemon is. Also the rarer <br>
+ *   the Pokemon the harder they are to catch. To catch the Pokemon you will be using <br>
  *   pokeballs, greatballs, and ultraballs. You will start with a set number of each, <br>
  *   but can run out. They will randomly appear on the map and you will have <br>
  *   to go and pick them up. The game is designed to be played using the Kinect, <br>
- *   as well as being played on a 320x 240 LCD display, but it will work with <br>
- *   other controllers and will render on other screens. <br>
+ *   as the controller, as well as being played on a 320x 240 LCD display, but it <br>
+ *   will work with other controllers and will render on other screens. <br>
  *   <br>
  * --Discussion of the final results and conclusion about your project.<br>
  * --A subsection with your thoughts on the helpfulness of Slack.<br>
