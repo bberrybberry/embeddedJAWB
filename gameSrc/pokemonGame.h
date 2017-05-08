@@ -69,73 +69,61 @@
  * @def PACKET_SIZE
  * @brief Packet size that is sent to
  */
-#define PACKET_SIZE					11
+#define PACKET_SIZE					7
 
 /**
  * @def PACKET_POKEMON_BIT
  * @brief Bit that the pokemon indicator is in
  */
-#define PACKET_POKEMON_BIT			0x40
+#define PACKET_POKEMON_BIT			0x02
 
 /**
  * @def PACKET_ITEM_BIT
  * @brief Bit that the item indicator is in
  */
-#define PACKET_ITEM_BIT				0x80
+#define PACKET_ITEM_BIT				0x04
 
 /**
- * @def PACKET_ITEM_ITERATOR
- * @brief Bits that the item index is stored in, will be shifted for each player
+ * @def PACKET_INDICATOR
+ * @brief Index of the indicator byte
  */
-#define PACKET_ITEM_ITERATOR		0x03
-
-/**
- * @def PACKET_INDICATOR_BYTE_0
- * @brief Index of the first indicator byte
- */
-#define PACKET_INDICATOR_BYTE_0		0
-
-/**
- * @def PACKET_INDICATOR_BYTE_1
- * @brief Index of the second indicator byte
- */
-#define PACKET_INDICATOR_BYTE_1		1
+#define PACKET_INDICATOR			0
 
 /**
  * @def PACKET_POKEMON_X
  * @brief Index of the x coordinate of the pokemon in the packet
  */
-#define PACKET_POKEMON_X			2
+#define PACKET_POKEMON_X			1
 
 /**
  * @def PACKET_POKEMON_Y
  * @brief Index of the y coordinate of the pokemon in the packet
  */
-#define PACKET_POKEMON_Y			3
+#define PACKET_POKEMON_Y			2
 
 /**
  * @def PACKET_ITEM_X
  * @brief Index of the x coordinate of the item in the packet
  */
-#define PACKET_ITEM_X				4
+#define PACKET_ITEM_X				3
 
 /**
  * @def PACKET_ITEM_Y
  * @brief Index of the y coordinate of the item in the packet
  */
-#define PACKET_ITEM_Y				5
+#define PACKET_ITEM_Y				4
 
 /**
- * @def PACKET_POKEMON_NAME_START
+ * @def PACKET_POKEMON_ID
  * @brief Beginning index of the pokemon name bytes in the packet
  */
-#define PACKET_POKEMON_NAME_START	6
+#define PACKET_POKEMON_ID			5
 
 /**
  * @def PACKET_ITEM_ID
  * @brief Packet that has the item index stored
  */
-#define PACKET_ITEM_ID				10
+#define PACKET_ITEM_ID				6
 
 /**
  * @def MAX_ITEMS_ONSCREEN
@@ -202,20 +190,19 @@ void pkmnHelp(void);
  *
  * The packet is filled according to the following format:
  *
- *		1.7	1.6	1.5	1.4	1.3	1.2	1.1	1.0		1		1		1		1		1		4		1		bytes
- *		Itm	Pkm	X	X	X	X	X	Pse		In		Xp		Yp		Xi		Yi		PkNm	Itms
+ *		1.7	1.6	1.5	1.4	1.3	1.2	1.1	1.0		1		1		1		1		1		1		bytes
+ *		X	X	X	X	X	Itm	Pkm	Pse		Xp		Yp		Xi		Yi		PkID	ItID
  * 
- * Pse	-	Pause Indicator bit<br>
  * X 	-	Don't Care<br>
+ * Pse	-	Pause Indicator bit<br>
  * Pkm	-	Pokemon, e.g. shaking grass, has been added to map<br>
  * Itm	-	Item has been added to map<br>
- * In	-	Indicator byte for pokemon and items for each player<br>
  * Xp	-	X coordinate of the pokemon<br>
  * Yp 	-	Y coordinate of the pokemon<br>
  * Xi	-	X coordinate of the item<br>
  * Yi	-	Y coordinate of the item<br>
- * PkNm	-
- * Itms	-
+ * PkID	-	Index of the pokemon added to the map
+ * ItID	-	Index of the item added to the map
  */
 uint8_t packetizer(uint8_t* buffer);
 
