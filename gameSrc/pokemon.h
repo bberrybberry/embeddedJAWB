@@ -173,7 +173,7 @@ typedef struct{
  * @struct game
  * @brief Game structre that contains global information
  */
-static struct {
+typedef struct {
     gameState currGameState;    ///< Current state of the game
     bool client;				///< True if this instance is a client, false otherwise
     uint8_t id;                 ///< ID of game
@@ -181,7 +181,7 @@ static struct {
     uint8_t currNumPkmn;		///< Current number of pokemon generated
     pokemon_t* pkmn[MAX_PLAYERS];// = {void*, void*, void*, void*};
     uint8_t items[MAX_PLAYERS];// = {255, 255, 255, 255};
-} game;
+} game_t;
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -210,6 +210,12 @@ uint8_t pkmnWeights[MAX_PKMN];
  * @brief used for weighted generation of Items
  */
 uint8_t itemWeights[TOTAL_ITEMS];
+
+/**
+ * @var game
+ * @brief Defintion of game structure
+ */
+game_t game;
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
