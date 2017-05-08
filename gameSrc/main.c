@@ -38,13 +38,13 @@
  *   will work with other controllers and will render on other screens. <br>
  *   <br>
  * --Discussion of the final results and conclusion about your project.<br>
- *   The game while working correctly had a lot of challenges while devlopement. <br>
+ *   The game while working correctly had a lot of challenges while developement. <br>
  *   We encountered problems when we started implementing multiplayer specifically <br>
  *   that we used a lot of random number generators for item and Pokmeon spawning, as <br>
- *   well as catching Pokemon.This caused inconsitencies across the games, such as <br>
+ *   well as catching Pokemon.This caused inconsistencies across the games, such as <br>
  *   someone finding a Pidgey in one game and a Pikachu in another. We also <br>
  *   encountered problems with connecting the Kinect to the game. But this is due to <br>
- *   the fact that the Kinect isnt that precise and there is no real fix for it. We <br>
+ *   the fact that the Kinect isn't that precise and there is no real fix for it. We <br>
  *   have encountered many problems with the NRF and the NRF libraries. In the end the <br>
  *   game is fun and relatively bug free.<br>
  *   <br>
