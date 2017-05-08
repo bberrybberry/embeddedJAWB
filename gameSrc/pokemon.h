@@ -180,6 +180,7 @@ typedef struct{
     bool mvmt;              ///< Whether or not the player can move
     pokemon_t* encountered;    ///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
+//TODO: Define weights for random pokemon generation
 
 /**
  * @struct game
@@ -257,7 +258,8 @@ encounter_t allPkmn[MAX_PKMN_ONSCREEN];
 
 /**
  * @var allPkmnValidEntries[]
- * @brief Parallel array to allPkmn to show next available index to generate a pokemon into the location
+ * @brief Parallel array to allPkmn to show next available index to generate a pokemon into the location.
+ * Location is true if this spot is available for a new generated pokemon.
  *
  * (I know we should have just made a list data structure but there's only so much you can do at one time)
  */
@@ -271,7 +273,8 @@ encounter_t allItems[MAX_ITEMS_ONSCREEN];
 
 /**
  * @var allItemsValidEntries[]
- * @brief Parallel array to allPkmn to show next available index to generate an item into the location
+ * @brief Parallel array to allPkmn to show next available index to generate an item into the location.
+ * Location is true if this spot is available for a new generated item.
  */
 bool allItemsValidEntries[MAX_ITEMS_ONSCREEN];
 

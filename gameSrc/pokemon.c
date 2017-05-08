@@ -421,9 +421,22 @@ void runEncounter(uint8_t playerInd){
     //stop player movement
 	players[playerInd].mvmt = false;
 
+	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
+	volatile int i;
+	uint8_t encounterInd = -1;
+	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
+		if(allPkmn[i].locX == players[playerInd].tileX && allPkmn[i].locY == players[playerInd].tileY){
+			encounterInd = i;
+			break;
+		}
+	}
+
+	//pass around the pokemon inside this encounter
+	pokemon_t* encounterPkmn = allPkmn[encounterInd].pokemon;
+
 	//print pokemon
 	if (!game.client) {
-		players[playerInd].encountered = generatePokemon();
+		players[playerInd].encountered = encounterPkmn;//();
 		game.pkmn[playerInd] = players[playerInd].encountered;
 	}
 	else {
@@ -654,7 +667,6 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
     uint16_t catchValue = (uint16_t)catchRate*(uint16_t)multiplier;
     uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
-
 	if(thresh < catch){
 		players[player].score += players[player].encountered->points;
 		printScore(player, players[player].score);
@@ -665,6 +677,19 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 		printPokemon(player, RAN_MSG, players[player].encountered->name);
 		players[player].encountered = 0;
 	}
+
+	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
+	volatile int i;
+	uint8_t encounterInd = -1;
+	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
+		if(allPkmn[i].locX == players[player].tileX && allPkmn[i].locY == players[player].tileY){
+			encounterInd = i;
+			break;
+		}
+	}
+
+	//return this spot as a valid encounter generation point
+	allPkmnValidEntries[encounterInd] = true;
 
 	//clear menu
 	printMenu(player, NONE, -1, -1, -1, "");
