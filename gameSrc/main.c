@@ -14,13 +14,13 @@
  *   to make a game that each member of the group would enjoy and have fun playing.
  * --Picture(s) of your project (and video links)<br>
  * --Other relevant figures, tables, references, etc.<br>
- * --
+ * --https://drive.google.com/drive/folders/0B00mA9dgfG39d05FRzBpb1lta0U?usp=sharing
  * --Description of the operation and use of your project.<br>
  * --Discussion of the final results and conclusion about your project.<br>
  * --A subsection with your thoughts on the helpfulness of Slack.<br>
  * --Slack was a very useful tool to keep each other up to date as well as a
  *   great communication tool. General is great to get class updates and
- *   individual channels are great fortalking about specifics for our project.
+ *   individual channels are great for talking about specifics for our project.
  *   We also added a github bot to our slack channel. This allowed us, at a
  *   glance to look at what commits have been pushed to our code.
  * --A subsection with your thoughts on the helpfulness of Trello.<br>

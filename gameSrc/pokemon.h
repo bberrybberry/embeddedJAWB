@@ -473,7 +473,7 @@ bool checkGrass(pokePlayer_t* player);
  * @param location
  * @brief
  */
-void updateGrass(uint8_t location);
+//void updateGrass(uint8_t location);
 
 /**
  * @fn updateTime(uint8_t time)
