@@ -709,6 +709,7 @@ void itemSpawn(uint8_t playerInd){
 
 		//update item count
 		game.currNumItems--;
+
     }else{
         printPokemon(playerInd, FULL_MSG,"");
     }

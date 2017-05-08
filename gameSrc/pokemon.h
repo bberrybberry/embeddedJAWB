@@ -115,6 +115,19 @@
  * @brief Total number of items one player can hold
  */
 #define MAX_SHAKING_GRASS   15
+
+/**
+ * @def MAX_ITEMS_ONSCREEN
+ * @brief Maximum number of generated items to have onscreen at once
+ */
+#define MAX_ITEMS_ONSCREEN			8
+
+/**
+ * @def MAX_PKMN_ONSCREEN
+ * @brief Maximum number of generated pokemon to have onscreen at once
+ */
+#define MAX_PKMN_ONSCREEN			12
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Enums
@@ -183,6 +196,26 @@ typedef struct {
     uint8_t items[MAX_PLAYERS];// = {255, 255, 255, 255};
 } game_t;
 
+/**
+ * @struct encounter_t
+ * @brief Structure to define the pokemon held inside an encounter spot
+ */
+typedef struct{
+	pokemon_t* pokemon; ///< Pointer to pokemon from list held in this encounter
+	uint8_t locX; ///< X location of encounter grass spot
+	uint8_t locY; ///< Y location of encounter grass spot
+} encounter_t;
+
+
+/**
+ * @struct item_t
+ * @brief Structure to define the item held inside an item spot
+ */
+typedef struct{
+	uint8_t itemID; ///< Item id corresponding 0-1-2 to poke-great-ultra
+	uint8_t locX; ///< X location of item grass spot
+	uint8_t locY; ///< Y location of item grass spot
+} item_t;
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -216,6 +249,32 @@ uint8_t itemWeights[TOTAL_ITEMS];
  * @brief Defintion of game structure
  */
 game_t game;
+
+/**
+ * @var allPkmn[]
+ * @brief collection of all pokemon currently in the game
+ */
+encounter_t allPkmn[MAX_PKMN_ONSCREEN];
+
+/**
+ * @var allPkmnValidEntries[]
+ * @brief Parallel array to allPkmn to show next available index to generate a pokemon into the location
+ *
+ * (I know we should have just made a list data structure but there's only so much you can do at one time)
+ */
+bool allPkmnValidEntries[MAX_PKMN_ONSCREEN];
+
+/**
+ * @var allItems[]
+ * @brief collection of all items currently in the game
+ */
+encounter_t allItems[MAX_ITEMS_ONSCREEN];
+
+/**
+ * @var allItemsValidEntries[]
+ * @brief Parallel array to allPkmn to show next available index to generate an item into the location
+ */
+bool allItemsValidEntries[MAX_ITEMS_ONSCREEN];
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
