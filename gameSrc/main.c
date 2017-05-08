@@ -8,27 +8,34 @@
  *<br>
  * Report:<br>
  * --Description of the initial goals and motivation of the project<br>
- * --The goal is to make a game that would be played on an external display
- *   using an external controller. The game has to be multi player as well
- *   as capable to play on a network using an NRF chip The motivation was
- *   to make a game that each member of the group would enjoy and have fun playing.
+ * <br>
+ * --The goal is to make a game that would be played on an external display <br>
+ *   using an external controller. The game has to be multi player as well <br>
+ *   as capable to play on a network using an NRF chip The motivation was <br>
+ *   to make a game that each member of the group would enjoy and have fun playing. <br>
+ *   <br>
  * --Picture(s) of your project (and video links)<br>
  * --Other relevant figures, tables, references, etc.<br>
- * --https://drive.google.com/drive/folders/0B00mA9dgfG39d05FRzBpb1lta0U?usp=sharing
+ * <br>
+ * --https://drive.google.com/drive/folders/0B00mA9dgfG39d05FRzBpb1lta0U?usp=sharing <br>
+ * <br>
  * --Description of the operation and use of your project.<br>
  * --Discussion of the final results and conclusion about your project.<br>
  * --A subsection with your thoughts on the helpfulness of Slack.<br>
- * --Slack was a very useful tool to keep each other up to date as well as a
- *   great communication tool. General is great to get class updates and
- *   individual channels are great for talking about specifics for our project.
- *   We also added a github bot to our slack channel. This allowed us, at a
- *   glance to look at what commits have been pushed to our code.
+ * <br>
+ * --Slack was a very useful tool to keep each other up to date as well as a <br>
+ *   great communication tool. General is great to get class updates and <br>
+ *   individual channels are great for talking about specifics for our project. <br>
+ *   We also added a github bot to our slack channel. This allowed us, at a <br>
+ *   glance to look at what commits have been pushed to our code. <br>
+ *   <br>
  * --A subsection with your thoughts on the helpfulness of Trello.<br>
- *   As a group, we did not think Trello was very effectively used this semester.
- *   In the beginning it was good to see when the Zybook assignments
- *   and when the UART and blink functions were due, but after that Trello
- *   seemed to be pushed away and not really used or even helpful. Slack took
- *   over and kept us a lot more organized and up tp date on when things needed
+ * <br>
+ *   As a group, we did not think Trello was very effectively used this semester. <br>
+ *   In the beginning it was good to see when the Zybook assignments <br>
+ *   and when the UART and blink functions were due, but after that Trello <br>
+ *   seemed to be pushed away and not really used or even helpful. Slack took <br>
+ *   over and kept us a lot more organized and up tp date on when things needed <br>
  *   to be completed.
  *<br>
  *<br>
