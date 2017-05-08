@@ -231,12 +231,12 @@ void inputCallback(game_network_payload_t * input){
 }
 
 void callbackInit(void) {
-//	controller_buttons_t mask;
-//	mask.all_buttons = 0xFFFF;
-//	GameControllerHost_RegisterPressCallback(0, p1Handler, mask, 0);
-//	GameControllerHost_RegisterPressCallback(1, p2Handler, mask, 0);
-//	GameControllerHost_RegisterPressCallback(2, p3Handler, mask, 0);
-//	GameControllerHost_RegisterPressCallback(3, p4Handler, mask, 0);
+	controller_buttons_t mask;
+	mask.all_buttons = 0xFFFF;
+	GameControllerHost_RegisterPressCallback(0, p1Handler, mask, 0);
+	GameControllerHost_RegisterPressCallback(1, p2Handler, mask, 0);
+	GameControllerHost_RegisterPressCallback(2, p3Handler, mask, 0);
+	GameControllerHost_RegisterPressCallback(3, p4Handler, mask, 0);
 }
 
 void pkmnGameOver(void){
@@ -298,8 +298,8 @@ void startPressed(uint8_t player){
 		g_pauseTime = TimeNow();
 		Task_Remove((task_fn_t)updateTimeRemaining, 0);
 		if (!game.client) {
-			Task_Remove((task_fn_t)generateShakingGrass, 0);
-			Task_Remove((task_fn_t)generateItems, 0);
+			Task_Remove((task_fn_t)shakingGrassUpdate, 0);
+			Task_Remove((task_fn_t)itemUpdate, 0);
 		}
 	}
 	else if (game.currGameState == PAUSE) {
@@ -449,7 +449,18 @@ void updateTimeRemaining(void) {
 	//check game over: timeout
 	if(timeRemaining == 0){
 		//end game
-		//TODO
+		if(1){ //gross "debug" method for if you want to continue playing after game over or not
+			//remove all player status enabling
+			volatile int i;
+			for(i = 0; i < MAX_PLAYERS; i++){
+				players[i].status = false;
+			}
+
+			//remove tasks
+			Task_Remove((task_fn_t)shakingGrassUpdate, 0);
+			Task_Remove((task_fn_t)itemUpdate, 0);
+			Task_Remove((task_fn_t)updateTimeRemaining, 0);
+		}
 
 		//print final stats
 		printGameOverStats();
