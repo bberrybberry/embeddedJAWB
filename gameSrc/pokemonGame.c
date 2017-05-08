@@ -220,7 +220,7 @@ void inputCallback(game_network_payload_t * input){
     		// Get items for each player
     		if (input->user_data[PACKET_INDICATOR_BYTE_1] & (BIT0 << (i * 2))) {
 
-    			uint8_t item = (input->user_data[PACKET_ITEM_ID] & (PACKET_ITEM_ITERATOR << i)) >> i;
+    			uint8_t item = (input->user_data[PACKET_ITEM_ID] & (PACKET_ITEM_ITERATOR << (i * 2))) >> (i * 2);
     			if (item < 3) {
     				game.items[i] = item;
     			}
