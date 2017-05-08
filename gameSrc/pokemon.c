@@ -12,18 +12,15 @@
 #include "random_int.h"
 
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
-	if(high <= low){
-		return low;//(item > arr[low]) ? low + 1 : low;
-	}
-	uint8_t mid = (low + high)/2;
-	if(item == arr[mid]){
-		return mid;
-	}
-	if(item > arr[mid]){
-		return binarySearch(arr, item, ++mid, high);
-	}
-
-	return binarySearch(arr, item,low, --mid);
+    if(low<=high)
+        return low;
+    uint8_t mid = (high+low)/2;
+    if(item>arr[mid])
+        return binarySearch(arr, item, mid, high);
+    else if(item<arr[mid])
+        return binarySearch(arr, item, low, mid);
+    else
+        return mid;
 }
 
 void initGame(uint8_t* totalItemCountPtr, uint8_t* totalPkmnCountPtr){
@@ -132,13 +129,13 @@ void initPokemon(){
         if(i==0)
         pkmnWeights[i] = pkmnList[i].spawnRate;
         else
-            pkmnWeights[i] = pkmnList[i].spawnRate+pkmnList[i-1].spawnRate;
+            pkmnWeights[i] = pkmnList[i].spawnRate+pkmnWeights[i-1];
     }
 }
 void initItems(){
     itemWeights[0] = 10;
     itemWeights[1] = 40;
-    itemWeights[2] = 50;
+    itemWeights[2] = 100;
 }
 void movePlayerUp(uint8_t playerIndex){
 	g_point_t initPt;
@@ -547,7 +544,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//int rand = random_int(1, 100); //TODO: Random numbers
 	uint8_t thresh = random_int(1, 32);
 
-    uint16_t catchValue = catchRate*multiplier;
+    uint16_t catchValue = (uint16_t)catchRate*(uint16_t)multiplier;
     uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
 
 
