@@ -211,6 +211,7 @@ typedef struct{
 	pokemon_t* pokemon; ///< Pointer to pokemon from list held in this encounter
 	uint8_t locX; ///< X location of encounter grass spot
 	uint8_t locY; ///< Y location of encounter grass spot
+	uint8_t catchThreshold; ///< Randomly generated number to determine actual catch rate percentages
 } encounter_t;
 
 

@@ -338,6 +338,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 		thisEncounter.locX = *x;
 		thisEncounter.locY = *y;
 		thisEncounter.pokemon = generatePokemon();
+		thisEncounter.catchThreshold = random_int(1, 50);
 		allPkmn[validIndex] = thisEncounter;
 		game.pkmn = thisEncounter.pokemon;
 
@@ -661,8 +662,20 @@ void throwBall(uint8_t player){
 void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 	//try to catch pokemon
 	//throw ball at encountered pokemon
-	//int rand = random_int(1, 100); //TODO: Random numbers
-	uint8_t thresh = random_int(1, 50);
+
+
+	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
+	encounter_t e;
+	uint8_t eInd;
+	volatile int i;
+	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
+		if(allPkmn[i].locX == players[player].tileX && allPkmn[i].locY == players[player].tileY){
+			e = allPkmn[i];
+			eInd = i;
+		}
+	}
+
+	uint8_t thresh = e.catchThreshold;//random_int(1, 50);
 
     uint16_t catchValue = (uint16_t)catchRate*(uint16_t)multiplier;
     uint16_t catch = CATCH_CHECK_1 / (CATCH_CHECK_2 / catchValue);
@@ -678,18 +691,8 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 		players[player].encountered = 0;
 	}
 
-	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
-	volatile int i;
-	int8_t encounterInd = -1;
-	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
-		if(allPkmn[i].locX == players[player].tileX && allPkmn[i].locY == players[player].tileY){
-			encounterInd = i;
-			break;
-		}
-	}
-
 	//return this spot as a valid encounter generation point
-	allPkmnValidEntries[encounterInd] = true;
+	allPkmnValidEntries[eInd] = true;
 
 	//clear menu
 	printMenu(player, NONE, -1, -1, -1, "");
