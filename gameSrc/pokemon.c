@@ -61,9 +61,9 @@ void initPlayers(){
 	volatile int i;
 	for(i = 0; i < MAX_PLAYERS; i++){
 		//TODO set these back to 15/10/5, set to lower numbers now for debugging purposes
-		players[i].pbCount = 1;
-		players[i].gbCount = 1;
-		players[i].ubCount = 1;
+		players[i].pbCount = 2;
+		players[i].gbCount = 10;
+		players[i].ubCount = 5;
 		players[i].mvmt = true;
 		players[i].status = false;
 		players[i].score = 0;

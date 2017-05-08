@@ -231,12 +231,12 @@ void inputCallback(game_network_payload_t * input){
 }
 
 void callbackInit(void) {
-	controller_buttons_t mask;
-	mask.all_buttons = 0xFFFF;
-	GameControllerHost_RegisterPressCallback(0, p1Handler, mask, 0);
-	GameControllerHost_RegisterPressCallback(1, p2Handler, mask, 0);
-	GameControllerHost_RegisterPressCallback(2, p3Handler, mask, 0);
-	GameControllerHost_RegisterPressCallback(3, p4Handler, mask, 0);
+//	controller_buttons_t mask;
+//	mask.all_buttons = 0xFFFF;
+//	GameControllerHost_RegisterPressCallback(0, p1Handler, mask, 0);
+//	GameControllerHost_RegisterPressCallback(1, p2Handler, mask, 0);
+//	GameControllerHost_RegisterPressCallback(2, p3Handler, mask, 0);
+//	GameControllerHost_RegisterPressCallback(3, p4Handler, mask, 0);
 }
 
 void pkmnGameOver(void){
@@ -449,7 +449,7 @@ void updateTimeRemaining(void) {
 	//check game over: timeout
 	if(timeRemaining == 0){
 		//end game
-		if(1){ //gross "debug" method for if you want to continue playing after game over or not
+		if(0){ //gross "debug" method for if you want to continue playing after game over or not
 			//remove all player status enabling
 			volatile int i;
 			for(i = 0; i < MAX_PLAYERS; i++){
