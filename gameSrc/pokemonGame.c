@@ -142,8 +142,6 @@ void shakingGrassUpdate(void) {
 			g_pokemonX = x;
 			g_pokemonY = y;
 		}
-
-		++game.currNumPkmn;
 }
 
 void itemUpdate(void) {
@@ -157,8 +155,6 @@ void itemUpdate(void) {
 			g_itemX = x;
 			g_itemY = y;
 		}
-
-		++game.currNumItems;
 }
 
 void inputCallback(game_network_payload_t * input){
