@@ -763,6 +763,7 @@ void itemSpawn(uint8_t playerInd){
 		if (!allItemsValidEntries[i]) {
 			if (allItems[i].locX == players[playerInd].tileX && allItems[i].locY == players[playerInd].tileY) {
 				index = allItems[i].itemID;
+				allItemsValidEntries[i] = true;
 				break;
 			}
 		}
