@@ -115,12 +115,29 @@
  * @brief Total number of items one player can hold
  */
 #define MAX_SHAKING_GRASS   15
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// Enums
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @enum gameState
+ * @brief Defines possible global states of the game
+ */
+typedef enum{
+    PAUSE,		/**< Game is paused*/
+    PLAY,		/**< Game is being played*/
+    GAME_OVER	/**< Game is over*/
+} gameState;
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Structs
 //
 /////////////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * @struct pokemon_t
@@ -131,6 +148,7 @@ typedef struct{
     uint8_t spawnRate;      ///< Spawn rate for random generation, out of 100
     uint8_t catchRate;      ///< Catch rate of pokemon (percentage chance of successful ball catch)
     uint8_t points;         ///< Points to award player for successful catch
+    uint8_t index;			///< Index of the pokemon in the array of pokemon
 } pokemon_t;
 
 /**
@@ -150,6 +168,20 @@ typedef struct{
     pokemon_t* encountered;    ///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
 //TODO: Define weights for random pokemon generation
+
+/**
+ * @struct game
+ * @brief Game structre that contains global information
+ */
+static struct {
+    gameState currGameState;    ///< Current state of the game
+    bool client;				///< True if this instance is a client, false otherwise
+    uint8_t id;                 ///< ID of game
+    uint8_t currNumItems;		///< Current number of items generated
+    uint8_t currNumPkmn;		///< Current number of pokemon generated
+    pokemon_t* pkmn[MAX_PLAYERS];// = {void*, void*, void*, void*};
+    uint8_t items[MAX_PLAYERS];// = {255, 255, 255, 255};
+} game;
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -179,10 +211,6 @@ uint8_t pkmnWeights[MAX_PKMN];
  */
 uint8_t itemWeights[TOTAL_ITEMS];
 
-//TODO DOCS
-uint8_t* totalPkmnCount;
-uint8_t* totalItemCount;
-
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Functions
@@ -191,11 +219,10 @@ uint8_t* totalItemCount;
 
 
 /**
- * @fn initGame(void* gamePtr)
- * @param TODO DOCS
+ * @fn initGame()
  * @brief Set up of initial game state
  */
-void initGame(uint8_t* totalItemCountPtr, uint8_t* totalPkmnCountPtr);
+void initGame();
 
 /**
  * @fn initMap(void)

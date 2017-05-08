@@ -29,16 +29,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @enum gameState
- * @brief Defines possible global states of the game
- */
-typedef enum{
-    PAUSE,		/**< Game is paused*/
-    PLAY,		/**< Game is being played*/
-    GAME_OVER	/**< Game is over*/
-} gameState;
-
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Defines
@@ -94,10 +84,22 @@ typedef enum{
 #define PACKET_ITEM_BIT				0x80
 
 /**
- * @def PACKET_INDICATOR_BYTE
- * @brief Index of the indicator byte
+ * @def PACKET_ITEM_ITERATOR
+ * @brief Bits that the item index is stored in, will be shifted for each player
  */
-#define PACKET_INDICATOR_BYTE		0
+#define PACKET_ITEM_ITERATOR		0x03
+
+/**
+ * @def PACKET_INDICATOR_BYTE_0
+ * @brief Index of the first indicator byte
+ */
+#define PACKET_INDICATOR_BYTE_0		0
+
+/**
+ * @def PACKET_INDICATOR_BYTE_1
+ * @brief Index of the second indicator byte
+ */
+#define PACKET_INDICATOR_BYTE_1		1
 
 /**
  * @def PACKET_POKEMON_X
@@ -122,6 +124,18 @@ typedef enum{
  * @brief Index of the y coordinate of the item in the packet
  */
 #define PACKET_ITEM_Y				4
+
+/**
+ * @def PACKET_POKEMON_NAME_START
+ * @brief Beginning index of the pokemon name bytes in the packet
+ */
+#define PACKET_POKEMON_NAME_START	6
+
+/**
+ * @def PACKET_ITEM_ID
+ * @brief Packet that has the item index stored
+ */
+#define PACKET_ITEM_ID				11
 
 /**
  * @def MAX_ITEMS_ONSCREEN
@@ -188,8 +202,8 @@ void pkmnHelp(void);
  *
  * The packet is filled according to the following format:
  *
- *		1.0	1.1	1.2	1.3	1.4	1.5	1.6	1.7		1		1		1		1		bytes
- *		Pse	X	X	X	X	X	Pkm	Itm		Xp		Yp		Xi		Yi
+ *		1.0	1.1	1.2	1.3	1.4	1.5	1.6	1.7		1		1		1		1		4		1		bytes
+ *		Pse	X	X	X	X	X	Pkm	Itm		Xp		Yp		Xi		Yi		PkNm	Itms
  * 
  * Pse	-	Pause Indicator bit<br>
  * X 	-	Don't Care<br>
@@ -199,6 +213,8 @@ void pkmnHelp(void);
  * Yp 	-	Y coordinate of the pokemon<br>
  * Xi	-	X coordinate of the item<br>
  * Yi	-	Y coordinate of the item<br>
+ * PkNm	-
+ * Itms	-
  */
 uint8_t packetizer(uint8_t* buffer);
 
