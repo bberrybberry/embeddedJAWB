@@ -119,7 +119,7 @@ uint8_t packetizer(uint8_t* buffer) {
 		}
 
 		if (game.pkmn[i]) {
-			packet1.ub[1].b = (0x01) << 1 + (i * 2);
+			packet1.ub[1].b = (0x01) << (1 + (i * 2));
 			if (i) {
 				packet2.ub[i - 1].b = game.pkmn[i]->index;
 			}
