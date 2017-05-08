@@ -249,27 +249,11 @@ void inputCallback(game_network_payload_t * input){
 
 void callbackInit(void) {
 //	controller_buttons_t mask;
-//	mask.all_buttons = 0x0000;
-//	mask.button.A = 1;
-//	GameControllerHost_RegisterPressCallback(0, aHandler, mask, 0);
-//	mask.all_buttons = 0x0000;
-//	mask.button.B = 1;
-//	GameControllerHost_RegisterPressCallback(0, bHandler, mask, 0);
-//	mask.all_buttons = 0x0000;
-//	mask.button.start = 1;
-//	GameControllerHost_RegisterPressCallback(0, startHandler, mask, 0);
-//	mask.all_buttons = 0x0000;
-//	mask.button.up = 1;
-//	GameControllerHost_RegisterPressCallback(0, upHandler, mask, 0);
-//	mask.all_buttons = 0x0000;
-//	mask.button.down = 1;
-//	GameControllerHost_RegisterPressCallback(0, downHandler, mask, 0);
-//	mask.all_buttons = 0x0000;
-//	mask.button.left = 1;
-//	GameControllerHost_RegisterPressCallback(0, leftHandler, mask, 0);
-//	mask.all_buttons = 0x0000;
-//	mask.button.right = 1;
-//	GameControllerHost_RegisterPressCallback(0, rightHandler, mask, 0);
+//	mask.all_buttons = 0xFFFF;
+//	GameControllerHost_RegisterPressCallback(0, p1Handler, mask, 0);
+//	GameControllerHost_RegisterPressCallback(1, p2Handler, mask, 0);
+//	GameControllerHost_RegisterPressCallback(2, p3Handler, mask, 0);
+//	GameControllerHost_RegisterPressCallback(3, p4Handler, mask, 0);
 }
 
 void pkmnGameOver(void){
@@ -364,36 +348,113 @@ void selectPressed(uint8_t player){
 	}
 }
 
-void upHandler(controller_buttons_t btn, void* handle) {
-	upPressed(0);
+void p1Handler(controller_buttons_t btn, void* handle) {
+
+	if (btn.primary_buttons & (0x01) << 0) {
+		upPressed(0);
+	}
+	if (btn.primary_buttons & (0x01) << 1) {
+		downPressed(0);
+	}
+	if (btn.primary_buttons & (0x01) << 2) {
+		leftPressed(0);
+	}
+	if (btn.primary_buttons & (0x01) << 3) {
+		rightPressed(0);
+	}
+	if (btn.primary_buttons & (0x01) << 4) {
+		aPressed(0);
+	}
+	if (btn.primary_buttons & (0x01) << 5) {
+		bPressed(0);
+	}
+	if (btn.primary_buttons & (0x01) << 6) {
+		startPressed(0);
+	}
+	if (btn.primary_buttons & (0x01) << 7) {
+		selectPressed(0);
+	}
 }
 
-void downHandler(controller_buttons_t btn, void* handle) {
-	downPressed(0);
+void p2Handler(controller_buttons_t btn, void* handle) {
+	if (btn.primary_buttons & (0x01) << 0) {
+		upPressed(1);
+	}
+	if (btn.primary_buttons & (0x01) << 1) {
+		downPressed(1);
+	}
+	if (btn.primary_buttons & (0x01) << 2) {
+		leftPressed(1);
+	}
+	if (btn.primary_buttons & (0x01) << 3) {
+		rightPressed(1);
+	}
+	if (btn.primary_buttons & (0x01) << 4) {
+		aPressed(1);
+	}
+	if (btn.primary_buttons & (0x01) << 5) {
+		bPressed(1);
+	}
+	if (btn.primary_buttons & (0x01) << 6) {
+		startPressed(1);
+	}
+	if (btn.primary_buttons & (0x01) << 7) {
+		selectPressed(1);
+	}
 }
 
-void leftHandler(controller_buttons_t btn, void* handle) {
-	leftPressed(0);
+void p3Handler(controller_buttons_t btn, void* handle) {
+	if (btn.primary_buttons & (0x01) << 0) {
+		upPressed(2);
+	}
+	if (btn.primary_buttons & (0x01) << 1) {
+		downPressed(2);
+	}
+	if (btn.primary_buttons & (0x01) << 2) {
+		leftPressed(2);
+	}
+	if (btn.primary_buttons & (0x01) << 3) {
+		rightPressed(2);
+	}
+	if (btn.primary_buttons & (0x01) << 4) {
+		aPressed(2);
+	}
+	if (btn.primary_buttons & (0x01) << 5) {
+		bPressed(2);
+	}
+	if (btn.primary_buttons & (0x01) << 6) {
+		startPressed(2);
+	}
+	if (btn.primary_buttons & (0x01) << 7) {
+		selectPressed(2);
+	}
 }
 
-void rightHandler(controller_buttons_t btn, void* handle) {
-	rightPressed(0);
-}
-
-void aHandler(controller_buttons_t btn, void* handle) {
-	aPressed(0);
-}
-
-void bHandler(controller_buttons_t btn, void* handle) {
-	bPressed(0);
-}
-
-void startHandler(controller_buttons_t btn, void* handle) {
-	startPressed(0);
-}
-
-void selectHandler(controller_buttons_t btn, void* handle) {
-	selectPressed(0);
+void p4Handler(controller_buttons_t btn, void* handle) {
+	if (btn.primary_buttons & (0x01) << 0) {
+		upPressed(3);
+	}
+	if (btn.primary_buttons & (0x01) << 1) {
+		downPressed(3);
+	}
+	if (btn.primary_buttons & (0x01) << 2) {
+		leftPressed(3);
+	}
+	if (btn.primary_buttons & (0x01) << 3) {
+		rightPressed(3);
+	}
+	if (btn.primary_buttons & (0x01) << 4) {
+		aPressed(3);
+	}
+	if (btn.primary_buttons & (0x01) << 5) {
+		bPressed(3);
+	}
+	if (btn.primary_buttons & (0x01) << 6) {
+		startPressed(3);
+	}
+	if (btn.primary_buttons & (0x01) << 7) {
+		selectPressed(3);
+	}
 }
 
 void updateTimeRemaining(void) {

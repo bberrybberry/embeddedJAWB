@@ -317,68 +317,36 @@ void startPressed(uint8_t player);
 void selectPressed(uint8_t player);
 
 /**
- * @fn upHandler(controller_buttons_t btn, void* handle)
+ * @fn p1Handler(controller_buttons_t btn, void* handle)
  * @param btn Controller button input
  * @param handle Void pointer to any data
  * @brief Callback function to interface with GameControllerHost
  */
-void upHandler(controller_buttons_t btn, void* handle);
+void p1Handler(controller_buttons_t btn, void* handle);
 
 /**
- * @fn downHandler(controller_buttons_t btn, void* handle)
+ * @fn p2Handler(controller_buttons_t btn, void* handle)
  * @param btn Controller button input
  * @param handle Void pointer to any data
  * @brief Callback function to interface with GameControllerHost
  */
-void downHandler(controller_buttons_t btn, void* handle);
+void p2Handler(controller_buttons_t btn, void* handle);
 
 /**
- * @fn leftHandler(controller_buttons_t btn, void* handle)
+ * @fn p3Handler(controller_buttons_t btn, void* handle)
  * @param btn Controller button input
  * @param handle Void pointer to any data
  * @brief Callback function to interface with GameControllerHost
  */
-void leftHandler(controller_buttons_t btn, void* handle);
+void p3Handler(controller_buttons_t btn, void* handle);
 
 /**
- * @fn rightHandler(controller_buttons_t btn, void* handle)
+ * @fn p4Handler(controller_buttons_t btn, void* handle)
  * @param btn Controller button input
  * @param handle Void pointer to any data
  * @brief Callback function to interface with GameControllerHost
  */
-void rightHandler(controller_buttons_t btn, void* handle);
-
-/**
- * @fn aHandler(controller_buttons_t btn, void* handle)
- * @param btn Controller button input
- * @param handle Void pointer to any data
- * @brief Callback function to interface with GameControllerHost
- */
-void aHandler(controller_buttons_t btn, void* handle);
-/**
- * @fn bHandler(controller_buttons_t btn, void* handle)
- * @param btn Controller button input
- * @param handle Void pointer to any data
- * @brief Callback function to interface with GameControllerHost
- */
-void bHandler(controller_buttons_t btn, void* handle);
-
-/**
- * @fn startHandler(controller_buttons_t btn, void* handle)
- * @param btn Controller button input
- * @param handle Void pointer to any data
- * @brief Callback function to interface with GameControllerHost
- */
-void startHandler(controller_buttons_t btn, void* handle);
-
-/**
- * @fn selectHandler(controller_buttons_t btn, void* handle)
- * @param btn Controller button input
- * @param handle Void pointer to any data
- * @brief Callback function to interface with GameControllerHost
- */
-void selectHandler(controller_buttons_t btn, void* handle);
-
+void p4Handler(controller_buttons_t btn, void* handle);
 
 /**
  * @fn updateTimeRemaining(void)
