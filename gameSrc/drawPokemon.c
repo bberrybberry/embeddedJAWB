@@ -266,14 +266,17 @@ void printMenu(uint8_t playerID, menuState ms, int8_t pb, int8_t gb, int8_t ub, 
 	color[0] = 0xFF; color[1] = 0xFF; color[2] = 0xFF;
 	Graphics_SetBackground(&gCntx, color);
 
-	if (pb > -1) {
+	if (pb > 0) {
 		numBalls = pb;
 	}
-	else if (gb > -1) {
+	else if (gb > 0) {
 		numBalls = gb;
 	}
-	else if (ub > -1) {
+	else if (ub > 0) {
 		numBalls = ub;
+	}
+	else{
+		numBalls = 0;
 	}
 
 	switch(ms) {

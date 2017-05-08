@@ -58,9 +58,10 @@ void initPlayers(){
     //register players 1-4
 	volatile int i;
 	for(i = 0; i < MAX_PLAYERS; i++){
-		players[i].pbCount = 15;
-		players[i].gbCount = 10;
-		players[i].ubCount = 5;
+		//TODO set these back to 15/10/5, set to lower numbers now for debugging purposes
+		players[i].pbCount = 1;
+		players[i].gbCount = 1;
+		players[i].ubCount = 1;
 		players[i].mvmt = true;
 		players[i].status = false;
 		players[i].score = 0;
@@ -391,14 +392,14 @@ void selectBall(uint8_t player){
 	if(players[player].mvmt == false){
 		//change menu to ball select
 		//circularly define one as only pos to optionally display them
-		if(players[player].pbCount == 0){ //if first option is empty, select second option
+		if(players[player].pbCount == 0 && players[player].gbCount != 0){ //if first option is empty, select second option
 			players[player].pbCount *= -1;
 			players[player].gbCount *= 1;
 			players[player].ubCount *= -1;
 
 			printMenu(player, BALL_SELECT, players[player].pbCount, players[player].gbCount, players[player].ubCount, "Great balls");
 		}
-		else if(players[player].gbCount == 0){ //if second option is empty, select third option
+		else if(players[player].gbCount == 0 && players[player].ubCount != 0){ //if second option is empty, select third option
 			players[player].pbCount *= -1;
 			players[player].gbCount *= -1;
 			players[player].ubCount *= 1;
@@ -407,11 +408,6 @@ void selectBall(uint8_t player){
 
 		}
 		else if(players[player].ubCount == 0){ //if everything is empty, end encounter
-			//undo ball select encoding
-			players[player].pbCount *= 1;
-			players[player].gbCount *= -1;
-			players[player].ubCount *= -1;
-
 			//resume movement
 			players[player].mvmt = true;
 
@@ -541,9 +537,12 @@ void rightBallOption(uint8_t player){
 
 void throwBall(uint8_t player){
     uint8_t catchRate = players[player].encountered->catchRate;
-	if(players[player].mvmt == false && //player is in menu state
-			(players[player].pbCount < 0 || players[player].gbCount < 0 ||players[player].ubCount < 0) //player has negative balls meaning player is in ball select options
-			){
+	if(players[player].mvmt == false && ( //player is in menu state
+			//check if only one ball count is non-zero value, meaning player is in ball select options
+			(players[player].pbCount > 0 && players[player].gbCount <= 0 && players[player].ubCount <= 0) ||	//pb selected
+			(players[player].pbCount <= 0 && players[player].gbCount > 0 && players[player].ubCount <= 0) ||	//gb selected
+			(players[player].pbCount <= 0 && players[player].gbCount <= 0 && players[player].ubCount > 0)		//ul selected
+			)){
 
 		if(players[player].pbCount > 0 ){ //has balls and is selected
 			--players[player].pbCount;
