@@ -187,7 +187,7 @@ typedef struct{
     bool mvmt;              ///< Whether or not the player can move
     pokemon_t* encountered;    ///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
-//TODO: Define weights for random pokemon generation
+
 
 /**
  * @struct game
@@ -452,30 +452,6 @@ void generateShakingGrass(uint8_t* x, uint8_t* y);
 pokemon_t* generatePokemon(void);
 
 /**
- * @fn updatePlayerLoc(pokePlayer_t* player)
- * @param player Pointer to player struct
- * @brief Updates the current location of the player in the player struct
- */
-void updatePlayerLoc(pokePlayer_t* player);
-
-//TODO Check if this is right
-/**
- * @fn checkGrass(pokePlayer_t* player)
- * @param player Pointer to player struct
- * @return bool true if grass false if not
- * @brief checks if the tile that the player is going to move to is grass
- */
-bool checkGrass(pokePlayer_t* player);
-
-//TODO fill this in right
-/**
- * @fn updateGrass(uint8_t location)
- * @param location
- * @brief
- */
-//void updateGrass(uint8_t location);
-
-/**
  * @fn updateTime(uint8_t time)
  * @param time Current remaining time to display
  * @brief Updates the time on the screen
@@ -490,7 +466,6 @@ void updateTime(uint8_t time);
  */
 void updateScores(uint8_t playerID, uint8_t score);
 
-//TODO fill this in right
 /**
  * @fn runEncounter(uint8_t playerInd)
  * @param playerInd Index of the player in the encounter
@@ -498,14 +473,12 @@ void updateScores(uint8_t playerID, uint8_t score);
  */
 void runEncounter(uint8_t playerInd);
 
-//TODO fill this in right
 /**
  * @fn generateItems(uint8_t* x, uint8_t* y)
  * @brief Generates the location of randomly placed pokeballs
  */
 void generateItems(uint8_t* x, uint8_t* y);
 
-//TODO Walt comment ur code!!!!!!!!
 /**
  *  @fn binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high)
  *  @param item the weight to be found
