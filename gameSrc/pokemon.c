@@ -29,9 +29,10 @@ void initGame(){
 
     //init players
     initPlayers();
-    //TODO: Find dynamic way to know how many players are playing
     players[0].status = true;
     players[1].status = true;
+    players[2].status = true;
+    players[3].status = true;
 
     //set up menus and text
     initTextBox();
