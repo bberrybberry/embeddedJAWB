@@ -287,6 +287,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 	bool display = false;
 	uint8_t count = 0;
 
+	//find some place to generate pokemon
 	while(!display) {
 		*x = random_int(0, GRID_X - 1);
 		*y = random_int(0, GRID_Y - 1);
@@ -312,6 +313,35 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 		count++;
 	}
 	if (display) {
+		//add this encounter spot to the array of encounters
+		uint8_t validIndex = -1;
+		for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
+			//try to find a valid location
+			if(allPkmnValidEntries[i] == true){
+				//save index
+				validIndex = i;
+
+				//flag as no longer valid
+				allPkmnValidEntries[i] = false;
+
+				//found what you wanted, exit loop now
+				break;
+			}
+		}
+
+		//if didn't find a valid entry for this pokemon onscreen, exit now
+		if(validIndex < 0){
+			return;
+		}
+
+		//add this encounter to collection of encounters
+		encounter_t thisEncounter;
+		thisEncounter.locX = x;
+		thisEncounter.locY = y;
+		thisEncounter.pokemon = generatePokemon();
+		allPkmn[validIndex] = thisEncounter;
+
+		//draw
 		setShakingGrass(*x, *y);
 	}
 }
