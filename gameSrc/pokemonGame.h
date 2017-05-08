@@ -69,7 +69,7 @@
  * @def PACKET_SIZE
  * @brief Packet size that is sent to
  */
-#define PACKET_SIZE					5
+#define PACKET_SIZE					11
 
 /**
  * @def PACKET_POKEMON_BIT
@@ -105,25 +105,25 @@
  * @def PACKET_POKEMON_X
  * @brief Index of the x coordinate of the pokemon in the packet
  */
-#define PACKET_POKEMON_X			1
+#define PACKET_POKEMON_X			2
 
 /**
  * @def PACKET_POKEMON_Y
  * @brief Index of the y coordinate of the pokemon in the packet
  */
-#define PACKET_POKEMON_Y			2
+#define PACKET_POKEMON_Y			3
 
 /**
  * @def PACKET_ITEM_X
  * @brief Index of the x coordinate of the item in the packet
  */
-#define PACKET_ITEM_X				3
+#define PACKET_ITEM_X				4
 
 /**
  * @def PACKET_ITEM_Y
  * @brief Index of the y coordinate of the item in the packet
  */
-#define PACKET_ITEM_Y				4
+#define PACKET_ITEM_Y				5
 
 /**
  * @def PACKET_POKEMON_NAME_START
@@ -135,7 +135,7 @@
  * @def PACKET_ITEM_ID
  * @brief Packet that has the item index stored
  */
-#define PACKET_ITEM_ID				11
+#define PACKET_ITEM_ID				10
 
 /**
  * @def MAX_ITEMS_ONSCREEN

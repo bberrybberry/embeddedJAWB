@@ -79,6 +79,7 @@ uint8_t packetizer(uint8_t* buffer) {
 	static uint8_t pokemonX = INITIAL_COORDINATE_VALUE, pokemonY = INITIAL_COORDINATE_VALUE;
 	static uint8_t itemX = INITIAL_COORDINATE_VALUE, itemY = INITIAL_COORDINATE_VALUE;
 	volatile uint8_t i;
+	uint8_t size = 0;
 	union64_t packet1;
 	union64_t packet2;
 	packet1.quad_word = 0;
@@ -95,8 +96,8 @@ uint8_t packetizer(uint8_t* buffer) {
 	// Send if a new pokemon has appeared on the map
 	if (pokemonX != g_pokemonX && pokemonY != g_pokemonY) {
 		packet1.ub[0].bits.b6 = 1;
-		packet1.ub[1].b = g_pokemonX;
-		packet1.ub[2].b = g_pokemonY;
+		packet1.ub[2].b = g_pokemonX;
+		packet1.ub[3].b = g_pokemonY;
 		pokemonX = g_pokemonX;
 		pokemonY = g_pokemonY;
 	}
@@ -104,8 +105,8 @@ uint8_t packetizer(uint8_t* buffer) {
 	// Send if a new item has appeard on the map
 	if (itemX != g_itemX && itemY != g_itemY) {
 		packet1.ub[0].bits.b7 = 1;
-		packet1.ub[3].b = g_itemX;
-		packet1.ub[4].b = g_itemY;
+		packet1.ub[4].b = g_itemX;
+		packet1.ub[5].b = g_itemY;
 		itemX = g_itemX;
 		itemY = g_itemY;
 	}
@@ -121,11 +122,11 @@ uint8_t packetizer(uint8_t* buffer) {
 		if (game.pkmn[i]) {
 			packet1.ub[1].b |= (0x01) << (1 + (i * 2));
 
-			if (i) {
-				packet2.ub[i - 1].b = game.pkmn[i]->index;
+			if (i > 1) {
+				packet2.ub[i - 2].b = game.pkmn[i]->index;
 			}
 			else {
-				packet1.ub[7].b = game.pkmn[i]->index;
+				packet1.ub[i + 6].b = game.pkmn[i]->index;
 			}
 			game.pkmn[i] = 0;
 		}
@@ -133,14 +134,16 @@ uint8_t packetizer(uint8_t* buffer) {
 
 	for (i = 0; i < 7; i++) {
 		*buffer = packet1.ub[i].b;
+		size++;
 		buffer++;
 	}
 	for (i = 0; i < 4; i++) {
 		*buffer = packet2.ub[i].b;
+		size++;
 		buffer++;
 	}
 
-	return 5;
+	return size;
 }
 
 void shakingGrassUpdate(void) {
