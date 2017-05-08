@@ -201,6 +201,7 @@ typedef struct {
     uint8_t currNumPkmn;		///< Current number of pokemon generated
     pokemon_t* pkmn; 			///< Pointer to most recent pokemon generated
     uint8_t item;				///< Index of most recent item generated
+    uint8_t thresh;				///< Threshold for catch rate
 } game_t;
 
 /**

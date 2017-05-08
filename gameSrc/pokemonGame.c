@@ -118,7 +118,9 @@ uint8_t packetizer(uint8_t* buffer) {
 
 		if (game.pkmn) {
 			packet.ub[PACKET_POKEMON_ID].b = game.pkmn->index;
+			packet.ub[PACKET_POKEMON_THRESH].b = game.thresh;
 			game.pkmn = 0;
+			game.thresh = 0;
 		}
 	}
 
@@ -184,12 +186,14 @@ void inputCallback(game_network_payload_t * input){
     	if (input->user_data[PACKET_INDICATOR] & PACKET_POKEMON_BIT) {
     		g_pokemonX = input->user_data[PACKET_POKEMON_X];
     		g_pokemonY = input->user_data[PACKET_POKEMON_Y];
+    		uint8_t thresh = input->user_data[PACKET_POKEMON_THRESH];
 
     		for (i = 0; i < MAX_PKMN_ONSCREEN; i++) {
     			if (allPkmnValidEntries[i]) {
     				allPkmnValidEntries[i] = false;
     				allPkmn[i].locX = g_pokemonX;
     				allPkmn[i].locY = g_pokemonY;
+    				allPkmn[i].catchThreshold = thresh;
     				allPkmn[i].pokemon = &pkmnList[input->user_data[PACKET_POKEMON_ID]];
     				setShakingGrass(g_pokemonX, g_pokemonY);
     				break;

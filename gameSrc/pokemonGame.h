@@ -69,7 +69,7 @@
  * @def PACKET_SIZE
  * @brief Packet size that is sent to
  */
-#define PACKET_SIZE					7
+#define PACKET_SIZE					8
 
 /**
  * @def PACKET_POKEMON_BIT
@@ -125,6 +125,12 @@
  */
 #define PACKET_ITEM_ID				6
 
+/**
+ * @def PACKET_POKEMON_THRESH
+ * @brief Packet that has the pokemon threshold
+ */
+#define PACKET_POKEMON_THRESH		7
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Global Variables
@@ -178,8 +184,8 @@ void pkmnHelp(void);
  *
  * The packet is filled according to the following format:
  *
- *		1.7	1.6	1.5	1.4	1.3	1.2	1.1	1.0		1		1		1		1		1		1		bytes
- *		X	X	X	X	X	Itm	Pkm	Pse		Xp		Yp		Xi		Yi		PkID	ItID
+ *		1.7	1.6	1.5	1.4	1.3	1.2	1.1	1.0		1		1		1		1		1		1		1		bytes
+ *		X	X	X	X	X	Itm	Pkm	Pse		Xp		Yp		Xi		Yi		PkID	ItID	PkTh
  * 
  * X 	-	Don't Care<br>
  * Pse	-	Pause Indicator bit<br>
@@ -191,6 +197,7 @@ void pkmnHelp(void);
  * Yi	-	Y coordinate of the item<br>
  * PkID	-	Index of the pokemon added to the map
  * ItID	-	Index of the item added to the map
+ * PkTh	-	Threshold of the most recently generate pokemon
  */
 uint8_t packetizer(uint8_t* buffer);
 

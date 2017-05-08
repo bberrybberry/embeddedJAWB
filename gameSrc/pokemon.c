@@ -29,9 +29,10 @@ void initGame(){
 
     //init players
     initPlayers();
-    //TODO: Find dynamic way to know how many players are playing
     players[0].status = true;
     players[1].status = true;
+    players[2].status = true;
+    players[3].status = true;
 
     //set up menus and text
     initTextBox();
@@ -342,6 +343,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 		thisEncounter.catchThreshold = random_int(1, 50);
 		allPkmn[validIndex] = thisEncounter;
 		game.pkmn = thisEncounter.pokemon;
+		game.thresh = thisEncounter.catchThreshold;
 
 		//draw
 		setShakingGrass(*x, *y);
