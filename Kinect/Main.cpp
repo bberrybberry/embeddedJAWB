@@ -270,6 +270,7 @@ int main() {
 
 					frame->Release();
 					bodyFrame->Release();
+					getAddressofPlayers(people);
 
 					for (int i = 0; i < BODY_COUNT; i++) {
 						if (!trackedJoints[i]) {
@@ -378,7 +379,7 @@ void updatePerson(Person* player, Joint joints[25]) {
 	player->threshold = getDistance(joints, JointType_ElbowLeft, JointType_HandLeft) * 0.5;
 }
 
-void getAddressofPlayers(Person* players[BODY_COUNT]) {
+void getAddressofPlayers(Person* players) {
 	float CL[BODY_COUNT];
 
 	for (int i = 0; i < BODY_COUNT; i++) {
@@ -387,13 +388,13 @@ void getAddressofPlayers(Person* players[BODY_COUNT]) {
 			continue;
 		}
 
-		CL[i] = players[i]->CL.x;
+		CL[i] = players[i].CL.x;
 	}
 	
 	for (unsigned char i = 0; i < BODY_COUNT; i++) {
 		float maxVal = *max_element(CL, CL + BODY_COUNT);
 		int minIdx = distance(CL, min_element(CL, CL + BODY_COUNT));
-		players[minIdx]->addr = i + 1;
+		players[minIdx].addr = i;
 		CL[minIdx] = maxVal + 1.0f;
 	}
 
@@ -530,9 +531,23 @@ bool sendButtonPress(char address, char* presses) {
 
 	return false;
 #else
-
+	switch (address) {
+	case 0:
+		
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	default:
+		break;
+	}
 #endif
 }
+
+
 
 bool receiveHS()
 {

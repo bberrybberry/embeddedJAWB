@@ -9,7 +9,7 @@
 */
 #define USE_KINECT
 //#define USE_KEYBOARD
-//#define USE_HTTP
+ //#define USE_HTTP
 //#define USE_MULTIPLAYER
 
 #ifdef USE_KINECT
@@ -444,7 +444,7 @@ void updatePerson(Person* player, Joint joints[25]);
  * @brief Finds who is player 1, 2, 3, etc. based on the position
  * from left to right facing the Kinect
  */
-void getAddressofPlayers(Person* players[BODY_COUNT]);
+void getAddressofPlayers(Person* players);
 
 /**
 * @fn pollButtons(Person player)
