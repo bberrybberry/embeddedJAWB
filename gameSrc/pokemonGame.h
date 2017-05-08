@@ -202,13 +202,14 @@ void pkmnHelp(void);
  *
  * The packet is filled according to the following format:
  *
- *		1.0	1.1	1.2	1.3	1.4	1.5	1.6	1.7		1		1		1		1		4		1		bytes
- *		Pse	X	X	X	X	X	Pkm	Itm		Xp		Yp		Xi		Yi		PkNm	Itms
+ *		1.7	1.6	1.5	1.4	1.3	1.2	1.1	1.0		1		1		1		1		1		4		1		bytes
+ *		Itm	Pkm	X	X	X	X	X	Pse		In		Xp		Yp		Xi		Yi		PkNm	Itms
  * 
  * Pse	-	Pause Indicator bit<br>
  * X 	-	Don't Care<br>
  * Pkm	-	Pokemon, e.g. shaking grass, has been added to map<br>
  * Itm	-	Item has been added to map<br>
+ * In	-	Indicator byte for pokemon and items for each player<br>
  * Xp	-	X coordinate of the pokemon<br>
  * Yp 	-	Y coordinate of the pokemon<br>
  * Xi	-	X coordinate of the item<br>
