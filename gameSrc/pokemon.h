@@ -427,13 +427,12 @@ void rightBallOption(uint8_t player);
  */
 void throwBall(uint8_t player);
 
-//TODO Fill this in right
 /**
  * @fn captureEvent(uint8_t player, uint8_t multiplier)
  * @param player
  * @param multiplier
  * @param catchRate
- * @brief
+ * @brief does the calculations to check if the pokemon is caught
  */
 void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate);
 
@@ -447,6 +446,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y);
 
 /**
  * @fn generatePokemon(void)
+ * @return pokemon_t reference
  * @brief Generates a random pokemon at a random tile
  */
 pokemon_t* generatePokemon(void);
@@ -458,11 +458,12 @@ pokemon_t* generatePokemon(void);
  */
 void updatePlayerLoc(pokePlayer_t* player);
 
-//TODO fill this in right
+//TODO Check if this is right
 /**
  * @fn checkGrass(pokePlayer_t* player)
  * @param player Pointer to player struct
- * @brief
+ * @return bool true if grass false if not
+ * @brief checks if the tile that the player is going to move to is grass
  */
 bool checkGrass(pokePlayer_t* player);
 
@@ -507,10 +508,11 @@ void generateItems(uint8_t* x, uint8_t* y);
 //TODO Walt comment ur code!!!!!!!!
 /**
  *  @fn binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high)
- *  @param item 
- *  @param low 
- *  @param high 
- *  @brief
+ *  @param item the weight to be found
+ *  @param low  lowest index of the array
+ *  @param high the highest index in the array
+ *  @return index of the item in the array that was generated
+ *  @brief A binary search that returns the index closest to the input weight
  */
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high);
 
@@ -531,6 +533,7 @@ void itemSpawn(uint8_t playerInd);
  *  @fn checkItemLoc(uint8_t locX, uint8_t locY)
  *  @param locX X coordinate of the tile
  *  @param locY Y coordinate of the tile
+ *  @return bool true if item exist on tile
  *  @brief Returns if the tile has an item on it
  */
 bool checkItemLoc(uint8_t locX, uint8_t locY);
