@@ -194,14 +194,34 @@ void inputCallback(game_network_payload_t * input){
     	if (input->user_data[PACKET_INDICATOR] & PACKET_POKEMON_BIT) {
     		g_pokemonX = input->user_data[PACKET_POKEMON_X];
     		g_pokemonY = input->user_data[PACKET_POKEMON_Y];
-    		setShakingGrass(g_pokemonX, g_pokemonY);
+
+    		for (i = 0; i < MAX_POKEMON_ONSCREEN; i++) {
+    			if (allPkmnValidEntries[i]) {
+    				allPkmnValidEntries[i] = false;
+    				allPkmn[i].locX = g_pokemonX;
+    				allPkmn[i].locY = g_pokemonY;
+    				allPkmn[i].pokemon = &pkmnList[input->user_data[PACKET_POKEMON_ID]];
+    				setShakingGrass(g_pokemonX, g_pokemonY);
+    				break;
+    			}
+    		}
     	}
 
     	// Get new item
     	if (input->user_data[PACKET_INDICATOR] & PACKET_ITEM_BIT) {
     		g_itemX = input->user_data[PACKET_ITEM_X];
     		g_itemY = input->user_data[PACKET_ITEM_Y];
-    		drawItem(g_itemX, g_itemY);
+
+    		for (i = 0; i < MAX_ITEMS_ONSCREEN; i++) {
+    			if (allItemsValidEntries[i]) {
+    				allItemsValidEntries[i] = false;
+    				allItems.locX = g_itemX;
+    				allItems.locY = g_itemY;
+    				allItems.itemID = input->user_data[PACKET_ITEM_ID];
+    	    		drawItem(g_itemX, g_itemY);
+    	    		break;
+    			}
+    		}
     	}
     }
 
