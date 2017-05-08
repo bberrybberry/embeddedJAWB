@@ -253,7 +253,7 @@ game_t game;
  * @var allPkmn[]
  * @brief collection of all pokemon currently in the game
  */
-item_t allPkmn[MAX_PKMN_ONSCREEN];
+encounter_t allPkmn[MAX_PKMN_ONSCREEN];
 
 /**
  * @var allPkmnValidEntries[]
@@ -267,7 +267,7 @@ bool allPkmnValidEntries[MAX_PKMN_ONSCREEN];
  * @var allItems[]
  * @brief collection of all items currently in the game
  */
-encounter_t allItems[MAX_ITEMS_ONSCREEN];
+item_t allItems[MAX_ITEMS_ONSCREEN];
 
 /**
  * @var allItemsValidEntries[]

@@ -81,30 +81,30 @@ uint8_t packetizer(uint8_t* buffer) {
 	volatile uint8_t i;
 	uint8_t size = 0;
 	union64_t packet;
-	packet1.quad_word = 0;
+	packet.quad_word = 0;
 
 	// Send pause state in packet
 	if (game.currGameState == PAUSE) {
-		packet1.ub[0].bits.b0 = 1;
+		packet.ub[0].bits.b0 = 1;
 	}
 	else {
-		packet1.ub[0].bits.b0 = 0;
+		packet.ub[0].bits.b0 = 0;
 	}
 
 	// Send if a new pokemon has appeared on the map
 	if (pokemonX != g_pokemonX && pokemonY != g_pokemonY) {
-		packet1.ub[0].bits.b1 = 1;
-		packet1.ub[PACKET_POKEMON_X].b = g_pokemonX;
-		packet1.ub[PACKET_POKEMON_Y].b = g_pokemonY;
+		packet.ub[0].bits.b1 = 1;
+		packet.ub[PACKET_POKEMON_X].b = g_pokemonX;
+		packet.ub[PACKET_POKEMON_Y].b = g_pokemonY;
 		pokemonX = g_pokemonX;
 		pokemonY = g_pokemonY;
 	}
 
 	// Send if a new item has appeard on the map
 	if (itemX != g_itemX && itemY != g_itemY) {
-		packet1.ub[0].bits.b2 = 1;
-		packet1.ub[PACKET_ITEM_X].b = g_itemX;
-		packet1.ub[PACKET_ITEM_Y].b = g_itemY;
+		packet.ub[0].bits.b2 = 1;
+		packet.ub[PACKET_ITEM_X].b = g_itemX;
+		packet.ub[PACKET_ITEM_Y].b = g_itemY;
 		itemX = g_itemX;
 		itemY = g_itemY;
 	}
@@ -112,18 +112,18 @@ uint8_t packetizer(uint8_t* buffer) {
 	// Send if any of the players have picked up an item or pokemon
 	for (i = 0; i < MAX_PLAYERS; i++) {
 		if (game.items[i]) {
-			packet1.ub[PACKET_ITEM_ID].b = game.items[i];
+			packet.ub[PACKET_ITEM_ID].b = game.items[i];
 			game.items[i] = 0;
 		}
 
 		if (game.pkmn[i]) {
-			packet1.ub[PACKET_POKEMON_ID].b = game.pkmn[i]->index;
+			packet.ub[PACKET_POKEMON_ID].b = game.pkmn[i]->index;
 			game.pkmn[i] = 0;
 		}
 	}
 
 	for (i = 0; i < 7; i++) {
-		*buffer = packet1.ub[i].b;
+		*buffer = packet.ub[i].b;
 		size++;
 		buffer++;
 	}
@@ -195,7 +195,7 @@ void inputCallback(game_network_payload_t * input){
     		g_pokemonX = input->user_data[PACKET_POKEMON_X];
     		g_pokemonY = input->user_data[PACKET_POKEMON_Y];
 
-    		for (i = 0; i < MAX_POKEMON_ONSCREEN; i++) {
+    		for (i = 0; i < MAX_PKMN_ONSCREEN; i++) {
     			if (allPkmnValidEntries[i]) {
     				allPkmnValidEntries[i] = false;
     				allPkmn[i].locX = g_pokemonX;
@@ -215,9 +215,9 @@ void inputCallback(game_network_payload_t * input){
     		for (i = 0; i < MAX_ITEMS_ONSCREEN; i++) {
     			if (allItemsValidEntries[i]) {
     				allItemsValidEntries[i] = false;
-    				allItems.locX = g_itemX;
-    				allItems.locY = g_itemY;
-    				allItems.itemID = input->user_data[PACKET_ITEM_ID];
+    				allItems[i].locX = g_itemX;
+    				allItems[i].locY = g_itemY;
+    				allItems[i].itemID = input->user_data[PACKET_ITEM_ID];
     	    		drawItem(g_itemX, g_itemY);
     	    		break;
     			}

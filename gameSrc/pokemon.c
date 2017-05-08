@@ -314,7 +314,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 	}
 	if (display) {
 		//add this encounter spot to the array of encounters
-		uint8_t validIndex = -1;
+		int8_t validIndex = -1;
 		for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
 			//try to find a valid location
 			if(allPkmnValidEntries[i] == true){
@@ -336,8 +336,8 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 
 		//add this encounter to collection of encounters
 		encounter_t thisEncounter;
-		thisEncounter.locX = x;
-		thisEncounter.locY = y;
+		thisEncounter.locX = *x;
+		thisEncounter.locY = *y;
 		thisEncounter.pokemon = generatePokemon();
 		allPkmn[validIndex] = thisEncounter;
 
@@ -705,19 +705,47 @@ void generateItems(uint8_t* x, uint8_t* y){
 	}
 
 	if (display) {
+		int8_t validIndex = -1;
+		for (i = 0; i < MAX_ITEMS_ONSCREEN; i++) {
+			if (allItemsValidEntries[i]) {
+				validIndex = i;
+				allItemsValidEntries[i] = false;
+				break;
+			}
+		}
+
+		if (validIndex < 0) {
+			return;
+		}
+
+		uint8_t r = random_int(0, 100);
+
+		item_t item;
+		item.locX = *x;
+		item.locY = *y;
+		item.itemID = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);
+		allItems[validIndex] = item;
+
 		drawItem(*x, *y);
 	}
 }
 
 void itemSpawn(uint8_t playerInd){
-    uint8_t r = random_int(0, 100);
-    uint8_t index;
-    if (!game.client) {
-    	index = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);
-    }
-    else {
-    	index = game.items[playerInd];
-    }
+	volatile uint8_t i;
+	uint8_t index = 255;
+	for (i = 0; i < MAX_ITEMS_ONSCREEN; i++) {
+		if (allItemsValidEntries[i]) {
+			if (allItems[i].locX == players[playerInd].tileX && allItems[i].locY == players[playerInd].tileY) {
+				index = allItems[i].itemID;
+				break;
+			}
+		}
+	}
+
+	if (index == 255) {
+		return;
+	}
+
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=BAG_MAX){
     	if (!game.client) {
