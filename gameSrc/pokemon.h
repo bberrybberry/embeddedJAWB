@@ -24,97 +24,97 @@
  * @def MAX_STRING_LENGTH
  * @brief Max number of characters a pokemon name can be
  */
-#define MAX_STRING_LENGTH   16
+#define MAX_STRING_LENGTH  			16
 
 /**
  * @def MAX_PLAYERS
  * @brief Max number of players that can play
  */
-#define MAX_PLAYERS			4
+#define MAX_PLAYERS					4
 
 /**
  * @def MAX_PKMN
  * @brief Max number of pokemon in the play
  */
-#define MAX_PKMN			6
+#define MAX_PKMN					6
 
 /**
  * @def PLAYER1_INIT_X
  * @brief Initial X coordinate of tile for player 1
  */
-#define PLAYER1_INIT_X	5
+#define PLAYER1_INIT_X				5
 
 /**
  * @def PLAYER1_INIT_Y
  * @brief Initial Y coordinate of tile for player 1
  */
-#define PLAYER1_INIT_Y	9
+#define PLAYER1_INIT_Y				9
 
 /**
  * @def PLAYER2_INIT_X
  * @brief Initial X coordinate of tile for player 2
  */
-#define PLAYER2_INIT_X	6
+#define PLAYER2_INIT_X				6
 
 /**
  * @def PLAYER2_INIT_Y
  * @brief Initial Y coordinate of tile for player 2
  */
-#define PLAYER2_INIT_Y	10
+#define PLAYER2_INIT_Y				10
 
 /**
  * @def PLAYER3_INIT_X
  * @brief Initial X coordinate of tile for player 3
  */
-#define PLAYER3_INIT_X	6
+#define PLAYER3_INIT_X				6
 
 /**
  * @def PLAYER3_INIT_Y
  * @brief Initial Y coordinate of tile for player 3
  */
-#define PLAYER3_INIT_Y	9
+#define PLAYER3_INIT_Y				9
 
 /**
  * @def PLAYER4_INIT_X
  * @brief Initial X coordinate of tile for player 4
  */
-#define PLAYER4_INIT_X	5
+#define PLAYER4_INIT_X				5
 
 /**
  * @def PLAYER4_INIT_Y
  * @brief Initial Y coordinate of tile for player 4
  */
-#define PLAYER4_INIT_Y	10
+#define PLAYER4_INIT_Y				10
 
 /**
  * @def CATCH_CHECK_1
  * @brief First modifier for capture check
  */
-#define CATCH_CHECK_1 1048560
+#define CATCH_CHECK_1 				1048560
 
 /**
  * @def CATCH_CHECK_2
  * @brief Second modifier for capture check
  */
-#define CATCH_CHECK_2 16711680
+#define CATCH_CHECK_2 				16711680
 
 /**
  * @def TOTAL_ITEMS
  * @brief Number of unique items each player will hold
  */
-#define TOTAL_ITEMS   3
+#define TOTAL_ITEMS   				3
 
 /**
  * @def BAG_MAX 
  * @brief Total number of items one player can hold
  */
-#define BAG_MAX 99
+#define BAG_MAX 					99
 
 /**
  * @def MAX_SHAKING_GRASS
  * @brief Total number of items one player can hold
  */
-#define MAX_SHAKING_GRASS   15
+#define MAX_SHAKING_GRASS   		15
 
 /**
  * @def MAX_ITEMS_ONSCREEN
@@ -127,6 +127,13 @@
  * @brief Maximum number of generated pokemon to have onscreen at once
  */
 #define MAX_PKMN_ONSCREEN			12
+
+/**
+ * @def DEFAULT_ITEM_VALUE
+ * @brief Default value for the items stored in the game
+ */
+#define DEFAULT_ITEM_VALUE			255
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -192,8 +199,8 @@ typedef struct {
     uint8_t id;                 ///< ID of game
     uint8_t currNumItems;		///< Current number of items generated
     uint8_t currNumPkmn;		///< Current number of pokemon generated
-    pokemon_t* pkmn[MAX_PLAYERS];// = {void*, void*, void*, void*};
-    uint8_t items[MAX_PLAYERS];// = {255, 255, 255, 255};
+    pokemon_t* pkmn; 			///< Pointer to most recent pokemon generated
+    uint8_t item;				///< Index of most recent item generated
 } game_t;
 
 /**

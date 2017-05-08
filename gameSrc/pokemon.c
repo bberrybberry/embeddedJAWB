@@ -135,10 +135,12 @@ void initPokemon(){
     pkmnList[5].points = 10;
     pkmnList[5].index = 5;
     
+    game.pkmn = 0;
+
     volatile uint8_t i;
     for(i = 0; i<MAX_PKMN; i++){
         if(i==0)
-        pkmnWeights[i] = pkmnList[i].spawnRate;
+        	pkmnWeights[i] = pkmnList[i].spawnRate;
         else
             pkmnWeights[i] = pkmnList[i].spawnRate+pkmnWeights[i-1];
     }
@@ -149,10 +151,7 @@ void initItems(){
     itemWeights[1] = 40;
     itemWeights[2] = 100;
 
-    game.items[0] = 255;
-    game.items[1] = 255;
-    game.items[2] = 255;
-    game.items[3] = 255;
+    game.item = DEFAULT_ITEM_VALUE;
 }
 
 void movePlayerUp(uint8_t playerIndex){
@@ -423,7 +422,7 @@ void runEncounter(uint8_t playerInd){
 
 	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
 	volatile int i;
-	uint8_t encounterInd = -1;
+	int8_t encounterInd = -1;
 	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
 		if(allPkmn[i].locX == players[playerInd].tileX && allPkmn[i].locY == players[playerInd].tileY){
 			encounterInd = i;
@@ -437,10 +436,10 @@ void runEncounter(uint8_t playerInd){
 	//print pokemon
 	if (!game.client) {
 		players[playerInd].encountered = encounterPkmn;//();
-		game.pkmn[playerInd] = players[playerInd].encountered;
+		game.pkmn = players[playerInd].encountered;
 	}
 	else {
-		players[playerInd].encountered = game.pkmn[playerInd];
+		players[playerInd].encountered = game.pkmn;
 	}
 
 	printPokemon(playerInd, FOUND_MSG, players[playerInd].encountered->name);
@@ -680,7 +679,7 @@ void captureEvent(uint8_t player, uint8_t multiplier, uint8_t catchRate){
 
 	//find which encounter this is (assuming if you get to this point, you actually found an encounter)
 	volatile int i;
-	uint8_t encounterInd = -1;
+	int8_t encounterInd = -1;
 	for(i = 0; i < MAX_PKMN_ONSCREEN; i++){
 		if(allPkmn[i].locX == players[player].tileX && allPkmn[i].locY == players[player].tileY){
 			encounterInd = i;
@@ -774,7 +773,7 @@ void itemSpawn(uint8_t playerInd){
     uint8_t curr = players[playerInd].pbCount+players[playerInd].gbCount+players[playerInd].ubCount;
     if (curr<=BAG_MAX){
     	if (!game.client) {
-    		game.items[playerInd] = index;
+    		game.item = index;
     	}
 
 		switch(index) {
