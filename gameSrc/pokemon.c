@@ -12,13 +12,13 @@
 #include "random_int.h"
 
 uint8_t binarySearch(uint8_t arr[], uint8_t item, uint8_t low, uint8_t high){
-    if(low<=high)
+    if(low>=high)
         return low;
     uint8_t mid = (high+low)/2;
     if(item>arr[mid])
-        return binarySearch(arr, item, mid, high);
+        return binarySearch(arr, item, ++mid, high);
     else if(item<arr[mid])
-        return binarySearch(arr, item, low, mid);
+        return binarySearch(arr, item, low, --mid);
     else
         return mid;
 }
