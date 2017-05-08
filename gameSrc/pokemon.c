@@ -339,6 +339,7 @@ void generateShakingGrass(uint8_t* x, uint8_t* y) {
 		thisEncounter.locY = *y;
 		thisEncounter.pokemon = generatePokemon();
 		allPkmn[validIndex] = thisEncounter;
+		game.pkmn = thisEncounter.pokemon->index;
 
 		//draw
 		setShakingGrass(*x, *y);
@@ -749,6 +750,7 @@ void generateItems(uint8_t* x, uint8_t* y){
 		item.locY = *y;
 		item.itemID = binarySearch(itemWeights, r, 0, TOTAL_ITEMS-1);
 		allItems[validIndex] = item;
+		game.item = item.itemID;
 
 		drawItem(*x, *y);
 	}
