@@ -9,22 +9,20 @@
  * Report:<br>
  * --Description of the initial goals and motivation of the project<br>
  * --The goal is to make a game that would be played on an external display
- * --using an external controller. The game has to be multi player as well
- * --as capable to play on a network using an NRF chip The motivation was
- * --to make a game that each member of the group would enjoy and have fun playing.
+ *   using an external controller. The game has to be multi player as well
+ *   as capable to play on a network using an NRF chip The motivation was
+ *   to make a game that each member of the group would enjoy and have fun playing.
  * --Picture(s) of your project (and video links)<br>
  * --Other relevant figures, tables, references, etc.<br>
- * --design documents?
+ * --
  * --Description of the operation and use of your project.<br>
  * --Discussion of the final results and conclusion about your project.<br>
  * --A subsection with your thoughts on the helpfulness of Slack.<br>
- * --Aaron G.
- * --Breanna H.
- * --Walter M. Slack was a very useful tool to keep each other up to date
- *             as well as a great communication tool. General is great to
- *             get class updates and individual channels are great for
- *             talking about specifics for our project.
- * --Josh V.
+ * --Slack was a very useful tool to keep each other up to date as well as a
+ *   great communication tool. General is great to get class updates and
+ *   individual channels are great fortalking about specifics for our project.
+ *   We also added a github bot to our slack channel. This allowed us, at a
+ *   glance to look at what commits have been pushed to our code.
  * --A subsection with your thoughts on the helpfulness of Trello.<br>
  *<br>
  *<br>
