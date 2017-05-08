@@ -1,3 +1,11 @@
+/**
+ * @file
+ *
+ * @author Breanna Higgins, Aaron Guidarelli, Walter Marroquin, Josh Velez
+ *
+ * @brief Collection of strctures that define the tile pictures used
+ * throughout the game.
+ */
 /*
  *
  * pokemonImages.h
@@ -6,10 +14,6 @@
  *      Author: bbhig
  *
  * A lot of this code is based around map.h
- */
-
-/**
- * @file
  */
 #ifndef POKEMONIMAGES_H_
 #define POKEMONIMAGES_H_
