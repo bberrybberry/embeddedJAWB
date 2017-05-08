@@ -115,6 +115,22 @@
  * @brief Total number of items one player can hold
  */
 #define MAX_SHAKING_GRASS   15
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// Enums
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @enum gameState
+ * @brief Defines possible global states of the game
+ */
+typedef enum{
+    PAUSE,		/**< Game is paused*/
+    PLAY,		/**< Game is being played*/
+    GAME_OVER	/**< Game is over*/
+} gameState;
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -150,6 +166,20 @@ typedef struct{
     pokemon_t* encountered;    ///< Player's recently encountered pokemon (usually null);
 } pokePlayer_t;
 //TODO: Define weights for random pokemon generation
+
+/**
+ * @struct game
+ * @brief Game structre that contains global information
+ */
+static struct {
+    gameState currGameState;    ///< Current state of the game
+    bool client;				///< True if this instance is a client, false otherwise
+    uint8_t id;                 ///< ID of game
+    uint8_t currNumItems;		///< Current number of items generated
+    uint8_t currNumPkmn;		///< Current number of pokemon generated
+    pokemon_t* pkmn[MAX_PLAYERS];// = {void*, void*, void*, void*};
+    uint8_t items[MAX_PLAYERS];// = {255, 255, 255, 255};
+} game;
 
 
 /////////////////////////////////////////////////////////////////////////////////////

@@ -29,16 +29,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @enum gameState
- * @brief Defines possible global states of the game
- */
-typedef enum{
-    PAUSE,		/**< Game is paused*/
-    PLAY,		/**< Game is being played*/
-    GAME_OVER	/**< Game is over*/
-} gameState;
-
 /////////////////////////////////////////////////////////////////////////////////////
 //
 // Defines

@@ -11,15 +11,6 @@
 
 #include "pokemonGame.h"
 
-/// game structure
-static struct {
-    gameState currGameState;    ///< Current state of the game
-    bool client;				///< True if this instance is a client, false otherwise
-    uint8_t id;                 ///< ID of game
-    uint8_t currNumItems;		///< Current number of items generated
-    uint8_t currNumPkmn;		///< Current number of pokemon generated
-} game;
-
 nrf24_t* nrf;
 
 /**
