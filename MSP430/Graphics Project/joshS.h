@@ -11,6 +11,9 @@
  * 
  * Assumes the tile is being draw from left to right, top to bottom.
  * Now supports transparent pixels!
+ * @author Aaron Guidarelli
+ * @addtogroup graphics
+ * @{
  */
 
 
@@ -50,3 +53,4 @@ const g_pixel_t joshS[JOSHS_TILE_X * JOSHS_TILE_Y] = {
 	};
 
 #endif
+/** @}*/

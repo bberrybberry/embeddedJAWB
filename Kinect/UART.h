@@ -1,6 +1,7 @@
 /**
  * @file
  * @brief Header file for the UART class
+ * @author Aaron Guidarelli
  */
 #include <iostream>
 #include <stdio.h>

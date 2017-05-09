@@ -1,6 +1,7 @@
 /**
  * @file
  * @brief Source code for the UART class
+ * @author Aaron Guidarelli
  */
 
 #include "UART.h"

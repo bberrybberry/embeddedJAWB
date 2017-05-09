@@ -1,4 +1,3 @@
-//TODO Docs
 
 #include "drawPokemon.h"
 #include "pokemonImages.h"

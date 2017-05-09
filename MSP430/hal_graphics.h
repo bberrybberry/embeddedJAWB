@@ -9,6 +9,7 @@
 /**
  * @file
  * @brief Header file for hal_graphics
+ * @author Aaron Guidarelli
  * @addtogroup graphics
  * @{
  */

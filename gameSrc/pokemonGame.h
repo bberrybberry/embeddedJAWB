@@ -159,7 +159,7 @@ uint32_t g_pauseTime;
 /////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @fn pkmnGameInit(void)
+ * @fn pkmnGameInit(nrf24_t* ptr)
  * @param ptr Pointer to the nrf24 configuration structure
  * @brief Register game within game management module
  */

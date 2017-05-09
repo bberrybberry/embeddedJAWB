@@ -2,7 +2,7 @@
 * @file
 * @brief Kinect code.
 * Will be improved and made more modular soon.
-*
+* @author Aaron Guidarelli
 */
 /**
 * 
@@ -221,7 +221,7 @@ typedef struct Person {
 	BOOLEAN RHS;/**< State of the right hand*/
 	BOOLEAN LHS;/**< State of the left hand*/
 	float threshold; /**< Threshold for what determines a button press*/
-	char addr;
+	char addr; /**< Address of the player*/
 };
 
 
@@ -439,8 +439,8 @@ bool pressSelect(Person player);
 */
 void updatePerson(Person* player, Joint joints[25]);
 /**
- * @fn getAddressofPlayers(Person* players[BODY_COUNT])
- * @param player All players in view
+ * @fn getAddressofPlayers(Person* players)
+ * @param players Pointer to beginning of array of players
  * @brief Finds who is player 1, 2, 3, etc. based on the position
  * from left to right facing the Kinect
  */
@@ -454,7 +454,8 @@ void getAddressofPlayers(Person* players);
 unsigned char pollButtons(Person player);
 
 /**
- * @fn drawJoints()
+ * @fn drawJoints(cv::Mat color)
+ * @param color Color image from Kinect
  * @brief Draws the tracked joints of all players
  */
 

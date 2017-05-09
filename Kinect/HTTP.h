@@ -1,7 +1,8 @@
 /**
- *  @file
+ * @file
  *  
- *  @brief This code was taken from https://securityblog.gr/1823/http-post-and-get-requests-with-wininet-and-c/
+ * @brief This code was taken from https://securityblog.gr/1823/http-post-and-get-requests-with-wininet-and-c/
+ * @author Aaron Guidarelli
  */
 
 #include <stdio.h>

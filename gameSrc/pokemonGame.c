@@ -4,7 +4,7 @@
  * Pokemon Game Module:
  *
  *
- * Author: Breanna Higgins,
+ * Author: Breanna Higgins, Aaron Guidarelli, Walter Marroquin, Josh Velez
  * @addtogroup logic
  * @{
  */
@@ -12,6 +12,10 @@
 
 #include "pokemonGame.h"
 
+/**
+ * @var nrf
+ * @brief Global variable for pointer to nrf structure, used to determine if the instance is a client or host
+ */
 nrf24_t* nrf;
 
 /**
